@@ -8,8 +8,9 @@ export type State = {
 export type Users = User[];
 
 export type User = {
-  id: string;
-  nickname: string;
+  userId: string;
+  sessionId: string;
+  username: string;
 };
 
 export type Message = {
@@ -23,3 +24,5 @@ export type ChatErrors = {
 };
 
 export type ChatErrorKind = 'MISSING_NICKNAME' | 'NICKNAME_IN_USE';
+
+export type ChatSession = { userId: string; sessionId: string };

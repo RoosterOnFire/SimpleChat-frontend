@@ -1,3 +1,16 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+import { useStore } from "./store/Store";
+
+export default defineComponent({
+  setup() {
+    const store = useStore();
+
+    store.dispatch("restoreSession");
+  },
+});
+</script>
+
 <template>
   <router-view v-slot="{ Component, route }">
     <transition name="fade">

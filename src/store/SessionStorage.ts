@@ -1,17 +1,11 @@
 import { User } from '@/type/Data';
 
-const KEY = 'USER';
+const KEY = 'SIMPLECHATSESSIONID';
 
 export function saveUser(payload: User) {
-  sessionStorage.setItem(KEY, JSON.stringify(payload));
+  sessionStorage.setItem(KEY, payload.sessionId);
 }
 
-export function getUser(): User {
-  const user = sessionStorage.getItem(KEY);
-
-  if (user) {
-    return JSON.parse(user);
-  }
-
-  return { id: '', nickname: '' };
+export function getUser() {
+  return sessionStorage.getItem(KEY);
 }

@@ -1,4 +1,4 @@
-import ChatSocket from '@/store/ChatSocket';
+import ChatSocket from '@/store/Socket';
 import { Message, User } from '@/type/Data';
 
 export function sendChatJoin(payload: User) {
@@ -12,7 +12,7 @@ export function sendMessage(payload: Message) {
 export function createMessage(user: User, value: string): Message {
   return {
     id: Date.now(),
-    user: user.nickname ?? user.id,
+    user: user.username,
     value,
   };
 }

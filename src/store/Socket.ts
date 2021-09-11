@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-import { Users, User, Message } from '@/type/Data';
+import { Users, User, Message, ChatSession } from '@/type/Data';
 import { store } from '@/store/Store';
 
 const ChatSocket = io(import.meta.env.VITE_SOCKET_ENDPOINT, {
@@ -13,8 +13,8 @@ ChatSocket.onAny((event, ...args) => {
   }
 });
 
-ChatSocket.on('connect', () => {
-  store.commit('updateUser', ChatSocket.id);
+ChatSocket.on('session', (payload: User) => {
+  store.commit('updateSession', payload);
 });
 
 ChatSocket.on('users:update', (payload: Users) => {

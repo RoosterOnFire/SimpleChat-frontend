@@ -1,14 +1,21 @@
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
 import { InjectionKey } from 'vue';
-import { Message, State, Users, User, ChatErrorKind } from '@/type/Data';
-import { saveUser } from '@/store/SessionStorage';
+import {
+  Message,
+  State,
+  Users,
+  User,
+  ChatErrorKind,
+  ChatSession,
+} from '@/type/Data';
+import { getUser, saveUser } from '@/store/SessionStorage';
 import {
   createMessage,
   createNotification,
   sendChatJoin,
   sendMessage,
 } from '@/helpers/Helpers';
-import ChatSocket from '@/store/ChatSocket';
+import ChatSocket from '@/store/Socket';
 import Router from '@/router/Router';
 
 export const key: InjectionKey<Store<State>> = Symbol();
@@ -16,8 +23,9 @@ export const key: InjectionKey<Store<State>> = Symbol();
 export const store = createStore<State>({
   state: {
     user: {
-      id: '',
-      nickname: '',
+      userId: '',
+      sessionId: '',
+      username: '',
     },
     users: [],
     messages: [],
@@ -26,11 +34,11 @@ export const store = createStore<State>({
     },
   },
   getters: {
-    hasId(state) {
-      return !!state.user.id;
+    hasSession(state) {
+      return !!state.user.sessionId;
     },
     hasNickname(state) {
-      return !!state.user.nickname;
+      return !!state.user.username;
     },
   },
   mutations: {
@@ -42,36 +50,42 @@ export const store = createStore<State>({
         state.errors.nicknameInUse = true;
       }
     },
-    updateUser(state, payload: string) {
-      state.user.id = payload;
+    updateSession(state, payload: User) {
+      state.user = { ...payload };
 
       saveUser(state.user);
 
       Router.push('/chat');
     },
     updateNickname(state, payload: string) {
-      state.user.nickname = payload;
+      state.user.username = payload;
     },
     updateUsers(state, payload: Users) {
       state.users = payload;
     },
     notifyChatJoin(state, payload: User) {
-      const joinChat = createNotification(`"${payload.nickname}" joined`);
+      const joinChat = createNotification(`"${payload.username}" joined`);
       state.messages.push(joinChat);
     },
     notifyChatLeave(state, payload: User) {
       const joinMessage: Message = createNotification(
-        `"${payload.nickname}" left`
+        `"${payload.username}" left`
       );
 
       state.messages.push(joinMessage);
     },
   },
   actions: {
-    async connect({ state }) {
-      const nickname = state.user.nickname;
+    async restoreSession() {
+      const sessionId = getUser();
 
-      ChatSocket.auth = { nickname };
+      if (sessionId) {
+        ChatSocket.auth = { sessionId: getUser() };
+        ChatSocket.connect();
+      }
+    },
+    async connect({ state }) {
+      ChatSocket.auth = { nickname: state.user.username };
       ChatSocket.connect();
     },
     joinChat({ state }) {

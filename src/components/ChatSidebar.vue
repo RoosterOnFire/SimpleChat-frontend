@@ -19,7 +19,7 @@ export default defineComponent({
   <div class="sidebar">
     <transition-group name="list">
       <p v-for="(user, index) in users" :key="index" class="sidebar-row">
-        {{ user.nickname }}
+        {{ user.username }}
       </p>
     </transition-group>
   </div>

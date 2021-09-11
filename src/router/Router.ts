@@ -24,7 +24,7 @@ const Router = createRouter({
 });
 
 Router.beforeEach((to, from, next) => {
-  if (to.name !== 'Home' && !store.getters.hasId) {
+  if (to.name !== 'Home' && !store.getters.hasSession) {
     next({ name: 'Home' });
   } else {
     next();
