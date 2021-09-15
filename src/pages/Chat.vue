@@ -26,11 +26,10 @@ export default defineComponent({
 
 <style lang="postcss">
 .chat {
-  @apply flex h-full;
+  @apply h-full flex;
 }
 
 .main {
-  @apply flex flex-col;
-  @apply w-full md:w-4/5;
+  @apply flex-1 flex flex-col;
 }
 </style>

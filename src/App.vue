@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useStore } from "./store/Store";
+import { useStore } from "@/store/Store";
 
 export default defineComponent({
   setup() {
@@ -25,13 +25,17 @@ export default defineComponent({
 @tailwind utilities;
 
 @layer components {
+  body {
+    @apply bg-gray-50;
+  }
+
   #app {
-    @apply container h-screen bg-gray-50;
+    @apply container h-screen;
   }
 
   .input {
-    @apply block px-3 py-2 mx-auto w-full;
-    @apply text-gray-900 placeholder-gray-500 sm:text-sm;
+    @apply block w-full mx-auto px-3 py-2;
+    @apply sm:text-sm text-gray-900 placeholder-gray-500;
     @apply rounded-md border-2 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10;
     @apply appearance-none focus:outline-none;
   }

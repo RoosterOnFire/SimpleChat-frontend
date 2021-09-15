@@ -35,16 +35,12 @@ export default defineComponent({
 
 <style lang="postcss" >
 .messages {
-  @apply p-4 space-y-4 flex-1;
-  @apply overflow-y-auto;
+  @apply p-4 space-y-4 flex-1 overflow-y-auto;
 }
 
 .message-row {
-  @apply px-4 py-2 w-max;
-  @apply text-black;
-  @apply bg-white;
-  @apply rounded-full border-2;
-  @apply select-all;
+  @apply w-max px-4 py-2 bg-white rounded-full border-2;
+  @apply text-black select-all;
 }
 
 .message-row--notify {

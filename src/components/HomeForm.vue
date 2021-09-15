@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useStore } from "@/store/Store";
-import AppButton from "./AppButton.vue";
+import AppButton from "@/components/AppButton.vue";
 
 export default defineComponent({
   components: {
@@ -11,10 +11,10 @@ export default defineComponent({
     const store = useStore();
 
     return {
-      isNicknameInUse: computed(() => store.state.errors.nicknameInUse),
-      nickname: computed({
-        get: () => store.state.user.nickname,
-        set: (nickname) => store.commit("updateNickname", nickname),
+      isUsernameFree: computed(() => store.state.errors.nicknameInUse),
+      username: computed({
+        get: () => store.state.user.username,
+        set: (username) => store.commit("updateNickname", username),
       }),
       async joinChat() {
         store.dispatch("connect");
@@ -29,10 +29,10 @@ export default defineComponent({
     <input
       type="text"
       class="input"
-      :class="{ 'border-red-600': isNicknameInUse }"
-      placeholder="Nickname"
+      :class="{ 'border-red-600': isUsernameFree }"
+      placeholder="Username"
       required
-      v-model="nickname"
+      v-model="username"
     />
     <AppButton title="Join" @click="joinChat" />
   </form>
@@ -40,6 +40,6 @@ export default defineComponent({
 
 <style lang="postcss">
 .login {
-  @apply space-y-4 w-2/3 lg:w-1/2;
+  @apply w-2/3 lg:w-1/2 space-y-4 flex flex-col;
 }
 </style>

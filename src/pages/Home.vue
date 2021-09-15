@@ -17,9 +17,7 @@ export default defineComponent({
 
 <style lang="postcss">
 .home {
-  @apply flex flex-col justify-around items-center;
-  @apply h-full;
-  @apply text-center;
+  @apply container h-full flex flex-col items-center justify-around;
 }
 
 .header {

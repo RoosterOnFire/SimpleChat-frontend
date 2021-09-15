@@ -1,7 +1,7 @@
 <script lang="ts">
 import { useStore } from "@/store/Store";
 import { defineComponent, ref } from "vue";
-import AppButton from "./AppButton.vue";
+import AppButton from "@/components/AppButton.vue";
 
 export default defineComponent({
   components: {
@@ -28,7 +28,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <form class="form">
+  <form class="form" @keypress.enter="sendMessage">
     <input type="text" class="input" v-model="newMessage" />
     <AppButton title="Send" @click="sendMessage" />
   </form>

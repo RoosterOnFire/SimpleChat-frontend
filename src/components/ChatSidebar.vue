@@ -27,14 +27,12 @@ export default defineComponent({
 
 <style lang="postcss" >
 .sidebar {
-  @apply md:p-4 space-y-4 w-0 md:w-1/5;
-  @apply bg-indigo-600;
+  @apply w-0 md:w-1/5 md:p-4 space-y-4 bg-indigo-600;
   @apply invisible md:visible;
 }
 
 .sidebar-row {
-  @apply bg-indigo-800;
-  @apply border border-transparent rounded-md;
+  @apply bg-indigo-800 border border-transparent rounded-md;
   @apply text-white text-center;
 }
 
