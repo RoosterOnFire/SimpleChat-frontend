@@ -5,6 +5,7 @@ import { getUser, saveUser } from '@/store/SessionStorage';
 import {
   createMessage,
   createNotification,
+  kickUser,
   sendChatJoin,
   sendMessage,
 } from '@/helpers/Helpers';
@@ -69,7 +70,7 @@ export const store = createStore<State>({
     },
   },
   actions: {
-    async restoreSession() {
+    restoreSession() {
       const sessionId = getUser();
 
       if (sessionId) {
@@ -77,7 +78,7 @@ export const store = createStore<State>({
         ChatSocket.connect();
       }
     },
-    async connect({ state }) {
+    connect({ state }) {
       ChatSocket.auth = { nickname: state.user.username };
       ChatSocket.connect();
     },
@@ -93,6 +94,9 @@ export const store = createStore<State>({
     },
     updateNickname({ state }) {
       sendChatJoin(state.user);
+    },
+    kickUser({ state }, payload: string) {
+      kickUser(payload);
     },
   },
 });

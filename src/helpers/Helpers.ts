@@ -24,3 +24,7 @@ export function createNotification(value: string): Message {
     value,
   };
 }
+
+export function kickUser(userId: string) {
+  ChatSocket.emit('user:kick', { userId });
+}
