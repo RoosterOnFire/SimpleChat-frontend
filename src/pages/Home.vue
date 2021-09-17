@@ -9,17 +9,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="home">
-    <h1 class="header">Simple Chat</h1>
-    <HomeForm />
-  </div>
+  <h1 class="header">Simple Chat</h1>
+  <HomeForm />
 </template>
 
-<style lang="postcss">
-.home {
-  @apply container h-full flex flex-col items-center justify-around;
-}
-
+<style lang="postcss" scoped>
 .header {
   @apply text-5xl font-bold text-indigo-600;
 }

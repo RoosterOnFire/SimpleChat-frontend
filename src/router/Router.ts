@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import Home from '@/pages/Home.vue';
 import Chat from '@/pages/Chat.vue';
+import Admin from '@/pages/Admin.vue';
 import { store } from '@/store/Store';
 
 const routes: RouteRecordRaw[] = [
@@ -15,6 +16,11 @@ const routes: RouteRecordRaw[] = [
     name: 'Chat',
     component: Chat,
     meta: { transition: 'slide-right' },
+  },
+  {
+    path: '/admin',
+    name: 'Admin',
+    component: Admin,
   },
 ];
 

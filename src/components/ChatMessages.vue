@@ -33,7 +33,7 @@ export default defineComponent({
   </div>
 </template>
 
-<style lang="postcss" >
+<style lang="postcss" scoped>
 .messages {
   @apply p-4 space-y-4 flex-1 overflow-y-auto;
 }

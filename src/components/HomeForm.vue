@@ -38,7 +38,7 @@ export default defineComponent({
   </form>
 </template>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .login {
   @apply w-2/3 lg:w-1/2 space-y-4 flex flex-col;
 }

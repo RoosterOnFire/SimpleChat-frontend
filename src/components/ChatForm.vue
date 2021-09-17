@@ -34,7 +34,7 @@ export default defineComponent({
   </form>
 </template>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .form {
   @apply p-4 flex justify-around gap-4;
   @apply border-t-2 border-indigo-600;

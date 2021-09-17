@@ -14,7 +14,9 @@ export default defineComponent({
 <template>
   <router-view v-slot="{ Component, route }">
     <transition name="fade">
-      <component :is="Component" :key="route.path" />
+      <div :class="[route.name === 'Home' ? 'home' : 'page']">
+        <component :is="Component" :key="route.path" />
+      </div>
     </transition>
   </router-view>
 </template>
@@ -30,7 +32,24 @@ export default defineComponent({
   }
 
   #app {
-    @apply container h-screen;
+    @apply container h-screen flex items-stretch;
+  }
+
+  .page {
+    @apply container flex items-stretch;
+  }
+
+  .home {
+    @apply container flex flex-col items-center justify-around;
+  }
+
+  .sidebar {
+    @apply w-0 md:w-1/5 md:p-4 space-y-4 bg-indigo-600;
+    @apply invisible md:visible;
+  }
+
+  .main {
+    @apply flex-1 flex flex-col;
   }
 
   .input {

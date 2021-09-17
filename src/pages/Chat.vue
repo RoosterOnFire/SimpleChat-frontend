@@ -15,21 +15,9 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="chat">
-    <ChatSidebar />
-    <div class="main">
-      <ChatMessages />
-      <ChatForm />
-    </div>
+  <ChatSidebar />
+  <div class="main">
+    <ChatMessages />
+    <ChatForm />
   </div>
 </template>
-
-<style lang="postcss">
-.chat {
-  @apply h-full flex;
-}
-
-.main {
-  @apply flex-1 flex flex-col;
-}
-</style>

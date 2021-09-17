@@ -17,7 +17,7 @@ export default defineComponent({
   </button>
 </template>
 
-<style lang="postcss">
+<style lang="postcss" scoped>
 .button {
   @apply py-2 px-4;
   @apply font-medium text-white;

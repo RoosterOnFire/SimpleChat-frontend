@@ -1,13 +1,6 @@
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
 import { InjectionKey } from 'vue';
-import {
-  Message,
-  State,
-  Users,
-  User,
-  ChatErrorKind,
-  ChatSession,
-} from '@/type/Data';
+import { Message, State, Users, User, ChatErrorKind } from '@/type/Data';
 import { getUser, saveUser } from '@/store/SessionStorage';
 import {
   createMessage,
@@ -55,7 +48,7 @@ export const store = createStore<State>({
 
       saveUser(state.user);
 
-      Router.push('/chat');
+      Router.push('/admin');
     },
     updateNickname(state, payload: string) {
       state.user.username = payload;
