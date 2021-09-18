@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
-import Home from '@/pages/Home.vue';
+import Login from '@/pages/Login.vue';
+import Dashboard from '@/pages/Dashboard.vue';
 import Chat from '@/pages/Chat.vue';
 import Admin from '@/pages/Admin.vue';
 import { store } from '@/store/Store';
@@ -7,20 +8,27 @@ import { store } from '@/store/Store';
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
-    meta: { transition: 'slide-left' },
+    name: 'Login',
+    component: Login,
   },
   {
-    path: '/chat',
-    name: 'Chat',
-    component: Chat,
-    meta: { transition: 'slide-right' },
-  },
-  {
-    path: '/admin',
-    name: 'Admin',
-    component: Admin,
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    children: [
+      {
+        path: 'chat',
+        name: 'Chat',
+        component: Chat,
+        meta: { transition: 'slide-right' },
+      },
+      {
+        path: 'admin',
+        name: 'Admin',
+        component: Admin,
+        meta: { transition: 'slide-right' },
+      },
+    ],
   },
 ];
 
@@ -30,11 +38,15 @@ const Router = createRouter({
 });
 
 Router.beforeEach((to, from, next) => {
-  if (to.name !== 'Home' && !store.getters.hasSession) {
-    next({ name: 'Home' });
+  if (from.name === 'Login' && !store.getters.hasSession) {
+    next({ name: 'Login' });
   } else {
     next();
   }
+});
+
+Router.afterEach((to, from, failure) => {
+  store.commit('updateCurrentPage', to.name);
 });
 
 export default Router;

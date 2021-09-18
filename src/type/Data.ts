@@ -1,5 +1,6 @@
 export type State = {
   user: User;
+  userExtra: UserExtra;
   users: User[];
   messages: Message[];
   errors: ChatErrors;
@@ -11,6 +12,10 @@ export type User = {
   userId: string;
   sessionId: string;
   username: string;
+};
+
+export type UserExtra = {
+  currentPage: string;
 };
 
 export type Message = {

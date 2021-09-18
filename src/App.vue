@@ -13,11 +13,9 @@ export default defineComponent({
 
 <template>
   <router-view v-slot="{ Component, route }">
-    <transition name="fade">
-      <div :class="[route.name === 'Home' ? 'home' : 'page']">
-        <component :is="Component" :key="route.path" />
-      </div>
-    </transition>
+    <div :class="[route.name === 'Login' ? 'login' : 'page']">
+      <component :is="Component" :key="route.path" />
+    </div>
   </router-view>
 </template>
 
@@ -39,17 +37,17 @@ export default defineComponent({
     @apply container flex items-stretch;
   }
 
-  .home {
+  .login {
     @apply container flex flex-col items-center justify-around;
   }
 
   .sidebar {
-    @apply w-0 md:w-1/5 md:p-4 space-y-4 bg-indigo-600;
+    @apply w-0 md:w-1/5 md:p-4 flex flex-col space-y-4 bg-indigo-600;
     @apply invisible md:visible;
   }
 
   .main {
-    @apply flex-1 flex flex-col;
+    @apply flex-1 flex flex-col items-stretch justify-around;
   }
 
   .input {

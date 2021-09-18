@@ -2,7 +2,7 @@
 import { useStore } from "@/store/Store";
 import { User } from "@/type/Data";
 import { defineComponent, PropType } from "vue";
-import AppButton from "./AppButton.vue";
+import AppButton from "@/components/AppButton.vue";
 
 export default defineComponent({
   components: { AppButton },

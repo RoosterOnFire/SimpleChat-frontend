@@ -2,10 +2,9 @@
 import { useStore } from "@/store/Store";
 import { computed } from "@vue/reactivity";
 import { User } from "@/type/Data";
-import AppButton from "@/components/AppButton.vue";
 import AdminKickUser from "@/components/AdminKickUser.vue";
 export default {
-  components: { AppButton, AdminKickUser },
+  components: { AdminKickUser },
   name: "Admin",
   setup() {
     const store = useStore();
@@ -18,11 +17,13 @@ export default {
 </script>
 
 <template>
-  <div class="sidebar"></div>
-  <div class="main">
+  <div class="kick-users">
     <AdminKickUser v-for="user in users" :key="user.userId" :user="user" />
   </div>
 </template>
 
 <style lang="postcss" scoped>
+.kick-users {
+  @apply flex flex-col gap-y-4;
+}
 </style>

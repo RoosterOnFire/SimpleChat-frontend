@@ -21,6 +21,9 @@ export const store = createStore<State>({
       sessionId: '',
       username: '',
     },
+    userExtra: {
+      currentPage: '',
+    },
     users: [],
     messages: [],
     errors: {
@@ -49,7 +52,8 @@ export const store = createStore<State>({
 
       saveUser(state.user);
 
-      Router.push('/admin');
+      // Router.push({ name: state.userExtra.currentPage });
+      Router.push({ name: 'Dashboard' });
     },
     updateNickname(state, payload: string) {
       state.user.username = payload;
@@ -67,6 +71,9 @@ export const store = createStore<State>({
       );
 
       state.messages.push(joinMessage);
+    },
+    updateCurrentPage(state, payload: string) {
+      state.userExtra.currentPage = payload;
     },
   },
   actions: {

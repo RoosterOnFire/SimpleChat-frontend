@@ -1,16 +1,16 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import HomeForm from "@/components/HomeForm.vue";
+import LoginForm from "@/components/LoginForm.vue";
 
 export default defineComponent({
-  components: { HomeForm },
+  components: { LoginForm },
   setup() {},
 });
 </script>
 
 <template>
   <h1 class="header">Simple Chat</h1>
-  <HomeForm />
+  <LoginForm />
 </template>
 
 <style lang="postcss" scoped>
