@@ -9,12 +9,16 @@ const ChatSocket = io(import.meta.env.VITE_SOCKET_ENDPOINT, {
 // DEV ONLY
 ChatSocket.onAny((event, ...args) => {
   if (import.meta.env.DEV) {
-    console.log(event, args);
+    console.log('socket event:', event, args);
   }
 });
 
 ChatSocket.on('session', (payload: User) => {
   store.commit('updateSession', payload);
+});
+
+ChatSocket.on('session:close', () => {
+  store.commit('closeSession');
 });
 
 ChatSocket.on('users:update', (payload: Users) => {
@@ -30,9 +34,7 @@ ChatSocket.on('chat:message', (message: Message) => {
 });
 
 ChatSocket.on('connect_error', (err) => {
-  if (err.message === 'NICKNAME_IN_USE') {
-    store.commit('addError', err.message);
-  }
+  store.commit('addError', err.message);
 });
 
 export default ChatSocket;

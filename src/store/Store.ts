@@ -1,7 +1,11 @@
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
 import { InjectionKey } from 'vue';
 import { Message, State, Users, User, ChatErrorKind } from '@/type/Data';
-import { getUser, saveUser } from '@/store/SessionStorage';
+import {
+  clearSession,
+  restoreSession,
+  saveSession,
+} from '@/store/SessionStorage';
 import {
   createMessage,
   createNotification,
@@ -11,6 +15,7 @@ import {
 } from '@/helpers/Helpers';
 import ChatSocket from '@/store/Socket';
 import Router from '@/router/Router';
+import { ERROR_MISSING_NICKNAME, ERROR_NICKNAME_IN_USE } from '@/type/errors';
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
@@ -31,8 +36,8 @@ export const store = createStore<State>({
     },
   },
   getters: {
-    hasSession(state) {
-      return !!state.user.sessionId;
+    hasAccess(state) {
+      return !!state.user.sessionId || !!state.user.userId;
     },
     hasNickname(state) {
       return !!state.user.username;
@@ -43,16 +48,24 @@ export const store = createStore<State>({
       state.messages.push(payload);
     },
     addError(state, payload: ChatErrorKind) {
-      if (payload === 'NICKNAME_IN_USE') {
-        state.errors.nicknameInUse = true;
+      switch (payload) {
+        case ERROR_MISSING_NICKNAME:
+          clearSession();
+
+          Router.push({ name: 'Login' });
+          break;
+        case ERROR_NICKNAME_IN_USE:
+          state.errors.nicknameInUse = true;
+          break;
+        default:
+          break;
       }
     },
     updateSession(state, payload: User) {
       state.user = { ...payload };
 
-      saveUser(state.user);
+      saveSession(state.user);
 
-      // Router.push({ name: state.userExtra.currentPage });
       Router.push({ name: 'Dashboard' });
     },
     updateNickname(state, payload: string) {
@@ -63,6 +76,7 @@ export const store = createStore<State>({
     },
     notifyChatJoin(state, payload: User) {
       const joinChat = createNotification(`"${payload.username}" joined`);
+
       state.messages.push(joinChat);
     },
     notifyChatLeave(state, payload: User) {
@@ -75,13 +89,20 @@ export const store = createStore<State>({
     updateCurrentPage(state, payload: string) {
       state.userExtra.currentPage = payload;
     },
+    closeSession(state) {
+      state.user = { userId: '', sessionId: '', username: '' };
+
+      clearSession();
+
+      Router.push({ name: 'Login' });
+    },
   },
   actions: {
     restoreSession() {
-      const sessionId = getUser();
+      const sessionId = restoreSession();
 
       if (sessionId) {
-        ChatSocket.auth = { sessionId: getUser() };
+        ChatSocket.auth = { sessionId: restoreSession() };
         ChatSocket.connect();
       }
     },

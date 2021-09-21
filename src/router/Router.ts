@@ -38,7 +38,10 @@ const Router = createRouter({
 });
 
 Router.beforeEach((to, from, next) => {
-  if (from.name === 'Login' && !store.getters.hasSession) {
+  if (
+    (from.name === 'Login' || to.name !== 'Login') &&
+    !store.getters.hasAccess
+  ) {
     next({ name: 'Login' });
   } else {
     next();
