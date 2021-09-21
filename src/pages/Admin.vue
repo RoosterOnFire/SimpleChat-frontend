@@ -1,29 +1,17 @@
 <script lang="ts">
-import { useStore } from "@/store/Store";
-import { computed } from "@vue/reactivity";
-import { User } from "@/type/Data";
-import AdminKickUser from "@/components/AdminKickUser.vue";
-export default {
-  components: { AdminKickUser },
-  name: "Admin",
-  setup() {
-    const store = useStore();
+import { defineComponent } from "vue";
+import AdminUsersTable from "@/components/AppUsersTable.vue";
 
-    return {
-      users: computed<User[]>(() => store.state.users),
-    };
-  },
-};
+export default defineComponent({
+  components: { AdminUsersTable },
+  setup() {},
+});
 </script>
 
+
 <template>
-  <div class="kick-users">
-    <AdminKickUser v-for="user in users" :key="user.userId" :user="user" />
-  </div>
+  <AdminUsersTable />
 </template>
 
 <style lang="postcss" scoped>
-.kick-users {
-  @apply flex flex-col gap-y-4;
-}
 </style>

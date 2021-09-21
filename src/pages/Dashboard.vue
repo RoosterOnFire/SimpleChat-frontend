@@ -1,13 +1,11 @@
 <script lang="ts">
-import AdminKickUser from "@/components/AdminKickUser.vue";
+import { computed, defineComponent } from "vue";
 import AppButton from "@/components/AppButton.vue";
 import { useStore } from "@/store/Store";
 import { User } from "@/type/Data";
-import { computed, defineComponent } from "vue";
 
 export default defineComponent({
-  components: { AdminKickUser, AppButton },
-  name: "Dashboard",
+  components: { AppButton },
   setup() {
     const store = useStore();
 

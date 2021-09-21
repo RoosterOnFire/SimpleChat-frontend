@@ -42,7 +42,7 @@ export default defineComponent({
   }
 
   .sidebar {
-    @apply w-0 md:w-1/5 md:p-4 flex flex-col space-y-4 bg-indigo-600;
+    @apply w-0 md:w-1/5 md:p-4 flex flex-col bg-indigo-600;
     @apply invisible md:visible;
   }
 
