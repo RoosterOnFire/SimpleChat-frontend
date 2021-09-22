@@ -1,4 +1,4 @@
-import ChatSocket from '@/store/Socket';
+import ChatSocket from '@/helpers/Socket';
 import { Message, User } from '@/type/Data';
 
 export function sendChatJoin(payload: User) {
@@ -27,4 +27,8 @@ export function createNotification(value: string): Message {
 
 export function kickUser(userId: string) {
   ChatSocket.emit('user:kick', { userId });
+}
+
+export function logoffUser() {
+  ChatSocket.emit('user:logoff');
 }

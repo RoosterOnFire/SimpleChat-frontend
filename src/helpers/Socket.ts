@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-import { Users, User, Message, ChatSession } from '@/type/Data';
+import { Users, User, Message } from '@/type/Data';
 import { store } from '@/store/Store';
 
 const ChatSocket = io(import.meta.env.VITE_SOCKET_ENDPOINT, {
@@ -13,12 +13,12 @@ ChatSocket.onAny((event, ...args) => {
   }
 });
 
-ChatSocket.on('session', (payload: User) => {
-  store.commit('updateSession', payload);
+ChatSocket.on('session:created', (payload: User) => {
+  store.commit('createSession', payload);
 });
 
-ChatSocket.on('session:close', () => {
-  store.commit('closeSession');
+ChatSocket.on('session:closed', () => {
+  store.commit('deleteSession');
 });
 
 ChatSocket.on('users:update', (payload: Users) => {

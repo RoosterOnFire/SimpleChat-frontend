@@ -2,18 +2,19 @@ import { createStore, useStore as baseUseStore, Store } from 'vuex';
 import { InjectionKey } from 'vue';
 import { Message, State, Users, User, ChatErrorKind } from '@/type/Data';
 import {
-  clearSession,
-  restoreSession,
-  saveSession,
-} from '@/store/SessionStorage';
+  clearStorage,
+  restoreFromStorage,
+  saveToStorage,
+} from '@/helpers/SessionStorage';
 import {
+  logoffUser,
   createMessage,
   createNotification,
   kickUser,
   sendChatJoin,
   sendMessage,
 } from '@/helpers/Helpers';
-import ChatSocket from '@/store/Socket';
+import ChatSocket from '@/helpers/Socket';
 import Router from '@/router/Router';
 import { ERROR_MISSING_NICKNAME, ERROR_NICKNAME_IN_USE } from '@/type/errors';
 
@@ -48,9 +49,11 @@ export const store = createStore<State>({
       state.messages.push(payload);
     },
     addError(state, payload: ChatErrorKind) {
+      console.error(`socket error: ${payload}`);
+
       switch (payload) {
         case ERROR_MISSING_NICKNAME:
-          clearSession();
+          clearStorage();
 
           Router.push({ name: 'Login' });
           break;
@@ -61,10 +64,10 @@ export const store = createStore<State>({
           break;
       }
     },
-    updateSession(state, payload: User) {
+    createSession(state, payload: User) {
       state.user = { ...payload };
 
-      saveSession(state.user);
+      saveToStorage(state.user);
 
       Router.push({ name: 'Dashboard' });
     },
@@ -74,41 +77,42 @@ export const store = createStore<State>({
     updateUsers(state, payload: Users) {
       state.users = payload;
     },
-    notifyChatJoin(state, payload: User) {
+
+    updateCurrentPage(state, payload: string) {
+      state.userExtra.currentPage = payload;
+    },
+    deleteSession(state) {
+      clearStorage();
+      state.user = { userId: '', sessionId: '', username: '' };
+      Router.push({ name: 'Login' });
+    },
+    messageChatJoin(state, payload: User) {
       const joinChat = createNotification(`"${payload.username}" joined`);
 
       state.messages.push(joinChat);
     },
-    notifyChatLeave(state, payload: User) {
+    messageChatLeave(state, payload: User) {
       const joinMessage: Message = createNotification(
         `"${payload.username}" left`
       );
 
       state.messages.push(joinMessage);
     },
-    updateCurrentPage(state, payload: string) {
-      state.userExtra.currentPage = payload;
-    },
-    closeSession(state) {
-      state.user = { userId: '', sessionId: '', username: '' };
-
-      clearSession();
-
-      Router.push({ name: 'Login' });
-    },
   },
   actions: {
+    connect({ state }) {
+      ChatSocket.auth = {
+        nickname: state.user.username,
+      };
+      ChatSocket.connect();
+    },
     restoreSession() {
-      const sessionId = restoreSession();
+      const sessionId = restoreFromStorage();
 
       if (sessionId) {
-        ChatSocket.auth = { sessionId: restoreSession() };
+        ChatSocket.auth = { sessionId: restoreFromStorage() };
         ChatSocket.connect();
       }
-    },
-    connect({ state }) {
-      ChatSocket.auth = { nickname: state.user.username };
-      ChatSocket.connect();
     },
     joinChat({ state }) {
       sendChatJoin(state.user);
@@ -123,8 +127,11 @@ export const store = createStore<State>({
     updateNickname({ state }) {
       sendChatJoin(state.user);
     },
-    kickUser({ state }, payload: string) {
+    kickUser(_, payload: string) {
       kickUser(payload);
+    },
+    logOff() {
+      logoffUser();
     },
   },
 });

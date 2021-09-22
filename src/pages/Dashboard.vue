@@ -11,6 +11,9 @@ export default defineComponent({
 
     return {
       users: computed<User[]>(() => store.state.users),
+      logout() {
+        store.dispatch("logOff");
+      },
     };
   },
 });
@@ -20,9 +23,7 @@ export default defineComponent({
   <div class="sidebar">
     <router-link to="/dashboard/chat" class="sidebar-row">Chat</router-link>
     <router-link to="/dashboard/admin" class="sidebar-row">Admin</router-link>
-    <router-link to="/" class="sidebar-row sidebar-row--bottom">
-      Logout
-    </router-link>
+    <button type="button" class="sidebar-row" @click="logout">Logout</button>
   </div>
   <div class="main">
     <router-view></router-view>
@@ -38,7 +39,7 @@ export default defineComponent({
   @apply focus:outline-none;
 }
 
-.sidebar-row--bottom {
+.sidebar-row:last-child {
   margin-top: auto !important;
 }
 </style>

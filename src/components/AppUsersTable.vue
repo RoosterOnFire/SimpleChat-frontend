@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useStore } from "@/store/Store";
-import { Users } from "@/type/Data";
+import { User, Users } from "@/type/Data";
 import AppButton from "@/components/AppButton.vue";
 
 export default defineComponent({
@@ -10,6 +10,7 @@ export default defineComponent({
     const store = useStore();
 
     return {
+      currectUser: computed<User>(() => store.state.user),
       users: computed<Users>(() => store.state.users),
       kickUser(userId: string) {
         store.dispatch("kickUser", userId);
@@ -43,7 +44,11 @@ export default defineComponent({
             </td>
             <td class="row-base row-role">{{ "UNKNOWN" }}</td>
             <td class="row-base text-right text-sm font-medium">
-              <AppButton title="Kick" @click="kickUser(user.userId)" />
+              <AppButton
+                v-if="user.userId !== currectUser.userId"
+                title="Kick"
+                @click="kickUser(user.userId)"
+              />
             </td>
           </tr>
         </template>
