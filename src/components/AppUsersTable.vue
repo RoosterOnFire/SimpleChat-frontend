@@ -3,6 +3,7 @@ import { computed, defineComponent } from "vue";
 import { useStore } from "@/store/Store";
 import { User, Users } from "@/type/data";
 import AppButton from "@/components/AppButton.vue";
+import { ActionTypes } from "@/type/enums";
 
 export default defineComponent({
   components: { AppButton },
@@ -13,7 +14,7 @@ export default defineComponent({
       currectUser: computed<User>(() => store.state.user),
       users: computed<Users>(() => store.state.users),
       kickUser(userId: string) {
-        store.dispatch("kickUser", userId);
+        store.dispatch(ActionTypes.kickUser, userId);
       },
     };
   },

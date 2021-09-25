@@ -2,6 +2,7 @@
 import { useStore } from "@/store/Store";
 import { defineComponent, ref } from "vue";
 import AppButton from "@/components/AppButton.vue";
+import { ActionTypes } from "@/type/enums";
 
 export default defineComponent({
   components: {
@@ -18,7 +19,7 @@ export default defineComponent({
           return;
         }
 
-        store.dispatch("addMessage", newMessage.value);
+        store.dispatch(ActionTypes.addMessage, newMessage.value);
 
         newMessage.value = "";
       },
