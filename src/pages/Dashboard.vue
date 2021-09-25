@@ -35,11 +35,7 @@ export default defineComponent({
       </router-link>
     </div>
     <div class="sidebar-bottom">
-      <button
-        type="button"
-        class="dashboard-sidebar-row mt-auto"
-        @click="logout"
-      >
+      <button type="button" class="dashboard-sidebar-row" @click="logout">
         {{ "Logout" }}
       </button>
     </div>
@@ -53,12 +49,7 @@ export default defineComponent({
 .dashboard-sidebar-row {
   @apply py-2 px-4;
   @apply font-medium text-white text-center;
-  @apply bg-indigo-700 hover:bg-indigo-900;
-  @apply border border-transparent rounded-md;
-  @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
-}
-
-.dashboard-sidebar-row:last-child {
-  @apply mt-auto;
+  @apply bg-indigo-700 hover:bg-indigo-800;
+  @apply border border-transparent rounded-md focus:outline-none;
 }
 </style>
