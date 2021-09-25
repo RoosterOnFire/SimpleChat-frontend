@@ -12,10 +12,12 @@ export type User = {
   userId: string;
   sessionId: string;
   username: string;
+  role: 'user' | 'admin';
 };
 
 export type UserExtra = {
   currentPage: string;
+  adminAccessKey: string;
 };
 
 export type Message = {

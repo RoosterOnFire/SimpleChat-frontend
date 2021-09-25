@@ -29,6 +29,7 @@ export enum StoreCommit {
 export enum StoreAction {
   addMessage = 'addMessage',
   connect = 'connect',
+  connectAdmin = 'connectAdmin',
   joinChat = 'joinChat',
   kickUser = 'kickUser',
   logOff = 'logOff',
@@ -45,6 +46,11 @@ export enum ChatSocketMessages {
   USER_KICK = 'user:kick',
   USER_LOGOFF = 'user:logoff',
   USERS_UPDATE = 'users:update',
+}
+
+export enum Roles {
+  ADMIN = 'ADMIN',
+  USER = 'USER',
 }
 
 export enum Errors {

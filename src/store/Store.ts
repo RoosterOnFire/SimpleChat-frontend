@@ -26,9 +26,11 @@ export const store = createStore<State>({
       userId: '',
       sessionId: '',
       username: '',
+      role: 'user',
     },
     userExtra: {
       currentPage: '',
+      adminAccessKey: '',
     },
     users: [],
     messages: [],
@@ -69,7 +71,7 @@ export const store = createStore<State>({
 
       saveToStorage(state.user);
 
-      Router.push({ name: 'Dashboard' });
+      Router.push({ name: RouteNames.DASHBOARD });
     },
     updateNickname(state, payload: string) {
       state.user.username = payload;
@@ -83,26 +85,33 @@ export const store = createStore<State>({
     },
     deleteSession(state) {
       clearStorage();
-      state.user = { userId: '', sessionId: '', username: '' };
+
+      state.user = {
+        userId: '',
+        sessionId: '',
+        username: '',
+        role: 'user',
+      };
+
       Router.push({ name: RouteNames.HOME });
     },
     messageChatJoin(state, payload: User) {
-      const joinChat = createNotification(`"${payload.username}" joined`);
-
-      state.messages.push(joinChat);
+      state.messages.push(createNotification(`"${payload.username}" joined`));
     },
     messageChatLeave(state, payload: User) {
-      const joinMessage: Message = createNotification(
-        `"${payload.username}" left`
-      );
-
-      state.messages.push(joinMessage);
+      state.messages.push(createNotification(`"${payload.username}" left`));
     },
   },
   actions: {
     connect({ state }) {
       ChatSocket.auth = {
         nickname: state.user.username,
+      };
+      ChatSocket.connect();
+    },
+    connectAdmin(_, payload: string) {
+      ChatSocket.auth = {
+        adminAccessKey: payload,
       };
       ChatSocket.connect();
     },
@@ -119,9 +128,7 @@ export const store = createStore<State>({
     },
     addMessage({ state, commit }, payload: string) {
       const newMessage = createMessage(state.user, payload);
-
       commit('addMessage', newMessage);
-
       sendMessage(newMessage);
     },
     updateNickname({ state }) {
