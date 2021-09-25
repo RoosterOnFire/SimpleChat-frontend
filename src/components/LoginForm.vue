@@ -26,7 +26,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <form class="login-form">
+  <form class="login-form" @submit.prevent>
     <input
       type="text"
       class="input"
