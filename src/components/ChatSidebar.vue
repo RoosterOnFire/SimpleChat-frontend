@@ -1,6 +1,6 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { User } from "@/type/Data";
+import { User } from "@/type/data";
 import { useStore } from "@/store/Store";
 
 export default defineComponent({

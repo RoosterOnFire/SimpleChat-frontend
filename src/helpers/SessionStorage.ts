@@ -1,15 +1,14 @@
-import { User } from '@/type/Data';
-
-const KEY = 'SIMPLECHATSESSIONID';
+import { User } from '@/type/data';
+import { SessionStorageKeys } from '@/type/enums';
 
 export function saveToStorage(payload: User) {
-  sessionStorage.setItem(KEY, payload.sessionId);
+  sessionStorage.setItem(SessionStorageKeys.SESSION, payload.sessionId);
 }
 
 export function restoreFromStorage() {
-  return sessionStorage.getItem(KEY);
+  return sessionStorage.getItem(SessionStorageKeys.SESSION);
 }
 
 export function clearStorage() {
-  sessionStorage.removeItem(KEY);
+  sessionStorage.removeItem(SessionStorageKeys.SESSION);
 }

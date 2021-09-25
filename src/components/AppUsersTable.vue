@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useStore } from "@/store/Store";
-import { User, Users } from "@/type/Data";
+import { User, Users } from "@/type/data";
 import AppButton from "@/components/AppButton.vue";
 
 export default defineComponent({

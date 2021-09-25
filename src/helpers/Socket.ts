@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-import { Users, User, Message } from '@/type/Data';
+import { Users, User, Message } from '@/type/data';
 import { store } from '@/store/Store';
 
 const ChatSocket = io(import.meta.env.VITE_SOCKET_ENDPOINT, {

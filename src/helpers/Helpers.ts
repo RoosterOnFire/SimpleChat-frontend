@@ -1,5 +1,5 @@
 import ChatSocket from '@/helpers/Socket';
-import { Message, User } from '@/type/Data';
+import { Message, User } from '@/type/data';
 
 export function sendChatJoin(payload: User) {
   ChatSocket.emit('chat:join', payload);
