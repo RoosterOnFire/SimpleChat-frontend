@@ -1,7 +1,7 @@
 import { io } from 'socket.io-client';
 import { Users, User, Message } from '@/type/data';
 import { store } from '@/store/Store';
-import { ChatSocketMessages, CommitTypes } from '@/type/enums';
+import { ChatSocketMessages, StoreCommit } from '@/type/enums';
 
 const ChatSocket = io(import.meta.env.VITE_SOCKET_ENDPOINT, {
   autoConnect: false,
@@ -15,23 +15,23 @@ ChatSocket.onAny((event, ...args) => {
 });
 
 ChatSocket.on(ChatSocketMessages.SESSION_CREATED, (payload: User) => {
-  store.commit(CommitTypes.createSession, payload);
+  store.commit(StoreCommit.createSession, payload);
 });
 
 ChatSocket.on(ChatSocketMessages.SESSION_CLOSED, () => {
-  store.commit(CommitTypes.deleteSession);
+  store.commit(StoreCommit.deleteSession);
 });
 
 ChatSocket.on(ChatSocketMessages.USERS_UPDATE, (payload: Users) => {
-  store.commit(CommitTypes.updateUsers, payload);
+  store.commit(StoreCommit.updateUsers, payload);
 });
 
 ChatSocket.on(ChatSocketMessages.CHAT_MESSAGE, (message: Message) => {
-  store.commit(CommitTypes.addMessage, message);
+  store.commit(StoreCommit.addMessage, message);
 });
 
 ChatSocket.on(ChatSocketMessages.CONNECT_ERROR, (err) => {
-  store.commit(CommitTypes.addError, err.message);
+  store.commit(StoreCommit.addError, err.message);
 });
 
 export default ChatSocket;

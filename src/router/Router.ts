@@ -4,7 +4,7 @@ import Dashboard from '@/pages/Dashboard.vue';
 import Chat from '@/pages/Chat.vue';
 import Admin from '@/pages/Admin.vue';
 import { store } from '@/store/Store';
-import { RouteNames } from '@/type/enums';
+import { StoreCommit, RouteNames } from '@/type/enums';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -50,7 +50,7 @@ Router.beforeEach((to, from, next) => {
 });
 
 Router.afterEach((to, from, failure) => {
-  store.commit('updateCurrentPage', to.name);
+  store.commit(StoreCommit.updateCurrentPage, to.name);
 });
 
 export default Router;

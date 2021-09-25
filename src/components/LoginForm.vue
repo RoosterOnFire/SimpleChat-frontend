@@ -2,7 +2,7 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "@/store/Store";
 import AppButton from "@/components/AppButton.vue";
-import { ActionTypes, CommitTypes } from "@/type/enums";
+import { StoreAction, StoreCommit } from "@/type/enums";
 
 export default defineComponent({
   components: {
@@ -15,10 +15,10 @@ export default defineComponent({
       isUsernameFree: computed(() => store.state.errors.nicknameInUse),
       username: computed({
         get: () => store.state.user.username,
-        set: (username) => store.commit(CommitTypes.updateNickname, username),
+        set: (username) => store.commit(StoreCommit.updateNickname, username),
       }),
       async joinChat() {
-        store.dispatch(ActionTypes.connect);
+        store.dispatch(StoreAction.connect);
       },
     };
   },

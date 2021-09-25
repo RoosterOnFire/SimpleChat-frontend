@@ -1,13 +1,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "@/store/Store";
-import { RouteNames } from "@/type/enums";
+import { StoreAction, RouteNames } from "@/type/enums";
 
 export default defineComponent({
   setup() {
     const store = useStore();
 
-    store.dispatch("restoreSession");
+    store.dispatch(StoreAction.restoreSession);
     return {
       isHome: RouteNames.HOME,
     };

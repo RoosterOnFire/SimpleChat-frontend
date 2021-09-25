@@ -3,7 +3,7 @@ import { computed, defineComponent } from "vue";
 import AppButton from "@/components/AppButton.vue";
 import { useStore } from "@/store/Store";
 import { User } from "@/type/data";
-import { ActionTypes } from "@/type/enums";
+import { StoreAction } from "@/type/enums";
 
 export default defineComponent({
   components: { AppButton },
@@ -13,7 +13,7 @@ export default defineComponent({
     return {
       users: computed<User[]>(() => store.state.users),
       logout() {
-        store.dispatch(ActionTypes.logOff);
+        store.dispatch(StoreAction.logOff);
       },
     };
   },

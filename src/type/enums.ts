@@ -9,12 +9,12 @@ export enum SessionStorageKeys {
   SESSION = 'SIMPLECHATSESSIONID',
 }
 
-export enum GetterTypes {
+export enum StoreGetter {
   hasAccess = 'hasAccess',
   hasNickname = 'hasNickname',
 }
 
-export enum CommitTypes {
+export enum StoreCommit {
   addError = 'addError',
   addMessage = 'addMessage',
   createSession = 'createSession',
@@ -26,7 +26,7 @@ export enum CommitTypes {
   updateUsers = 'updateUsers',
 }
 
-export enum ActionTypes {
+export enum StoreAction {
   addMessage = 'addMessage',
   connect = 'connect',
   joinChat = 'joinChat',
