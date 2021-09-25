@@ -26,14 +26,14 @@ export default defineComponent({
       v-for="(message, index) of messages"
       :key="index"
       class="message-row"
-      :class="{ 'message-row--notify': message.user === 'App' }"
+      :class="{ 'text-indigo-600': message.user === 'App' }"
     >
       {{ message.user }}: {{ message.value }}
     </p>
   </div>
 </template>
 
-<style lang="postcss" scoped>
+<style lang="postcss">
 .messages {
   @apply p-4 space-y-4 flex-1 overflow-y-auto;
 }
@@ -41,9 +41,5 @@ export default defineComponent({
 .message-row {
   @apply w-max px-4 py-2 bg-white rounded-full border-2;
   @apply text-black select-all;
-}
-
-.message-row--notify {
-  @apply text-indigo-600;
 }
 </style>

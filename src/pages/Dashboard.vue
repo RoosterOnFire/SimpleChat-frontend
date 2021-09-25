@@ -22,17 +22,23 @@ export default defineComponent({
 
 <template>
   <div class="sidebar">
-    <router-link to="/dashboard/chat" class="sidebar-row">Chat</router-link>
-    <router-link to="/dashboard/admin" class="sidebar-row">Admin</router-link>
-    <button type="button" class="sidebar-row" @click="logout">Logout</button>
+    <router-link to="/dashboard/chat" class="dashboard-sidebar-row"
+      >Chat</router-link
+    >
+    <router-link to="/dashboard/admin" class="dashboard-sidebar-row"
+      >Admin</router-link
+    >
+    <button type="button" class="dashboard-sidebar-row" @click="logout">
+      Logout
+    </button>
   </div>
   <div class="main">
     <router-view></router-view>
   </div>
 </template>
 
-<style lang="postcss" scoped>
-.sidebar-row {
+<style lang="postcss">
+.dashboard-sidebar-row {
   @apply py-2 px-4;
   @apply font-medium text-white text-center;
   @apply bg-indigo-600 hover:bg-indigo-700;
@@ -40,7 +46,7 @@ export default defineComponent({
   @apply focus:outline-none;
 }
 
-.sidebar-row:last-child {
+.dashboard-sidebar-row:last-child {
   margin-top: auto !important;
 }
 </style>

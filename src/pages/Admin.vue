@@ -12,6 +12,3 @@ export default defineComponent({
 <template>
   <AdminUsersTable />
 </template>
-
-<style lang="postcss" scoped>
-</style>

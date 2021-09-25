@@ -29,14 +29,6 @@ export default defineComponent({
 @tailwind utilities;
 
 @layer components {
-  body {
-    @apply bg-gray-50;
-  }
-
-  #app {
-    @apply container h-screen flex items-stretch;
-  }
-
   .page {
     @apply container flex items-stretch;
   }
@@ -59,6 +51,14 @@ export default defineComponent({
     @apply sm:text-sm text-gray-900 placeholder-gray-500;
     @apply rounded-md border-2 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 focus:z-10;
     @apply appearance-none focus:outline-none;
+  }
+
+  .button {
+    @apply py-2 px-4;
+    @apply font-medium text-white;
+    @apply bg-indigo-600 hover:bg-indigo-700;
+    @apply border border-transparent rounded-md focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+    @apply focus:outline-none;
   }
 }
 </style>

@@ -17,26 +17,26 @@ export default defineComponent({
 
 <template>
   <div class="sidebar">
-    <transition-group name="list">
-      <p v-for="(user, index) in users" :key="index" class="sidebar-row">
+    <transition-group name="chat-list">
+      <p v-for="(user, index) in users" :key="index" class="chat-sidebar-row">
         {{ user.username }}
       </p>
     </transition-group>
   </div>
 </template>
 
-<style lang="postcss" scoped>
-.sidebar-row {
+<style lang="postcss">
+.chat-sidebar-row {
   @apply bg-indigo-800 border border-transparent rounded-md;
   @apply text-white text-center;
 }
 
-.list-enter-active,
-.list-leave-active {
+.chat-list-enter-active,
+.chat-list-leave-active {
   @apply transition duration-300;
 }
-.list-enter-from,
-.list-leave-to {
+.chat-list-enter-from,
+.chat-list-leave-to {
   @apply -translate-x-8 opacity-0;
 }
 </style>

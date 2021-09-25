@@ -10,14 +10,18 @@ export default defineComponent({
 </script>
 
 <template>
-  <h1 class="header">Simple Chat</h1>
+  <h1 class="home-header">Simple Chat</h1>
   <LoginForm />
-  <p class="text-2xl font-bold text-indigo-600">{{ "OR" }}</p>
+  <p class="home-text">{{ "OR" }}</p>
   <AppAdminLogin />
 </template>
 
-<style lang="postcss" scoped>
-.header {
+<style lang="postcss">
+.home-header {
   @apply text-5xl font-bold text-indigo-600;
+}
+
+.home-text {
+  @apply text-2xl font-bold text-indigo-600;
 }
 </style>

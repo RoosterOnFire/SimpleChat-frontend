@@ -29,14 +29,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <form class="form" @keypress.enter="sendMessage">
+  <form class="chat-form" @keypress.enter="sendMessage">
     <input type="text" class="input" v-model="newMessage" />
     <AppButton title="Send" @click="sendMessage" />
   </form>
 </template>
 
-<style lang="postcss" scoped>
-.form {
+<style lang="postcss">
+.chat-form {
   @apply p-4 flex justify-around gap-4;
   @apply border-t-2 border-indigo-600;
 }

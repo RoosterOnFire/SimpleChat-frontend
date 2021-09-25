@@ -26,7 +26,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <form class="login">
+  <form class="login-form">
     <input
       type="text"
       class="input"
@@ -39,8 +39,8 @@ export default defineComponent({
   </form>
 </template>
 
-<style lang="postcss" scoped>
-.login {
+<style lang="postcss">
+.login-form {
   @apply w-2/3 lg:w-1/2 space-y-4 flex flex-col;
 }
 </style>
