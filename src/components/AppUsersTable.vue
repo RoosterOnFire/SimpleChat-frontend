@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useStore } from "@/store/Store";
-import { User, Users } from "@/type/data";
+import { User, Users } from "@/type/state";
 import AppButton from "@/components/AppButton.vue";
 import { StoreAction } from "@/type/enums";
 

@@ -33,17 +33,22 @@ export default defineComponent({
     @apply container flex items-stretch;
   }
 
-  .home {
-    @apply container flex flex-col items-center justify-around;
+  .sidebar {
+    @apply w-0 md:w-1/5 md:p-4 flex flex-col;
+    @apply bg-indigo-600 invisible md:visible;
   }
 
-  .sidebar {
-    @apply w-0 md:w-1/5 md:p-4 flex flex-col bg-indigo-600;
-    @apply invisible md:visible;
+  .sidebar-top {
+    @apply inline-flex flex-col space-y-4;
+  }
+
+  .sidebar-bottom {
+    @apply flex-shrink;
+    @apply inline-flex flex-col mt-auto;
   }
 
   .main {
-    @apply flex-1 flex flex-col items-stretch justify-around;
+    @apply flex-1 flex flex-col items-stretch;
   }
 
   .input {

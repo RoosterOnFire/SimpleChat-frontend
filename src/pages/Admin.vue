@@ -10,5 +10,14 @@ export default defineComponent({
 
 
 <template>
-  <AdminUsersTable />
+  <div class="admin">
+    <AdminUsersTable />
+  </div>
 </template>
+
+
+<style lang="postcss">
+.admin {
+  @apply p-4;
+}
+</style>

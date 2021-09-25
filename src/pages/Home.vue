@@ -17,6 +17,10 @@ export default defineComponent({
 </template>
 
 <style lang="postcss">
+.home {
+  @apply container flex flex-col items-center justify-around;
+}
+
 .home-header {
   @apply text-5xl font-bold text-indigo-600;
 }
