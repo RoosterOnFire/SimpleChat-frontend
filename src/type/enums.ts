@@ -27,13 +27,24 @@ export enum CommitTypes {
 }
 
 export enum ActionTypes {
-  connect = 'connect',
-  restoreSession = 'restoreSession',
-  joinChat = 'joinChat',
   addMessage = 'addMessage',
-  updateNickname = 'updateNickname',
+  connect = 'connect',
+  joinChat = 'joinChat',
   kickUser = 'kickUser',
   logOff = 'logOff',
+  restoreSession = 'restoreSession',
+  updateNickname = 'updateNickname',
+}
+
+export enum ChatSocketMessages {
+  CHAT_JOIN = 'chat:join',
+  CHAT_MESSAGE = 'chat:message',
+  CONNECT_ERROR = 'connect_error',
+  SESSION_CLOSED = 'session:closed',
+  SESSION_CREATED = 'session:created',
+  USER_KICK = 'user:kick',
+  USER_LOGOFF = 'user:logoff',
+  USERS_UPDATE = 'users:update',
 }
 
 export enum Errors {
