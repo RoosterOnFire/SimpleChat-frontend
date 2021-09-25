@@ -1,6 +1,7 @@
 import { io } from 'socket.io-client';
-import { Users, User, Message } from '@/type/Data';
+import { Users, User, Message } from '@/type/data';
 import { store } from '@/store/Store';
+import { ChatSocketMessages, CommitTypes } from '@/type/enums';
 
 const ChatSocket = io(import.meta.env.VITE_SOCKET_ENDPOINT, {
   autoConnect: false,
@@ -13,28 +14,24 @@ ChatSocket.onAny((event, ...args) => {
   }
 });
 
-ChatSocket.on('session:created', (payload: User) => {
-  store.commit('createSession', payload);
+ChatSocket.on(ChatSocketMessages.SESSION_CREATED, (payload: User) => {
+  store.commit(CommitTypes.createSession, payload);
 });
 
-ChatSocket.on('session:closed', () => {
-  store.commit('deleteSession');
+ChatSocket.on(ChatSocketMessages.SESSION_CLOSED, () => {
+  store.commit(CommitTypes.deleteSession);
 });
 
-ChatSocket.on('users:update', (payload: Users) => {
-  store.commit('updateUsers', payload);
+ChatSocket.on(ChatSocketMessages.USERS_UPDATE, (payload: Users) => {
+  store.commit(CommitTypes.updateUsers, payload);
 });
 
-ChatSocket.on('chat:leave', (payload: User) => {
-  store.commit('notifyChatLeave', payload);
+ChatSocket.on(ChatSocketMessages.CHAT_MESSAGE, (message: Message) => {
+  store.commit(CommitTypes.addMessage, message);
 });
 
-ChatSocket.on('chat:message', (message: Message) => {
-  store.commit('addMessage', message);
-});
-
-ChatSocket.on('connect_error', (err) => {
-  store.commit('addError', err.message);
+ChatSocket.on(ChatSocketMessages.CONNECT_ERROR, (err) => {
+  store.commit(CommitTypes.addError, err.message);
 });
 
 export default ChatSocket;

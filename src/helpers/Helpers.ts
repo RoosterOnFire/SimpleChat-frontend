@@ -1,12 +1,13 @@
 import ChatSocket from '@/helpers/Socket';
-import { Message, User } from '@/type/Data';
+import { Message, User } from '@/type/data';
+import { ChatSocketMessages } from '@/type/enums';
 
 export function sendChatJoin(payload: User) {
-  ChatSocket.emit('chat:join', payload);
+  ChatSocket.emit(ChatSocketMessages.CHAT_JOIN, payload);
 }
 
 export function sendMessage(payload: Message) {
-  ChatSocket.emit('chat:message', payload);
+  ChatSocket.emit(ChatSocketMessages.CHAT_MESSAGE, payload);
 }
 
 export function createMessage(user: User, value: string): Message {
@@ -26,9 +27,9 @@ export function createNotification(value: string): Message {
 }
 
 export function kickUser(userId: string) {
-  ChatSocket.emit('user:kick', { userId });
+  ChatSocket.emit(ChatSocketMessages.USER_KICK, { userId });
 }
 
 export function logoffUser() {
-  ChatSocket.emit('user:logoff');
+  ChatSocket.emit(ChatSocketMessages.USER_LOGOFF);
 }

@@ -1,22 +1,22 @@
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
 import { InjectionKey } from 'vue';
-import { Message, State, Users, User, ChatErrorKind } from '@/type/Data';
+import { Message, State, Users, User } from '@/type/data';
 import {
   clearStorage,
   restoreFromStorage,
   saveToStorage,
 } from '@/helpers/SessionStorage';
 import {
-  logoffUser,
   createMessage,
   createNotification,
   kickUser,
+  logoffUser,
   sendChatJoin,
   sendMessage,
 } from '@/helpers/Helpers';
 import ChatSocket from '@/helpers/Socket';
 import Router from '@/router/Router';
-import { ERROR_MISSING_NICKNAME, ERROR_NICKNAME_IN_USE } from '@/type/errors';
+import { Errors, RouteNames } from '@/type/enums';
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
@@ -48,16 +48,16 @@ export const store = createStore<State>({
     addMessage(state, payload: Message) {
       state.messages.push(payload);
     },
-    addError(state, payload: ChatErrorKind) {
+    addError(state, payload: Errors) {
       console.error(`socket error: ${payload}`);
 
       switch (payload) {
-        case ERROR_MISSING_NICKNAME:
+        case Errors.ERROR_MISSING_NICKNAME:
           clearStorage();
 
-          Router.push({ name: 'Login' });
+          Router.push({ name: RouteNames.HOME });
           break;
-        case ERROR_NICKNAME_IN_USE:
+        case Errors.ERROR_NICKNAME_IN_USE:
           state.errors.nicknameInUse = true;
           break;
         default:
@@ -84,7 +84,7 @@ export const store = createStore<State>({
     deleteSession(state) {
       clearStorage();
       state.user = { userId: '', sessionId: '', username: '' };
-      Router.push({ name: 'Login' });
+      Router.push({ name: RouteNames.HOME });
     },
     messageChatJoin(state, payload: User) {
       const joinChat = createNotification(`"${payload.username}" joined`);

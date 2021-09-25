@@ -1,19 +1,23 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useStore } from "@/store/Store";
+import { RouteNames } from "@/type/enums";
 
 export default defineComponent({
   setup() {
     const store = useStore();
 
     store.dispatch("restoreSession");
+    return {
+      isHome: RouteNames.HOME,
+    };
   },
 });
 </script>
 
 <template>
   <router-view v-slot="{ Component, route }">
-    <div :class="[route.name === 'Login' ? 'login' : 'page']">
+    <div :class="[route.name === isHome ? 'home' : 'page']">
       <component :is="Component" :key="route.path" />
     </div>
   </router-view>
@@ -37,7 +41,7 @@ export default defineComponent({
     @apply container flex items-stretch;
   }
 
-  .login {
+  .home {
     @apply container flex flex-col items-center justify-around;
   }
 

@@ -28,6 +28,7 @@ export type ChatErrors = {
   nicknameInUse: boolean;
 };
 
-export type ChatErrorKind = 'ERROR_MISSING_NICKNAME' | 'ERROR_NICKNAME_IN_USE';
-
-export type ChatSession = { userId: string; sessionId: string };
+export type ChatSession = {
+  userId: string;
+  sessionId: string;
+};
