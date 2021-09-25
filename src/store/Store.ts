@@ -1,4 +1,9 @@
-import { createStore, useStore as baseUseStore, Store } from 'vuex';
+import {
+  createStore,
+  useStore as baseUseStore,
+  Store,
+  createLogger,
+} from 'vuex';
 import { InjectionKey } from 'vue';
 import { Message, State, Users, User } from '@/type/state';
 import {
@@ -7,6 +12,7 @@ import {
   storeSessionId,
 } from '@/helpers/SessionStorage';
 import {
+  ChatSocket,
   createMessage,
   createNotification,
   kickUser,
@@ -14,9 +20,16 @@ import {
   sendChatJoin,
   sendMessage,
 } from '@/helpers/Helpers';
-import ChatSocket from '@/helpers/Socket';
+import ChatSocketPlugin from '@/store/ChatSocketPlugin';
 import Router from '@/router/Router';
-import { Errors, Roles, RouteNames } from '@/type/enums';
+import {
+  Errors,
+  Roles,
+  RouteNames,
+  StoreGetter,
+  StoreCommit,
+  StoreAction,
+} from '@/type/enums';
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
@@ -39,18 +52,18 @@ export const store = createStore<State>({
     },
   },
   getters: {
-    hasAccess(state) {
+    [StoreGetter.hasAccess](state) {
       return !!state.user.sessionId || !!state.user.userId;
     },
-    hasNickname(state) {
+    [StoreGetter.hasNickname](state) {
       return !!state.user.username;
     },
   },
   mutations: {
-    addMessage(state, payload: Message) {
+    [StoreCommit.addMessage](state, payload: Message) {
       state.messages.push(payload);
     },
-    addError(state, payload: Errors) {
+    [StoreCommit.addError](state, payload: Errors) {
       console.error(`socket error: ${payload}`);
 
       switch (payload) {
@@ -66,24 +79,23 @@ export const store = createStore<State>({
           break;
       }
     },
-    createSession(state, payload: User) {
+    [StoreCommit.createSession](state, payload: User) {
       state.user = { ...payload };
 
       storeSessionId(state.user);
 
       Router.push({ name: RouteNames.DASHBOARD });
     },
-    updateNickname(state, payload: string) {
+    [StoreCommit.updateNickname](state, payload: string) {
       state.user.username = payload;
     },
-    updateUsers(state, payload: Users) {
+    [StoreCommit.updateUsers](state, payload: Users) {
       state.users = payload;
     },
-
-    updateCurrentPage(state, payload: string) {
+    [StoreCommit.updateCurrentPage](state, payload: string) {
       state.meta.currentPage = payload;
     },
-    deleteSession(state) {
+    [StoreCommit.deleteSession](state) {
       clearSessionId();
 
       state.user = {
@@ -95,52 +107,53 @@ export const store = createStore<State>({
 
       Router.push({ name: RouteNames.HOME });
     },
-    messageChatJoin(state, payload: User) {
+    [StoreCommit.messageChatJoin](state, payload: User) {
       state.messages.push(createNotification(`"${payload.username}" joined`));
     },
-    messageChatLeave(state, payload: User) {
+    [StoreCommit.messageChatLeave](state, payload: User) {
       state.messages.push(createNotification(`"${payload.username}" left`));
     },
   },
   actions: {
-    connect({ state }) {
+    [StoreAction.connect]({ state }) {
       ChatSocket.auth = {
         nickname: state.user.username,
       };
       ChatSocket.connect();
     },
-    connectAdmin(_, payload: string) {
+    [StoreAction.connectAdmin](_, payload: string) {
       ChatSocket.auth = {
         adminAccessKey: payload,
       };
       ChatSocket.connect();
     },
-    restoreSession() {
+    [StoreAction.restoreSession]() {
       const sessionId = restoreSessionId();
 
       if (sessionId) {
-        ChatSocket.auth = { sessionId: restoreSessionId() };
+        ChatSocket.auth = { sessionId };
         ChatSocket.connect();
       }
     },
-    joinChat({ state }) {
+    [StoreAction.joinChat]({ state }) {
       sendChatJoin(state.user);
     },
-    addMessage({ state, commit }, payload: string) {
+    [StoreAction.addMessage]({ state, commit }, payload: string) {
       const newMessage = createMessage(state.user, payload);
-      commit('addMessage', newMessage);
+      commit(StoreCommit.addMessage, newMessage);
       sendMessage(newMessage);
     },
-    updateNickname({ state }) {
+    [StoreAction.updateNickname]({ state }) {
       sendChatJoin(state.user);
     },
-    kickUser(_, payload: string) {
+    [StoreAction.kickUser](_, payload: string) {
       kickUser(payload);
     },
-    logOff() {
+    [StoreAction.logOff]() {
       logoffUser();
     },
   },
+  plugins: [createLogger(), ChatSocketPlugin(ChatSocket)],
 });
 
 export function useStore() {
