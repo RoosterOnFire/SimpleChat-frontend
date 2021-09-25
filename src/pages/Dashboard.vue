@@ -2,8 +2,7 @@
 import { computed, defineComponent } from "vue";
 import AppButton from "@/components/AppButton.vue";
 import { useStore } from "@/store/Store";
-import { User } from "@/type/data";
-import { StoreAction } from "@/type/enums";
+import { Roles, StoreAction } from "@/type/enums";
 
 export default defineComponent({
   components: { AppButton },
@@ -11,7 +10,8 @@ export default defineComponent({
     const store = useStore();
 
     return {
-      users: computed<User[]>(() => store.state.users),
+      userRole: computed(() => store.state.user.role),
+      roleAdmin: Roles.ADMIN,
       logout() {
         store.dispatch(StoreAction.logOff);
       },
@@ -22,18 +22,22 @@ export default defineComponent({
 
 <template>
   <div class="sidebar">
-    <router-link to="/dashboard/chat" class="dashboard-sidebar-row"
-      >Chat</router-link
+    <router-link to="/dashboard/chat" class="dashboard-sidebar-row">
+      Chat
+    </router-link>
+    <router-link
+      v-if="userRole === roleAdmin"
+      to="/dashboard/admin"
+      class="dashboard-sidebar-row"
     >
-    <router-link to="/dashboard/admin" class="dashboard-sidebar-row"
-      >Admin</router-link
-    >
+      Admin
+    </router-link>
     <button type="button" class="dashboard-sidebar-row" @click="logout">
       Logout
     </button>
   </div>
   <div class="main">
-    <router-view></router-view>
+    <router-view />
   </div>
 </template>
 

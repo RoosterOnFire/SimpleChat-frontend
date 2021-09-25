@@ -1,5 +1,5 @@
 import ChatSocket from '@/helpers/Socket';
-import { Message, User } from '@/type/data';
+import { Message, User } from '@/type/state';
 import { ChatSocketMessages } from '@/type/enums';
 
 export function sendChatJoin(payload: User) {

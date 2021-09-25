@@ -34,7 +34,7 @@ export default defineComponent({
           </th>
         </tr>
       </thead>
-      <tbody class="bg-white divide-y divide-gray-200">
+      <tbody class="table-body">
         <template v-for="user of users" :key="user.userId" :user="user">
           <tr>
             <td class="row-base">
@@ -43,7 +43,7 @@ export default defineComponent({
             <td class="row-base">
               <span class="row-status-active">{{ "Active" }}</span>
             </td>
-            <td class="row-base row-role">{{ "UNKNOWN" }}</td>
+            <td class="row-base row-role">{{ user.role }}</td>
             <td class="row-base text-right text-sm font-medium">
               <AppButton
                 v-if="user.userId !== currectUser.userId"
@@ -73,6 +73,10 @@ export default defineComponent({
 
 .table-header {
   @apply px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider;
+}
+
+.table-body {
+  @apply bg-white divide-y divide-gray-200;
 }
 
 .user-cell {

@@ -1,12 +1,12 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { User } from "@/type/data";
 import { useStore } from "@/store/Store";
+import { Users } from "@/type/state";
 
 export default defineComponent({
   setup() {
     const store = useStore();
-    const users = computed<User[]>(() => store.state.users);
+    const users = computed<Users>(() => store.state.users);
 
     return {
       users,

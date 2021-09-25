@@ -1,14 +1,15 @@
-import { User } from '@/type/data';
+import { User } from '@/type/state';
 import { SessionStorageKeys } from '@/type/enums';
+import { Session } from 'inspector';
 
-export function saveToStorage(payload: User) {
+export function storeSessionId(payload: User) {
   sessionStorage.setItem(SessionStorageKeys.SESSION, payload.sessionId);
 }
 
-export function restoreFromStorage() {
+export function restoreSessionId() {
   return sessionStorage.getItem(SessionStorageKeys.SESSION);
 }
 
-export function clearStorage() {
+export function clearSessionId() {
   sessionStorage.removeItem(SessionStorageKeys.SESSION);
 }

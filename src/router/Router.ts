@@ -1,10 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import Home from '@/pages/Home.vue';
-import Dashboard from '@/pages/Dashboard.vue';
-import Chat from '@/pages/Chat.vue';
-import Admin from '@/pages/Admin.vue';
 import { store } from '@/store/Store';
-import { StoreCommit, RouteNames } from '@/type/enums';
+import { StoreCommit, RouteNames, Roles } from '@/type/enums';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -15,18 +12,18 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/dashboard',
     name: RouteNames.DASHBOARD,
-    component: Dashboard,
+    component: () => import('@/pages/Dashboard.vue'),
     children: [
       {
         path: 'chat',
         name: RouteNames.DASHBOARD_CHAT,
-        component: Chat,
+        component: () => import('@/pages/Chat.vue'),
         meta: { transition: 'slide-right' },
       },
       {
         path: 'admin',
         name: RouteNames.DASHBOARD_ADMIN,
-        component: Admin,
+        component: () => import('@/pages/Admin.vue'),
         meta: { transition: 'slide-right' },
       },
     ],
@@ -39,6 +36,11 @@ const Router = createRouter({
 });
 
 Router.beforeEach((to, from, next) => {
+  const userRole = store.state.user.role;
+  if (to.name === RouteNames.DASHBOARD_ADMIN && userRole !== Roles.ADMIN) {
+    return;
+  }
+
   if (
     (from.name === RouteNames.HOME || to.name !== RouteNames.HOME) &&
     !store.getters.hasAccess

@@ -1,10 +1,10 @@
 import { createStore, useStore as baseUseStore, Store } from 'vuex';
 import { InjectionKey } from 'vue';
-import { Message, State, Users, User } from '@/type/data';
+import { Message, State, Users, User } from '@/type/state';
 import {
-  clearStorage,
-  restoreFromStorage,
-  saveToStorage,
+  clearSessionId,
+  restoreSessionId,
+  storeSessionId,
 } from '@/helpers/SessionStorage';
 import {
   createMessage,
@@ -16,7 +16,7 @@ import {
 } from '@/helpers/Helpers';
 import ChatSocket from '@/helpers/Socket';
 import Router from '@/router/Router';
-import { Errors, RouteNames } from '@/type/enums';
+import { Errors, Roles, RouteNames } from '@/type/enums';
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
@@ -26,9 +26,9 @@ export const store = createStore<State>({
       userId: '',
       sessionId: '',
       username: '',
-      role: 'user',
+      role: Roles.USER,
     },
-    userExtra: {
+    meta: {
       currentPage: '',
       adminAccessKey: '',
     },
@@ -55,7 +55,7 @@ export const store = createStore<State>({
 
       switch (payload) {
         case Errors.ERROR_MISSING_NICKNAME:
-          clearStorage();
+          clearSessionId();
 
           Router.push({ name: RouteNames.HOME });
           break;
@@ -69,7 +69,7 @@ export const store = createStore<State>({
     createSession(state, payload: User) {
       state.user = { ...payload };
 
-      saveToStorage(state.user);
+      storeSessionId(state.user);
 
       Router.push({ name: RouteNames.DASHBOARD });
     },
@@ -81,16 +81,16 @@ export const store = createStore<State>({
     },
 
     updateCurrentPage(state, payload: string) {
-      state.userExtra.currentPage = payload;
+      state.meta.currentPage = payload;
     },
     deleteSession(state) {
-      clearStorage();
+      clearSessionId();
 
       state.user = {
         userId: '',
         sessionId: '',
         username: '',
-        role: 'user',
+        role: Roles.USER,
       };
 
       Router.push({ name: RouteNames.HOME });
@@ -116,10 +116,10 @@ export const store = createStore<State>({
       ChatSocket.connect();
     },
     restoreSession() {
-      const sessionId = restoreFromStorage();
+      const sessionId = restoreSessionId();
 
       if (sessionId) {
-        ChatSocket.auth = { sessionId: restoreFromStorage() };
+        ChatSocket.auth = { sessionId: restoreSessionId() };
         ChatSocket.connect();
       }
     },

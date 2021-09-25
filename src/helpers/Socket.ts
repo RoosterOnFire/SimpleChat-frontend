@@ -1,5 +1,5 @@
 import { io } from 'socket.io-client';
-import { Users, User, Message } from '@/type/data';
+import { Users, User, Message } from '@/type/state';
 import { store } from '@/store/Store';
 import { ChatSocketMessages, StoreCommit } from '@/type/enums';
 
