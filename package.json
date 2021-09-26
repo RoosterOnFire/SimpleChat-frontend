@@ -3,8 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
+    "dev": "vite",
+    "devfull": "vite",
+    "postdevfull" :"cd ../simplechat-backend && yarn dev",
     "serve": "vite preview"
   },
   "dependencies": {

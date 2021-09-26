@@ -30,25 +30,15 @@ export default defineComponent({
 
 @layer components {
   .page {
-    @apply container flex items-stretch;
+    @apply container max-h-full flex flex-col;
   }
 
-  .sidebar {
-    @apply w-0 md:w-1/5 md:p-4 flex flex-col;
-    @apply bg-indigo-600 invisible md:visible;
-  }
-
-  .sidebar-top {
-    @apply inline-flex flex-col space-y-4;
-  }
-
-  .sidebar-bottom {
-    @apply flex-shrink;
-    @apply inline-flex flex-col mt-auto;
+  .navbar {
+    @apply p-4 flex gap-2 bg-gray-800;
   }
 
   .main {
-    @apply flex-1 flex flex-col items-stretch;
+    @apply flex-1 flex flex-col items-stretch overflow-hidden;
   }
 
   .input {

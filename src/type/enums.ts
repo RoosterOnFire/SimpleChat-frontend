@@ -1,8 +1,8 @@
 export enum RouteNames {
-  HOME = 'HOME',
-  DASHBOARD = 'DASHBOARD',
-  DASHBOARD_CHAT = 'DASHBOARD_CHAT',
-  DASHBOARD_ADMIN = 'DASHBOARD_ADMIN',
+  HOME = 'Home',
+  DASHBOARD = 'Dashboard',
+  DASHBOARD_CHAT = 'Dashboard/Chat',
+  DASHBOARD_ADMIN = 'Dashboard/Admin',
 }
 
 export enum SessionStorageKeys {
