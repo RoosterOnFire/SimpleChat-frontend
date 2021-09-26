@@ -2,7 +2,8 @@
 import { computed, defineComponent } from "vue";
 import { useStore } from "@/store/Store";
 import AppButton from "@/components/AppButton.vue";
-import { StoreAction, StoreCommit } from "@/type/enums";
+import { StoreAction, StoreCommit, StoreGetter } from "@/type/enums";
+import { mapActions, mapGetters } from "vuex";
 
 export default defineComponent({
   components: {
@@ -12,14 +13,12 @@ export default defineComponent({
     const store = useStore();
 
     return {
-      isUsernameFree: computed(() => store.state.errors.nicknameInUse),
       username: computed({
         get: () => store.state.user.username,
         set: (username) => store.commit(StoreCommit.updateNickname, username),
       }),
-      async joinChat() {
-        store.dispatch(StoreAction.connect);
-      },
+      ...mapGetters([StoreGetter.isUsernameAvailable]),
+      ...mapActions([StoreAction.connect]),
     };
   },
 });
@@ -30,12 +29,12 @@ export default defineComponent({
     <input
       type="text"
       class="input"
-      :class="{ 'border-red-600': isUsernameFree }"
+      :class="{ 'border-red-600': isUsernameAvailable() }"
       placeholder="Username"
       required
       v-model="username"
     />
-    <AppButton title="Join" @click="joinChat" />
+    <AppButton title="Join" @click="connect()" />
   </form>
 </template>
 

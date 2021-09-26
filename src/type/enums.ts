@@ -10,8 +10,11 @@ export enum SessionStorageKeys {
 }
 
 export enum StoreGetter {
+  users = 'users',
+  isCurrentUser = 'isCurrentUser',
   hasAccess = 'hasAccess',
   hasNickname = 'hasNickname',
+  isUsernameAvailable = 'isUsernameAvailable',
 }
 
 export enum StoreCommit {
@@ -22,6 +25,7 @@ export enum StoreCommit {
   messageChatJoin = 'messageChatJoin',
   messageChatLeave = 'messageChatLeave',
   updateCurrentPage = 'updateCurrentPage',
+  updateMessages = 'updateMessages',
   updateNickname = 'updateNickname',
   updateUsers = 'updateUsers',
 }

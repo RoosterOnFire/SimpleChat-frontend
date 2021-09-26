@@ -1,22 +1,19 @@
 <script lang="ts">
 import { defineComponent, ref } from "vue";
-import { useStore } from "@/store/Store";
 import AppButton from "@/components/AppButton.vue";
 import { StoreAction } from "@/type/enums";
+import { mapActions } from "vuex";
 
 export default defineComponent({
   components: {
     AppButton,
   },
   setup() {
-    const store = useStore();
     const adminAccessKey = ref("");
 
     return {
       adminAccessKey,
-      async connect() {
-        store.dispatch(StoreAction.connectAdmin, adminAccessKey.value);
-      },
+      ...mapActions([StoreAction.connectAdmin]),
     };
   },
 });
@@ -31,7 +28,7 @@ export default defineComponent({
       required
       v-model="adminAccessKey"
     />
-    <AppButton title="Connect" @click="connect" />
+    <AppButton title="Connect" @click="connectAdmin(adminAccessKey)" />
   </form>
 </template>
 

@@ -1,15 +1,12 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useStore } from "@/store/Store";
-import { Users } from "@/type/state";
+import { defineComponent } from "vue";
+import { mapGetters } from "vuex";
+import { StoreGetter } from "@/type/enums";
 
 export default defineComponent({
   setup() {
-    const store = useStore();
-    const users = computed<Users>(() => store.state.users);
-
     return {
-      users,
+      ...mapGetters([StoreGetter.users]),
     };
   },
 });
@@ -18,7 +15,7 @@ export default defineComponent({
 <template>
   <div class="sidebar">
     <transition-group name="chat-list">
-      <p v-for="(user, index) in users" :key="index" class="chat-sidebar-row">
+      <p v-for="(user, index) in users()" :key="index" class="chat-sidebar-row">
         {{ user.username }}
       </p>
     </transition-group>

@@ -3,6 +3,7 @@ import { computed, defineComponent } from "vue";
 import AppButton from "@/components/AppButton.vue";
 import { useStore } from "@/store/Store";
 import { Roles, StoreAction } from "@/type/enums";
+import { mapActions } from "vuex";
 
 export default defineComponent({
   components: { AppButton },
@@ -12,9 +13,9 @@ export default defineComponent({
     return {
       userRole: computed(() => store.state.user.role),
       roleAdmin: Roles.ADMIN,
-      logout() {
-        store.dispatch(StoreAction.logOff);
-      },
+      ...mapActions({
+        logout: StoreAction.logOff,
+      }),
     };
   },
 });
@@ -35,7 +36,7 @@ export default defineComponent({
       </router-link>
     </div>
     <div class="sidebar-bottom">
-      <button type="button" class="dashboard-sidebar-row" @click="logout">
+      <button type="button" class="dashboard-sidebar-row" @click="logout()">
         {{ "Logout" }}
       </button>
     </div>

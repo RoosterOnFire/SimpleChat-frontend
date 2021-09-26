@@ -1,21 +1,15 @@
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useStore } from "@/store/Store";
-import { User, Users } from "@/type/state";
+import { defineComponent } from "vue";
 import AppButton from "@/components/AppButton.vue";
-import { StoreAction } from "@/type/enums";
+import { StoreAction, StoreGetter } from "@/type/enums";
+import { mapActions, mapGetters } from "vuex";
 
 export default defineComponent({
   components: { AppButton },
   setup() {
-    const store = useStore();
-
     return {
-      currectUser: computed<User>(() => store.state.user),
-      users: computed<Users>(() => store.state.users),
-      kickUser(userId: string) {
-        store.dispatch(StoreAction.kickUser, userId);
-      },
+      ...mapGetters([StoreGetter.isCurrentUser, StoreGetter.users]),
+      ...mapActions([StoreAction.kickUser]),
     };
   },
 });
@@ -35,7 +29,7 @@ export default defineComponent({
         </tr>
       </thead>
       <tbody class="table-body">
-        <template v-for="user of users" :key="user.userId" :user="user">
+        <template v-for="user of users()" :key="user.userId" :user="user">
           <tr>
             <td class="row-base">
               <p>{{ user.username }}</p>
@@ -46,7 +40,7 @@ export default defineComponent({
             <td class="row-base row-role">{{ user.role }}</td>
             <td class="row-base text-right text-sm font-medium">
               <AppButton
-                v-if="user.userId !== currectUser.userId"
+                v-if="!isCurrentUser()"
                 title="Kick"
                 @click="kickUser(user.userId)"
               />

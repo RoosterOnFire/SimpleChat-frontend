@@ -7,20 +7,10 @@ import {
 import { InjectionKey } from 'vue';
 import { Message, State, Users, User } from '@/type/state';
 import {
-  clearSessionId,
-  restoreSessionId,
-  storeSessionId,
-} from '@/helpers/SessionStorage';
-import {
-  ChatSocket,
-  createMessage,
-  createNotification,
-  kickUser,
-  logoffUser,
-  sendChatJoin,
-  sendMessage,
-} from '@/helpers/Helpers';
-import ChatSocketPlugin from '@/store/ChatSocketPlugin';
+  createUserMessage,
+  createAppNotification,
+} from '@/helpers/createMessages';
+import { ChatSocket, createChatSocketPlugin } from '@/store/ChatSocketPlugin';
 import Router from '@/router/Router';
 import {
   Errors,
@@ -30,6 +20,7 @@ import {
   StoreCommit,
   StoreAction,
 } from '@/type/enums';
+import { createSessionStoragePlugin } from './SessionStoragePlugin';
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
@@ -52,6 +43,15 @@ export const store = createStore<State>({
     },
   },
   getters: {
+    [StoreGetter.users](state) {
+      return state.users;
+    },
+    [StoreGetter.isUsernameAvailable](state) {
+      return state.errors.nicknameInUse;
+    },
+    [StoreGetter.isCurrentUser]: (state) => (payload: string) => {
+      return state.user.userId === payload;
+    },
     [StoreGetter.hasAccess](state) {
       return !!state.user.sessionId || !!state.user.userId;
     },
@@ -60,7 +60,10 @@ export const store = createStore<State>({
     },
   },
   mutations: {
-    [StoreCommit.addMessage](state, payload: Message) {
+    [StoreCommit.addMessage](state, payload: string) {
+      state.messages.push(createUserMessage(state.user, payload));
+    },
+    [StoreCommit.updateMessages](state, payload: Message) {
       state.messages.push(payload);
     },
     [StoreCommit.addError](state, payload: Errors) {
@@ -68,9 +71,6 @@ export const store = createStore<State>({
 
       switch (payload) {
         case Errors.ERROR_MISSING_NICKNAME:
-          clearSessionId();
-
-          Router.push({ name: RouteNames.HOME });
           break;
         case Errors.ERROR_NICKNAME_IN_USE:
           state.errors.nicknameInUse = true;
@@ -81,8 +81,6 @@ export const store = createStore<State>({
     },
     [StoreCommit.createSession](state, payload: User) {
       state.user = { ...payload };
-
-      storeSessionId(state.user);
 
       Router.push({ name: RouteNames.DASHBOARD });
     },
@@ -96,8 +94,6 @@ export const store = createStore<State>({
       state.meta.currentPage = payload;
     },
     [StoreCommit.deleteSession](state) {
-      clearSessionId();
-
       state.user = {
         userId: '',
         sessionId: '',
@@ -108,10 +104,12 @@ export const store = createStore<State>({
       Router.push({ name: RouteNames.HOME });
     },
     [StoreCommit.messageChatJoin](state, payload: User) {
-      state.messages.push(createNotification(`"${payload.username}" joined`));
+      state.messages.push(
+        createAppNotification(`"${payload.username}" joined`)
+      );
     },
     [StoreCommit.messageChatLeave](state, payload: User) {
-      state.messages.push(createNotification(`"${payload.username}" left`));
+      state.messages.push(createAppNotification(`"${payload.username}" left`));
     },
   },
   actions: {
@@ -127,33 +125,22 @@ export const store = createStore<State>({
       };
       ChatSocket.connect();
     },
-    [StoreAction.restoreSession]() {
-      const sessionId = restoreSessionId();
-
+    [StoreAction.restoreSession]({ state }) {
+      const sessionId = state.user.sessionId;
       if (sessionId) {
         ChatSocket.auth = { sessionId };
         ChatSocket.connect();
       }
     },
-    [StoreAction.joinChat]({ state }) {
-      sendChatJoin(state.user);
-    },
-    [StoreAction.addMessage]({ state, commit }, payload: string) {
-      const newMessage = createMessage(state.user, payload);
-      commit(StoreCommit.addMessage, newMessage);
-      sendMessage(newMessage);
-    },
-    [StoreAction.updateNickname]({ state }) {
-      sendChatJoin(state.user);
-    },
-    [StoreAction.kickUser](_, payload: string) {
-      kickUser(payload);
-    },
-    [StoreAction.logOff]() {
-      logoffUser();
-    },
+    [StoreAction.joinChat]() {},
+    [StoreAction.kickUser]() {},
+    [StoreAction.logOff]() {},
   },
-  plugins: [createLogger(), ChatSocketPlugin(ChatSocket)],
+  plugins: [
+    createLogger(),
+    createChatSocketPlugin(),
+    createSessionStoragePlugin(),
+  ],
 });
 
 export function useStore() {
