@@ -1,8 +1,8 @@
 export enum RouteNames {
-  HOME = 'Home',
   DASHBOARD = 'Dashboard',
-  DASHBOARD_CHAT = 'Dashboard/Chat',
   DASHBOARD_ADMIN = 'Dashboard/Admin',
+  DASHBOARD_CHAT = 'Dashboard/Chat',
+  HOME = 'Home',
 }
 
 export enum SessionStorageKeys {
@@ -10,11 +10,11 @@ export enum SessionStorageKeys {
 }
 
 export enum StoreGetter {
-  users = 'users',
-  isCurrentUser = 'isCurrentUser',
   hasAccess = 'hasAccess',
   hasNickname = 'hasNickname',
+  isCurrentUser = 'isCurrentUser',
   isUsernameAvailable = 'isUsernameAvailable',
+  users = 'users',
 }
 
 export enum StoreCommit {
@@ -26,14 +26,14 @@ export enum StoreCommit {
   messageChatLeave = 'messageChatLeave',
   updateCurrentPage = 'updateCurrentPage',
   updateMessages = 'updateMessages',
-  updateNickname = 'updateNickname',
+  updatePassword = 'updatePassword',
+  updateUsername = 'updateUsername',
   updateUsers = 'updateUsers',
 }
 
 export enum StoreAction {
   addMessage = 'addMessage',
   connect = 'connect',
-  connectAdmin = 'connectAdmin',
   joinChat = 'joinChat',
   kickUser = 'kickUser',
   logOff = 'logOff',
@@ -58,6 +58,8 @@ export enum Roles {
 }
 
 export enum Errors {
-  ERROR_MISSING_NICKNAME = 'ERROR_MISSING_NICKNAME',
+  ERROR_INVALID_SING_IN = 'ERROR_INVALID_SING_IN',
+  ERROR_MISSING_PASSWORD = 'ERROR_MISSING_PASSWORD',
+  ERROR_MISSING_USERNAME = 'ERROR_MISSING_USERNAME',
   ERROR_NICKNAME_IN_USE = 'ERROR_NICKNAME_IN_USE',
 }

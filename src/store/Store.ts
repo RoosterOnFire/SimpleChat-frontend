@@ -31,6 +31,7 @@ export const store = createStore<State>({
       sessionId: '',
       username: '',
       role: Roles.USER,
+      password: '',
     },
     meta: {
       currentPage: '',
@@ -67,10 +68,9 @@ export const store = createStore<State>({
       state.messages.push(payload);
     },
     [StoreCommit.addError](state, payload: Errors) {
-      console.error(`socket error: ${payload}`);
-
       switch (payload) {
-        case Errors.ERROR_MISSING_NICKNAME:
+        case Errors.ERROR_MISSING_USERNAME:
+        case Errors.ERROR_MISSING_PASSWORD:
           break;
         case Errors.ERROR_NICKNAME_IN_USE:
           state.errors.nicknameInUse = true;
@@ -80,11 +80,11 @@ export const store = createStore<State>({
       }
     },
     [StoreCommit.createSession](state, payload: User) {
-      state.user = { ...payload };
+      state.user = { ...state.user, ...payload };
 
       Router.push({ name: RouteNames.DASHBOARD });
     },
-    [StoreCommit.updateNickname](state, payload: string) {
+    [StoreCommit.updateUsername](state, payload: string) {
       state.user.username = payload;
     },
     [StoreCommit.updateUsers](state, payload: Users) {
@@ -99,6 +99,7 @@ export const store = createStore<State>({
         sessionId: '',
         username: '',
         role: Roles.USER,
+        password: '',
       };
 
       Router.push({ name: RouteNames.HOME });
@@ -111,19 +112,19 @@ export const store = createStore<State>({
     [StoreCommit.messageChatLeave](state, payload: User) {
       state.messages.push(createAppNotification(`"${payload.username}" left`));
     },
+    [StoreCommit.updatePassword](state, payload: string) {
+      state.user.password = payload;
+    },
   },
   actions: {
     [StoreAction.connect]({ state }) {
-      ChatSocket.auth = {
-        nickname: state.user.username,
-      };
-      ChatSocket.connect();
-    },
-    [StoreAction.connectAdmin](_, payload: string) {
-      ChatSocket.auth = {
-        adminAccessKey: payload,
-      };
-      ChatSocket.connect();
+      if (!!state.user.username && !!state.user.password) {
+        ChatSocket.auth = {
+          username: state.user.username,
+          password: state.user.password,
+        };
+        ChatSocket.connect();
+      }
     },
     [StoreAction.restoreSession]({ state }) {
       const sessionId = state.user.sessionId;
@@ -134,7 +135,17 @@ export const store = createStore<State>({
     },
     [StoreAction.joinChat]() {},
     [StoreAction.kickUser]() {},
-    [StoreAction.logOff]() {},
+    [StoreAction.logOff]({ state }) {
+      state.user = {
+        password: '',
+        role: Roles.USER,
+        sessionId: '',
+        userId: '',
+        username: '',
+      };
+
+      Router.push({ name: RouteNames.HOME });
+    },
   },
   plugins: [
     createLogger(),

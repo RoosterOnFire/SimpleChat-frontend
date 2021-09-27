@@ -15,7 +15,11 @@ export default defineComponent({
     return {
       username: computed({
         get: () => store.state.user.username,
-        set: (username) => store.commit(StoreCommit.updateNickname, username),
+        set: (username) => store.commit(StoreCommit.updateUsername, username),
+      }),
+      password: computed({
+        get: () => store.state.user.password,
+        set: (password) => store.commit(StoreCommit.updatePassword, password),
       }),
       ...mapGetters([StoreGetter.isUsernameAvailable]),
       ...mapActions([StoreAction.connect]),
@@ -34,12 +38,19 @@ export default defineComponent({
       required
       v-model="username"
     />
-    <AppButton title="Join" @click="connect()" />
+    <input
+      type="password"
+      class="input"
+      placeholder="Password"
+      required
+      v-model="password"
+    />
+    <AppButton title="Sign in" @click="connect()" />
   </form>
 </template>
 
 <style lang="postcss">
 .login-form {
-  @apply w-2/3 lg:w-1/2 space-y-4 flex flex-col;
+  @apply w-1/3 space-y-4 flex flex-col;
 }
 </style>

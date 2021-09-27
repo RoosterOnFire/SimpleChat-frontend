@@ -15,6 +15,7 @@ export type User = {
   sessionId: string;
   username: string;
   role: Roles;
+  password: string;
 };
 
 export type Users = User[];

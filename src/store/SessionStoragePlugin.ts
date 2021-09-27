@@ -29,6 +29,7 @@ export const createSessionStoragePlugin = () => (store: Store<State>) => {
     },
     after: (action, state) => {
       switch (action.type) {
+        case StoreAction.logOff:
         case StoreCommit.deleteSession:
           sessionStorage.removeItem(SessionStorageKeys.SESSION);
         default:
