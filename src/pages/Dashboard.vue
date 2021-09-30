@@ -33,14 +33,14 @@ export default defineComponent({
       v-if="userRole === roleAdmin"
       to="/dashboard/admin"
       class="navbar-link"
-      :class="{ 'bg-gray-900': isCurrentRoute('/dashboard/admin') }"
+      :class="{ 'bg-primary-900': isCurrentRoute('/dashboard/admin') }"
     >
       {{ "Admin" }}
     </router-link>
     <router-link
       to="/dashboard/chat"
       class="navbar-link"
-      :class="{ 'bg-gray-900': isCurrentRoute('/dashboard/chat') }"
+      :class="{ 'bg-primary-900': isCurrentRoute('/dashboard/chat') }"
     >
       {{ "Chat" }}
     </router-link>
@@ -54,9 +54,13 @@ export default defineComponent({
 </template>
 
 <style lang="postcss">
+.navbar {
+  @apply p-4 flex gap-2 bg-primary-800;
+}
+
 .navbar-link {
   @apply py-2 px-4;
   @apply font-medium text-white text-center;
-  @apply rounded-md hover:bg-gray-600 focus:outline-none;
+  @apply rounded-md hover:bg-primary-600 focus:outline-none;
 }
 </style>

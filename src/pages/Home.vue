@@ -19,6 +19,6 @@ export default defineComponent({
 }
 
 .home-header {
-  @apply text-5xl font-bold text-indigo-600;
+  @apply text-5xl font-bold text-primary-800;
 }
 </style>

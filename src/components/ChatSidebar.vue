@@ -24,7 +24,7 @@ export default defineComponent({
 
 <style lang="postcss">
 .chat-sidebar-row {
-  @apply bg-indigo-800 border border-transparent rounded-md;
+  @apply bg-primary-800 border border-transparent rounded-md;
   @apply text-white text-center;
 }
 

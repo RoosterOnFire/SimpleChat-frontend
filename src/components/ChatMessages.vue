@@ -26,7 +26,7 @@ export default defineComponent({
       v-for="(message, index) of messages"
       :key="index"
       class="message-row"
-      :class="{ 'text-indigo-600': message.user === 'App' }"
+      :class="{ 'text-primary-600': message.user === 'App' }"
     >
       {{ message.user }}: {{ message.value }}
     </p>

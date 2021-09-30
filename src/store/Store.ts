@@ -101,8 +101,6 @@ export const store = createStore<State>({
         role: Roles.USER,
         password: '',
       };
-
-      Router.push({ name: RouteNames.HOME });
     },
     [StoreCommit.messageChatJoin](state, payload: User) {
       state.messages.push(
