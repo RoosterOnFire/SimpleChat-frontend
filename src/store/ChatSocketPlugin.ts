@@ -15,8 +15,8 @@ export function createChatSocketPlugin() {
       }
     });
 
-    ChatSocket.on(ChatSocketMessages.SESSION_CREATED, (payload: User) => {
-      store.commit(StoreCommit.createSession, payload);
+    ChatSocket.on(ChatSocketMessages.CONNECT_VALID, (payload: User) => {
+      store.dispatch(StoreAction.createSession, payload);
     });
 
     ChatSocket.on(ChatSocketMessages.SESSION_CLOSED, () => {

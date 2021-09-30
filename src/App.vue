@@ -7,7 +7,8 @@ export default defineComponent({
   setup() {
     const store = useStore();
 
-    store.dispatch(StoreAction.restoreSession);
+    store.dispatch(StoreAction.signIn);
+
     return {
       isHome: RouteNames.HOME,
     };
@@ -50,6 +51,11 @@ export default defineComponent({
     @apply bg-primary-800 hover:bg-primary-700;
     @apply border border-transparent rounded-md focus:ring-2 focus:ring-offset-2 focus:ring-primary-800;
     @apply focus:outline-none;
+  }
+
+  .chat-form {
+    @apply p-4 flex justify-around gap-4;
+    @apply border-t-2 border-primary-600;
   }
 }
 </style>

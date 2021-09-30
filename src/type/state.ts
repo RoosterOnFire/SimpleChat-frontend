@@ -12,11 +12,11 @@ export type State = {
 };
 
 export type User = {
-  userId: string;
-  sessionId: string;
-  username: string;
   role: Roles;
-  password: string;
+  sessionId: string;
+  userId: string;
+  username: string;
+  password?: string;
 };
 
 export type Users = User[];

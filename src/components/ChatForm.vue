@@ -34,10 +34,3 @@ export default defineComponent({
     <AppButton title="Send" @click="sendMessage" />
   </form>
 </template>
-
-<style lang="postcss">
-.chat-form {
-  @apply p-4 flex justify-around gap-4;
-  @apply border-t-2 border-primary-600;
-}
-</style>

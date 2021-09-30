@@ -29,17 +29,18 @@ export enum StoreCommit {
   updateCurrentPage = 'updateCurrentPage',
   updateMessages = 'updateMessages',
   updatePassword = 'updatePassword',
+  updateSession = 'updateSession',
   updateUsername = 'updateUsername',
   updateUsers = 'updateUsers',
 }
 
 export enum StoreAction {
   addMessage = 'addMessage',
-  connect = 'connect',
+  createSession = 'createSession',
   joinChat = 'joinChat',
   kickUser = 'kickUser',
   logOff = 'logOff',
-  restoreSession = 'restoreSession',
+  signIn = 'signIn',
   updateNickname = 'updateNickname',
 }
 
@@ -47,8 +48,10 @@ export enum ChatSocketMessages {
   CHAT_JOIN = 'chat:join',
   CHAT_MESSAGE = 'chat:message',
   CONNECT_ERROR = 'connect_error',
+  CONNECT_VALID = 'connect:valid',
   SESSION_CLOSED = 'session:closed',
   SESSION_CREATED = 'session:created',
+  SESSION_RESTORE = 'session:restore',
   USER_KICK = 'user:kick',
   USER_LOGOFF = 'user:logoff',
   USERS_UPDATE = 'users:update',

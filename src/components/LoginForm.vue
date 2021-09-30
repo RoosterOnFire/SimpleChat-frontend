@@ -23,7 +23,7 @@ export default defineComponent({
       }),
       ...mapGetters([StoreGetter.isValidSignIn]),
       ...mapMutations([StoreCommit.resetIsValidSignIn]),
-      ...mapActions([StoreAction.connect]),
+      ...mapActions([StoreAction.signIn]),
     };
   },
 });
@@ -47,7 +47,7 @@ export default defineComponent({
       required
       v-model="password"
     />
-    <AppButton title="Sign in" @click="connect()" />
+    <AppButton title="Sign in" @click="signIn()" />
   </form>
 </template>
 

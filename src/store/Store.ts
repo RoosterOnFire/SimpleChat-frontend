@@ -82,11 +82,6 @@ export const store = createStore<State>({
           break;
       }
     },
-    [StoreCommit.createSession](state, payload: User) {
-      state.user = { ...state.user, ...payload };
-
-      Router.push({ name: RouteNames.DASHBOARD });
-    },
     [StoreCommit.updateUsername](state, payload: string) {
       state.user.username = payload;
     },
@@ -95,15 +90,6 @@ export const store = createStore<State>({
     },
     [StoreCommit.updateCurrentPage](state, payload: string) {
       state.meta.currentPage = payload;
-    },
-    [StoreCommit.deleteSession](state) {
-      state.user = {
-        userId: '',
-        sessionId: '',
-        username: '',
-        role: Roles.USER,
-        password: '',
-      };
     },
     [StoreCommit.messageChatJoin](state, payload: User) {
       state.messages.push(
@@ -119,9 +105,21 @@ export const store = createStore<State>({
     [StoreCommit.resetIsValidSignIn](state) {
       state.errors.invalidSignIn = false;
     },
+    [StoreCommit.deleteSession](state) {
+      state.user = {
+        userId: '',
+        sessionId: '',
+        username: '',
+        role: Roles.USER,
+        password: '',
+      };
+    },
+    [StoreCommit.updateSession](state, payload: User) {
+      state.user = { ...state.user, ...payload };
+    },
   },
   actions: {
-    [StoreAction.connect]({ state }) {
+    [StoreAction.signIn]({ state }) {
       if (!!state.user.username && !!state.user.password) {
         ChatSocket.auth = {
           username: state.user.username,
@@ -130,15 +128,11 @@ export const store = createStore<State>({
         ChatSocket.connect();
       }
     },
-    [StoreAction.restoreSession]({ state }) {
-      const sessionId = state.user.sessionId;
-      if (sessionId) {
-        ChatSocket.auth = { sessionId };
-        ChatSocket.connect();
-      }
+    [StoreAction.createSession]({ state }, payload: User) {
+      state.user = { ...state.user, ...payload };
+
+      Router.push({ name: RouteNames.DASHBOARD });
     },
-    [StoreAction.joinChat]() {},
-    [StoreAction.kickUser]() {},
     [StoreAction.logOff]({ state }) {
       state.user = {
         password: '',
@@ -150,6 +144,8 @@ export const store = createStore<State>({
 
       Router.push({ name: RouteNames.HOME });
     },
+    [StoreAction.joinChat]() {},
+    [StoreAction.kickUser]() {},
   },
   plugins: [
     createLogger(),
