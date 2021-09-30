@@ -3,7 +3,7 @@ import { computed, defineComponent } from "vue";
 import { useStore } from "@/store/Store";
 import AppButton from "@/components/AppButton.vue";
 import { StoreAction, StoreCommit, StoreGetter } from "@/type/enums";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default defineComponent({
   components: {
@@ -21,7 +21,8 @@ export default defineComponent({
         get: () => store.state.user.password,
         set: (password) => store.commit(StoreCommit.updatePassword, password),
       }),
-      ...mapGetters([StoreGetter.isUsernameAvailable]),
+      ...mapGetters([StoreGetter.isValidSignIn]),
+      ...mapMutations([StoreCommit.resetIsValidSignIn]),
       ...mapActions([StoreAction.connect]),
     };
   },
@@ -29,11 +30,11 @@ export default defineComponent({
 </script>
 
 <template>
-  <form class="login-form" @submit.prevent>
+  <form class="login-form" @submit.prevent @click="resetIsValidSignIn()">
     <input
       type="text"
       class="input"
-      :class="{ 'border-red-600': isUsernameAvailable() }"
+      :class="{ 'input--invalid': isValidSignIn() }"
       placeholder="Username"
       required
       v-model="username"
@@ -41,6 +42,7 @@ export default defineComponent({
     <input
       type="password"
       class="input"
+      :class="{ 'input--invalid': isValidSignIn() }"
       placeholder="Password"
       required
       v-model="password"
@@ -52,5 +54,9 @@ export default defineComponent({
 <style lang="postcss">
 .login-form {
   @apply w-1/3 space-y-4 flex flex-col;
+}
+
+.input--invalid {
+  @apply border-red-600;
 }
 </style>

@@ -14,6 +14,7 @@ export enum StoreGetter {
   hasNickname = 'hasNickname',
   isCurrentUser = 'isCurrentUser',
   isUsernameAvailable = 'isUsernameAvailable',
+  isValidSignIn = 'isValidSignIn',
   users = 'users',
 }
 
@@ -24,6 +25,7 @@ export enum StoreCommit {
   deleteSession = 'deleteSession',
   messageChatJoin = 'messageChatJoin',
   messageChatLeave = 'messageChatLeave',
+  resetIsValidSignIn = 'resetIsValidSignIn',
   updateCurrentPage = 'updateCurrentPage',
   updateMessages = 'updateMessages',
   updatePassword = 'updatePassword',

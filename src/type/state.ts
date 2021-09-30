@@ -6,6 +6,7 @@ export type State = {
   users: User[];
   messages: Message[];
   errors: {
+    invalidSignIn: boolean;
     nicknameInUse: boolean;
   };
 };

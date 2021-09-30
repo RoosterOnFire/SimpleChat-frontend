@@ -41,14 +41,15 @@ export const store = createStore<State>({
     messages: [],
     errors: {
       nicknameInUse: false,
+      invalidSignIn: false,
     },
   },
   getters: {
     [StoreGetter.users](state) {
       return state.users;
     },
-    [StoreGetter.isUsernameAvailable](state) {
-      return state.errors.nicknameInUse;
+    [StoreGetter.isValidSignIn](state) {
+      return state.errors.invalidSignIn;
     },
     [StoreGetter.isCurrentUser]: (state) => (payload: string) => {
       return state.user.userId === payload;
@@ -69,8 +70,10 @@ export const store = createStore<State>({
     },
     [StoreCommit.addError](state, payload: Errors) {
       switch (payload) {
-        case Errors.ERROR_MISSING_USERNAME:
+        case Errors.ERROR_INVALID_SING_IN:
         case Errors.ERROR_MISSING_PASSWORD:
+        case Errors.ERROR_MISSING_USERNAME:
+          state.errors.invalidSignIn = true;
           break;
         case Errors.ERROR_NICKNAME_IN_USE:
           state.errors.nicknameInUse = true;
@@ -112,6 +115,9 @@ export const store = createStore<State>({
     },
     [StoreCommit.updatePassword](state, payload: string) {
       state.user.password = payload;
+    },
+    [StoreCommit.resetIsValidSignIn](state) {
+      state.errors.invalidSignIn = false;
     },
   },
   actions: {
