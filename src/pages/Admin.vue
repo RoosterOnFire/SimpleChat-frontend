@@ -8,16 +8,8 @@ export default defineComponent({
 });
 </script>
 
-
 <template>
-  <div class="admin">
+  <div class="p-4">
     <AdminUsersTable />
   </div>
 </template>
-
-
-<style lang="postcss">
-.admin {
-  @apply p-4;
-}
-</style>

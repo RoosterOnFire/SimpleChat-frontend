@@ -18,44 +18,18 @@ export default defineComponent({
 
 <template>
   <router-view v-slot="{ Component, route }">
-    <div :class="[route.name === isHome ? 'home' : 'page']">
+    <div class="container" :class="[route.name === isHome ? 'home' : 'page']">
       <component :is="Component" :key="route.path" />
     </div>
   </router-view>
 </template>
 
-<style lang="postcss" >
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+<style lang="postcss">
+.home {
+  @apply flex flex-col items-center justify-center space-y-8;
+}
 
-@layer components {
-  .page {
-    @apply container max-h-full flex flex-col;
-  }
-
-  .main {
-    @apply flex-1 flex flex-col items-stretch overflow-hidden;
-  }
-
-  .input {
-    @apply block w-full mx-auto px-3 py-2;
-    @apply sm:text-sm text-primary-900 placeholder-primary-800;
-    @apply rounded-md border-2 border-primary-300 focus:ring-primary-800 focus:border-primary-800 focus:z-10;
-    @apply appearance-none focus:outline-none;
-  }
-
-  .button {
-    @apply py-2 px-4;
-    @apply font-medium text-white;
-    @apply bg-primary-800 hover:bg-primary-700;
-    @apply border border-transparent rounded-md focus:ring-2 focus:ring-offset-2 focus:ring-primary-800;
-    @apply focus:outline-none;
-  }
-
-  .chat-form {
-    @apply p-4 flex justify-around gap-4;
-    @apply border-t-2 border-primary-600;
-  }
+.page {
+  @apply max-h-full flex flex-col;
 }
 </style>

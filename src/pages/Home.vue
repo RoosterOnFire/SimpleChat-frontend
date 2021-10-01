@@ -14,10 +14,6 @@ export default defineComponent({
 </template>
 
 <style lang="postcss">
-.home {
-  @apply container flex flex-col items-center justify-center space-y-8;
-}
-
 .home-header {
   @apply text-5xl font-bold text-primary-800;
 }

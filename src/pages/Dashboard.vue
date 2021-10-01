@@ -63,4 +63,8 @@ export default defineComponent({
   @apply font-medium text-white text-center;
   @apply rounded-md hover:bg-primary-600 focus:outline-none;
 }
+
+.main {
+  @apply flex-1 flex flex-col items-stretch overflow-hidden;
+}
 </style>

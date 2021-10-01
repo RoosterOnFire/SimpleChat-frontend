@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .input {
+    @apply block w-full mx-auto px-3 py-2;
+    @apply sm:text-sm text-primary-900 placeholder-primary-800;
+    @apply rounded-md border-2 border-primary-300 focus:ring-primary-800 focus:border-primary-800 focus:z-10;
+    @apply appearance-none focus:outline-none;
+  }
+}
