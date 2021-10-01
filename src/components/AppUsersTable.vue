@@ -54,15 +54,15 @@ export default defineComponent({
 
 <style lang="postcss">
 .table-container {
-  @apply flex flex-col shadow overflow-hidden border-b border-primary-800 sm:rounded-lg;
+  @apply flex flex-col border-b border-primary sm:rounded-lg shadow overflow-hidden;
 }
 
 .table {
-  @apply min-w-full divide-y divide-primary-600;
+  @apply min-w-full divide-y divide-primary;
 }
 
 .table-headers {
-  @apply bg-primary-800;
+  @apply bg-primary;
 }
 
 .table-header {
@@ -70,7 +70,7 @@ export default defineComponent({
 }
 
 .table-body {
-  @apply bg-white divide-y divide-primary-800;
+  @apply bg-white divide-y divide-primary;
 }
 
 .user-cell {
@@ -82,10 +82,10 @@ export default defineComponent({
 }
 
 .row-status-active {
-  @apply px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary-800 text-white;
+  @apply px-2 inline-flex rounded-full bg-primary text-white text-xs font-semibold leading-5;
 }
 
 .row-role {
-  @apply text-sm text-primary-800;
+  @apply text-sm text-primary font-medium;
 }
 </style>

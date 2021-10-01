@@ -10,7 +10,16 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary: colors.gray,
+        primary: {
+          lighter: colors.emerald[500],
+          light: colors.emerald[600],
+          DEFAULT: colors.emerald[700],
+          dark: colors.emerald[800],
+          darker: colors.emerald[900],
+        },
+        error: {
+          DEFAULT: colors.red[600],
+        },
       },
     },
   },

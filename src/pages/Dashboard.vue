@@ -3,13 +3,13 @@ import { computed, defineComponent } from "vue";
 import { useRoute } from "vue-router";
 import { mapActions } from "vuex";
 import AppButton from "@/components/AppButton.vue";
-import { useStore } from "@/store/Store";
+import { useAppStore } from "@/store/Store";
 import { Roles, StoreAction } from "@/type/enums";
 
 export default defineComponent({
   components: { AppButton },
   setup() {
-    const store = useStore();
+    const store = useAppStore();
     const route = useRoute();
 
     return {
@@ -33,14 +33,14 @@ export default defineComponent({
       v-if="userRole === roleAdmin"
       to="/dashboard/admin"
       class="navbar-link"
-      :class="{ 'bg-primary-900': isCurrentRoute('/dashboard/admin') }"
+      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/admin') }"
     >
       {{ "Admin" }}
     </router-link>
     <router-link
       to="/dashboard/chat"
       class="navbar-link"
-      :class="{ 'bg-primary-900': isCurrentRoute('/dashboard/chat') }"
+      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/chat') }"
     >
       {{ "Chat" }}
     </router-link>
@@ -55,13 +55,13 @@ export default defineComponent({
 
 <style lang="postcss">
 .navbar {
-  @apply p-4 flex gap-2 bg-primary-800;
+  @apply p-4 flex gap-2 bg-primary;
 }
 
 .navbar-link {
   @apply py-2 px-4;
   @apply font-medium text-white text-center;
-  @apply rounded-md hover:bg-primary-600 focus:outline-none;
+  @apply rounded-md hover:bg-primary-light focus:outline-none;
 }
 
 .main {

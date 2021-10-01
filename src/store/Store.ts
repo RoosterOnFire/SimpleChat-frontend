@@ -154,6 +154,6 @@ export const store = createStore<State>({
   ],
 });
 
-export function useStore() {
+export function useAppStore() {
   return baseUseStore(key);
 }

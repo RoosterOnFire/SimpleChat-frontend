@@ -1,11 +1,11 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { useStore } from "@/store/Store";
+import { useAppStore } from "@/store/Store";
 import { StoreAction, RouteNames } from "@/type/enums";
 
 export default defineComponent({
   setup() {
-    const store = useStore();
+    const store = useAppStore();
 
     store.dispatch(StoreAction.signIn);
 

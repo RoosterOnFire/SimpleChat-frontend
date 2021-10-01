@@ -1,5 +1,5 @@
 <script lang="ts">
-import { useStore } from "@/store/Store";
+import { useAppStore } from "@/store/Store";
 import { defineComponent, ref } from "vue";
 import AppButton from "@/components/AppButton.vue";
 import { StoreAction, StoreCommit } from "@/type/enums";
@@ -9,7 +9,7 @@ export default defineComponent({
     AppButton,
   },
   setup() {
-    const store = useStore();
+    const store = useAppStore();
     const newMessage = ref("");
 
     return {
@@ -37,6 +37,6 @@ export default defineComponent({
 
 <style lang="postcss">
 .chat-form {
-  @apply p-4 flex justify-around gap-4 border-t-2 border-primary-600;
+  @apply p-4 flex justify-around gap-4 border-t-2 border-primary;
 }
 </style>
