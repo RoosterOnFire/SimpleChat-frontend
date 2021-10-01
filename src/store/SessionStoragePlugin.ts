@@ -15,6 +15,10 @@ export const createSessionStoragePlugin = () => (store: Store<State>) => {
   store.subscribeAction({
     before: (action, state) => {
       switch (action.type) {
+        case StoreAction.signIn:
+          store.state.user.sessionId =
+            sessionStorage.getItem(SessionStorageKeys.SESSION) ?? '';
+          break;
         default:
           break;
       }

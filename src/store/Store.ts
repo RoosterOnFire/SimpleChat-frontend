@@ -120,8 +120,12 @@ export const store = createStore<State>({
   },
   actions: {
     [StoreAction.signIn]({ state }) {
-      if (!!state.user.username && !!state.user.password) {
+      if (
+        state.user.sessionId ||
+        (!!state.user.username && !!state.user.password)
+      ) {
         ChatSocket.auth = {
+          sessionId: state.user.sessionId,
           username: state.user.username,
           password: state.user.password,
         };
