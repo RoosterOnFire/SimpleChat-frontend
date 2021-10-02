@@ -12,14 +12,12 @@ export default defineComponent({
 </script>
 
 <template>
-  <button type="button" class="button">
-    {{ title }}
-  </button>
+  <button type="button" class="button">{{ title }}<slot /></button>
 </template>
 
 <style lang="postcss">
 .button {
-  @apply py-2 px-4;
+  @apply flex justify-center gap-2 align-middle py-2 px-4;
   @apply font-medium text-white;
   @apply bg-primary hover:bg-primary-light;
   @apply border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light;

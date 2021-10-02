@@ -37,6 +37,14 @@ export default defineComponent({
   @apply max-h-full flex flex-col;
 }
 
+.main {
+  @apply flex-1 flex flex-col items-stretch overflow-hidden;
+}
+
+.form {
+  @apply flex flex-col gap-y-2;
+}
+
 .input {
   @apply block w-full mx-auto px-3 py-2;
   @apply sm:text-sm;

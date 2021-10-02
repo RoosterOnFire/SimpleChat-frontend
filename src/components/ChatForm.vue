@@ -2,11 +2,13 @@
 import { useAppStore } from "@/store/Store";
 import { defineComponent, ref } from "vue";
 import AppButton from "@/components/AppButton.vue";
-import { StoreActions, StoreMutations } from "@/type/enums";
+import { StoreMutations } from "@/type/enums";
+import { MailIcon } from "@heroicons/vue/outline";
 
 export default defineComponent({
   components: {
     AppButton,
+    MailIcon,
   },
   setup() {
     const store = useAppStore();
@@ -31,7 +33,9 @@ export default defineComponent({
 <template>
   <form class="chat-form" @keypress.enter="sendMessage">
     <input type="text" class="input" v-model="newMessage" />
-    <AppButton title="Send" @click="sendMessage" />
+    <AppButton title="Send" @click="sendMessage">
+      <MailIcon class="w-6 h-6" />
+    </AppButton>
   </form>
 </template>
 

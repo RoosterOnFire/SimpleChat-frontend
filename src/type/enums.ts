@@ -2,6 +2,7 @@ export enum RouteNames {
   DASHBOARD = 'Dashboard',
   DASHBOARD_ADMIN = 'Dashboard/Admin',
   DASHBOARD_CHAT = 'Dashboard/Chat',
+  DASHBOARD_ROOMS = 'Dashboard/Rooms',
   HOME = 'Home',
 }
 

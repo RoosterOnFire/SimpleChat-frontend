@@ -4,10 +4,22 @@ import { useRoute } from "vue-router";
 import { mapActions } from "vuex";
 import AppButton from "@/components/AppButton.vue";
 import { useAppStore } from "@/store/Store";
-import { Roles, StoreActions } from "@/type/enums";
+import { Roles, RouteNames, StoreActions } from "@/type/enums";
+import {
+  LogoutIcon,
+  ChatIcon,
+  AdjustmentsIcon,
+  ChatAlt2Icon,
+} from "@heroicons/vue/solid";
 
 export default defineComponent({
-  components: { AppButton },
+  components: {
+    AppButton,
+    LogoutIcon,
+    ChatIcon,
+    AdjustmentsIcon,
+    ChatAlt2Icon,
+  },
   setup() {
     const store = useAppStore();
     const route = useRoute();
@@ -16,6 +28,7 @@ export default defineComponent({
       route,
       userRole: computed(() => store.state.user.role),
       roleAdmin: Roles.ADMIN,
+      routeChat: RouteNames.DASHBOARD_CHAT,
       isCurrentRoute(link: string) {
         return route.fullPath === link;
       },
@@ -36,6 +49,15 @@ export default defineComponent({
       :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/admin') }"
     >
       {{ "Admin" }}
+      <AdjustmentsIcon class="w-6 h-6" />
+    </router-link>
+    <router-link
+      to="/dashboard/rooms"
+      class="navbar-link"
+      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
+    >
+      {{ "Rooms" }}
+      <ChatAlt2Icon class="w-6 h-6" />
     </router-link>
     <router-link
       to="/dashboard/chat"
@@ -43,14 +65,14 @@ export default defineComponent({
       :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/chat') }"
     >
       {{ "Chat" }}
+      <ChatIcon class="w-6 h-6" />
     </router-link>
     <button type="button" class="navbar-link ml-auto" @click="logout()">
       {{ "Logout" }}
+      <LogoutIcon class="w-6 h-6" />
     </button>
   </div>
-  <div class="main">
-    <router-view />
-  </div>
+  <router-view />
 </template>
 
 <style lang="postcss">
@@ -59,12 +81,8 @@ export default defineComponent({
 }
 
 .navbar-link {
-  @apply py-2 px-4;
+  @apply inline-flex justify-center gap-2 py-2 px-4;
   @apply font-medium text-white text-center;
   @apply rounded-md hover:bg-primary-light focus:outline-none;
-}
-
-.main {
-  @apply flex-1 flex flex-col items-stretch overflow-hidden;
 }
 </style>

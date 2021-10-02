@@ -4,10 +4,12 @@ import { mapActions, mapGetters, mapMutations } from "vuex";
 import { StoreActions, StoreMutations, StoreGetters } from "@/type/enums";
 import AppButton from "@/components/AppButton.vue";
 import { useAppStore } from "@/store/Store";
+import { LoginIcon } from "@heroicons/vue/outline";
 
 export default defineComponent({
   components: {
     AppButton,
+    LoginIcon,
   },
   setup() {
     const store = useAppStore();
@@ -50,7 +52,9 @@ export default defineComponent({
       required
       v-model="password"
     />
-    <AppButton title="Sign in" @click="signIn()" />
+    <AppButton title="Sign in" @click="signIn()">
+      <LoginIcon class="h-6 w-6" />
+    </AppButton>
   </form>
 </template>
 

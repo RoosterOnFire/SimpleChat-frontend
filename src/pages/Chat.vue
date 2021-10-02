@@ -13,6 +13,8 @@ export default defineComponent({
 </script>
 
 <template>
-  <ChatMessages />
-  <ChatForm />
+  <div class="main">
+    <ChatMessages />
+    <ChatForm />
+  </div>
 </template>

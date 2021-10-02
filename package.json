@@ -5,10 +5,10 @@
   "scripts": {
     "build": "vue-tsc --noEmit && vite build",
     "dev": "vite",
-    "dev:back" :"cd ../simplechat-backend && yarn dev",
     "serve": "vite preview"
   },
   "dependencies": {
+    "@heroicons/vue": "^1.0.4",
     "socket.io-client": "^4.1.3",
     "vue": "^3.2.6",
     "vue-router": "4",

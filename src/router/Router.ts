@@ -15,16 +15,19 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/pages/Dashboard.vue'),
     children: [
       {
-        path: 'chat',
-        name: RouteNames.DASHBOARD_CHAT,
-        component: () => import('@/pages/Chat.vue'),
-        meta: { transition: 'slide-right' },
-      },
-      {
         path: 'admin',
         name: RouteNames.DASHBOARD_ADMIN,
         component: () => import('@/pages/Admin.vue'),
-        meta: { transition: 'slide-right' },
+      },
+      {
+        path: 'chat',
+        name: RouteNames.DASHBOARD_CHAT,
+        component: () => import('@/pages/Chat.vue'),
+      },
+      {
+        path: 'rooms',
+        name: RouteNames.DASHBOARD_ROOMS,
+        component: () => import('@/pages/Rooms.vue'),
       },
     ],
   },
