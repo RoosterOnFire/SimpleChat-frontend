@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import Home from '@/pages/Home.vue';
 import { store } from '@/store/Store';
-import { StoreCommit, RouteNames, Roles } from '@/type/enums';
+import { StoreMutations, RouteNames, Roles } from '@/type/enums';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -52,7 +52,7 @@ Router.beforeEach((to, from, next) => {
 });
 
 Router.afterEach((to, from, failure) => {
-  store.commit(StoreCommit.updateCurrentPage, to.name);
+  store.commit(StoreMutations.updateCurrentPage, to.name);
 });
 
 export default Router;

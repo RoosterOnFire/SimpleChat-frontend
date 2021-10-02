@@ -9,7 +9,7 @@ export enum SessionStorageKeys {
   SESSION = 'SIMPLECHATSESSIONID',
 }
 
-export enum StoreGetter {
+export enum StoreGetters {
   hasAccess = 'hasAccess',
   hasNickname = 'hasNickname',
   isCurrentUser = 'isCurrentUser',
@@ -18,8 +18,7 @@ export enum StoreGetter {
   users = 'users',
 }
 
-export enum StoreCommit {
-  addError = 'addError',
+export enum StoreMutations {
   addMessage = 'addMessage',
   createSession = 'createSession',
   deleteSession = 'deleteSession',
@@ -34,7 +33,7 @@ export enum StoreCommit {
   updateUsers = 'updateUsers',
 }
 
-export enum StoreAction {
+export enum StoreActions {
   addMessage = 'addMessage',
   createSession = 'createSession',
   joinChat = 'joinChat',
@@ -42,6 +41,7 @@ export enum StoreAction {
   logOff = 'logOff',
   signIn = 'signIn',
   updateNickname = 'updateNickname',
+  addError = 'addError',
 }
 
 export enum ChatSocketMessages {

@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import AppButton from "@/components/AppButton.vue";
-import { StoreAction, StoreGetter } from "@/type/enums";
+import { StoreActions, StoreGetter } from "@/type/enums";
 import { mapActions, mapGetters } from "vuex";
 
 export default defineComponent({
@@ -9,7 +9,7 @@ export default defineComponent({
   setup() {
     return {
       ...mapGetters([StoreGetter.isCurrentUser, StoreGetter.users]),
-      ...mapActions([StoreAction.kickUser]),
+      ...mapActions([StoreActions.kickUser]),
     };
   },
 });

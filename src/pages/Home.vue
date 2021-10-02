@@ -1,7 +1,7 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
-import { StoreAction, StoreCommit, StoreGetter } from "@/type/enums";
+import { StoreActions, StoreMutatations, StoreGetter } from "@/type/enums";
 import AppButton from "@/components/AppButton.vue";
 import { useAppStore } from "@/store/Store";
 
@@ -15,15 +15,17 @@ export default defineComponent({
     return {
       username: computed({
         get: () => store.state.user.username,
-        set: (username) => store.commit(StoreCommit.updateUsername, username),
+        set: (username) =>
+          store.commit(StoreMutatations.updateUsername, username),
       }),
       password: computed({
         get: () => store.state.user.password,
-        set: (password) => store.commit(StoreCommit.updatePassword, password),
+        set: (password) =>
+          store.commit(StoreMutatations.updatePassword, password),
       }),
       ...mapGetters([StoreGetter.isValidSignIn]),
-      ...mapMutations([StoreCommit.resetIsValidSignIn]),
-      ...mapActions([StoreAction.signIn]),
+      ...mapMutations([StoreMutatations.resetIsValidSignIn]),
+      ...mapActions([StoreActions.signIn]),
     };
   },
 });

@@ -4,7 +4,7 @@ import { useRoute } from "vue-router";
 import { mapActions } from "vuex";
 import AppButton from "@/components/AppButton.vue";
 import { useAppStore } from "@/store/Store";
-import { Roles, StoreAction } from "@/type/enums";
+import { Roles, StoreActions } from "@/type/enums";
 
 export default defineComponent({
   components: { AppButton },
@@ -20,7 +20,7 @@ export default defineComponent({
         return route.fullPath === link;
       },
       ...mapActions({
-        logout: StoreAction.logOff,
+        logout: StoreActions.logOff,
       }),
     };
   },
