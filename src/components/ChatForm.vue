@@ -41,6 +41,6 @@ export default defineComponent({
 
 <style lang="postcss">
 .chat-form {
-  @apply p-4 flex justify-around gap-4 border-t-2 border-primary;
+  @apply p-4 flex justify-around gap-4 bg-primary;
 }
 </style>
