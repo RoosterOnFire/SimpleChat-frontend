@@ -35,22 +35,26 @@ export function createChatSocketPlugin() {
       store.dispatch(StoreActions.addError, err.message);
     });
 
+    store.subscribe((mutation, state) => {
+      switch (mutation.type) {
+        case StoreMutations.createMessage:
+          ChatSocket.emit(ChatSocketMessages.CHAT_MESSAGE, mutation.payload);
+          break;
+        default:
+          break;
+      }
+    });
+
     store.subscribeAction({
       after: (action, store) => {
         switch (action.type) {
-          case StoreActions.joinChat:
-            ChatSocket.emit(ChatSocketMessages.CHAT_JOIN, store.user);
-            break;
-          case StoreActions.addMessage:
-            ChatSocket.emit(ChatSocketMessages.CHAT_MESSAGE, action.payload);
-            break;
           case StoreActions.kickUser:
             ChatSocket.emit(ChatSocketMessages.USER_KICK, {
               userId: action.payload,
             });
             break;
           case StoreActions.logOff:
-            ChatSocket.emit(ChatSocketMessages.USER_LOGOFF);
+            ChatSocket.emit(ChatSocketMessages.USER_LOGOFF, console.log);
             break;
           default:
             break;

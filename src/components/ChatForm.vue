@@ -19,7 +19,7 @@ export default defineComponent({
           return;
         }
 
-        store.commit(StoreMutations.addMessage, newMessage.value);
+        store.commit(StoreMutations.createMessage, newMessage.value);
 
         newMessage.value = "";
       },

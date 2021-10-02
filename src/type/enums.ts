@@ -19,7 +19,7 @@ export enum StoreGetters {
 }
 
 export enum StoreMutations {
-  addMessage = 'addMessage',
+  createMessage = 'createMessage',
   createSession = 'createSession',
   deleteSession = 'deleteSession',
   messageChatJoin = 'messageChatJoin',
@@ -36,7 +36,6 @@ export enum StoreMutations {
 export enum StoreActions {
   addMessage = 'addMessage',
   createSession = 'createSession',
-  joinChat = 'joinChat',
   kickUser = 'kickUser',
   logOff = 'logOff',
   signIn = 'signIn',

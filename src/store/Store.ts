@@ -61,7 +61,7 @@ export const store = createStore<State>({
     },
   },
   mutations: {
-    [StoreMutations.addMessage](state, payload: string) {
+    [StoreMutations.createMessage](state, payload: string) {
       state.messages.push(createUserMessage(state.user, payload));
     },
     [StoreMutations.updateMessages](state, payload: Message) {
@@ -147,7 +147,6 @@ export const store = createStore<State>({
         store.commit(StoreMutations.deleteSession);
       }
     },
-    [StoreActions.joinChat]() {},
     [StoreActions.kickUser]() {},
   },
   plugins: [
