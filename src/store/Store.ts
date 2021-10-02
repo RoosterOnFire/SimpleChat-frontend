@@ -11,16 +11,15 @@ import {
   createAppNotification,
 } from '@/helpers/createMessages';
 import { ChatSocket, createChatSocketPlugin } from '@/store/ChatSocketPlugin';
-import Router from '@/router/Router';
 import {
   Errors,
   Roles,
-  RouteNames,
-  StoreGetter,
-  StoreCommit,
-  StoreAction,
+  StoreGetters,
+  StoreMutations,
+  StoreActions,
 } from '@/type/enums';
 import { createSessionStoragePlugin } from './SessionStoragePlugin';
+import { createRouterPlugin } from './RouterPlugin';
 
 export const key: InjectionKey<Store<State>> = Symbol();
 
@@ -45,67 +44,53 @@ export const store = createStore<State>({
     },
   },
   getters: {
-    [StoreGetter.users](state) {
+    [StoreGetters.users](state) {
       return state.users;
     },
-    [StoreGetter.isValidSignIn](state) {
+    [StoreGetters.isValidSignIn](state) {
       return state.errors.invalidSignIn;
     },
-    [StoreGetter.isCurrentUser]: (state) => (payload: string) => {
+    [StoreGetters.isCurrentUser]: (state) => (payload: string) => {
       return state.user.userId === payload;
     },
-    [StoreGetter.hasAccess](state) {
+    [StoreGetters.hasAccess](state) {
       return !!state.user.sessionId || !!state.user.userId;
     },
-    [StoreGetter.hasNickname](state) {
+    [StoreGetters.hasNickname](state) {
       return !!state.user.username;
     },
   },
   mutations: {
-    [StoreCommit.addMessage](state, payload: string) {
+    [StoreMutations.addMessage](state, payload: string) {
       state.messages.push(createUserMessage(state.user, payload));
     },
-    [StoreCommit.updateMessages](state, payload: Message) {
+    [StoreMutations.updateMessages](state, payload: Message) {
       state.messages.push(payload);
     },
-    [StoreCommit.addError](state, payload: Errors) {
-      switch (payload) {
-        case Errors.ERROR_INVALID_SING_IN:
-        case Errors.ERROR_MISSING_PASSWORD:
-        case Errors.ERROR_MISSING_USERNAME:
-          state.errors.invalidSignIn = true;
-          break;
-        case Errors.ERROR_NICKNAME_IN_USE:
-          state.errors.nicknameInUse = true;
-          break;
-        default:
-          break;
-      }
-    },
-    [StoreCommit.updateUsername](state, payload: string) {
+    [StoreMutations.updateUsername](state, payload: string) {
       state.user.username = payload;
     },
-    [StoreCommit.updateUsers](state, payload: Users) {
+    [StoreMutations.updateUsers](state, payload: Users) {
       state.users = payload;
     },
-    [StoreCommit.updateCurrentPage](state, payload: string) {
+    [StoreMutations.updateCurrentPage](state, payload: string) {
       state.meta.currentPage = payload;
     },
-    [StoreCommit.messageChatJoin](state, payload: User) {
+    [StoreMutations.messageChatJoin](state, payload: User) {
       state.messages.push(
         createAppNotification(`"${payload.username}" joined`)
       );
     },
-    [StoreCommit.messageChatLeave](state, payload: User) {
+    [StoreMutations.messageChatLeave](state, payload: User) {
       state.messages.push(createAppNotification(`"${payload.username}" left`));
     },
-    [StoreCommit.updatePassword](state, payload: string) {
+    [StoreMutations.updatePassword](state, payload: string) {
       state.user.password = payload;
     },
-    [StoreCommit.resetIsValidSignIn](state) {
+    [StoreMutations.resetIsValidSignIn](state) {
       state.errors.invalidSignIn = false;
     },
-    [StoreCommit.deleteSession](state) {
+    [StoreMutations.deleteSession](state) {
       state.user = {
         userId: '',
         sessionId: '',
@@ -114,12 +99,12 @@ export const store = createStore<State>({
         password: '',
       };
     },
-    [StoreCommit.updateSession](state, payload: User) {
+    [StoreMutations.updateSession](state, payload: User) {
       state.user = { ...state.user, ...payload };
     },
   },
   actions: {
-    [StoreAction.signIn]({ state }) {
+    [StoreActions.signIn]({ state }) {
       if (
         state.user.sessionId ||
         (!!state.user.username && !!state.user.password)
@@ -132,12 +117,10 @@ export const store = createStore<State>({
         ChatSocket.connect();
       }
     },
-    [StoreAction.createSession]({ state }, payload: User) {
+    [StoreActions.createSession]({ state }, payload: User) {
       state.user = { ...state.user, ...payload };
-
-      Router.push({ name: RouteNames.DASHBOARD });
     },
-    [StoreAction.logOff]({ state }) {
+    [StoreActions.logOff]({ state }) {
       state.user = {
         password: '',
         role: Roles.USER,
@@ -145,15 +128,32 @@ export const store = createStore<State>({
         userId: '',
         username: '',
       };
-
-      Router.push({ name: RouteNames.HOME });
     },
-    [StoreAction.joinChat]() {},
-    [StoreAction.kickUser]() {},
+    [StoreActions.addError]({ state }, payload: Errors) {
+      switch (payload) {
+        case Errors.ERROR_INVALID_SING_IN:
+        case Errors.ERROR_MISSING_PASSWORD:
+        case Errors.ERROR_MISSING_USERNAME:
+          state.errors.invalidSignIn = true;
+          break;
+        case Errors.ERROR_NICKNAME_IN_USE:
+          state.errors.nicknameInUse = true;
+          break;
+        default:
+          break;
+      }
+
+      if (state.user.sessionId && state.user.userId === '') {
+        store.commit(StoreMutations.deleteSession);
+      }
+    },
+    [StoreActions.joinChat]() {},
+    [StoreActions.kickUser]() {},
   },
   plugins: [
     createLogger(),
     createChatSocketPlugin(),
+    createRouterPlugin(),
     createSessionStoragePlugin(),
   ],
 });
