@@ -1,12 +1,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapGetters } from "vuex";
-import { StoreGetter } from "@/type/enums";
+import { StoreGetters } from "@/type/enums";
 
 export default defineComponent({
   setup() {
     return {
-      ...mapGetters([StoreGetter.users]),
+      ...mapGetters([StoreGetters.users]),
     };
   },
 });

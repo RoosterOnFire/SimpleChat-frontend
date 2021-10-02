@@ -2,7 +2,7 @@
 import { useAppStore } from "@/store/Store";
 import { defineComponent, ref } from "vue";
 import AppButton from "@/components/AppButton.vue";
-import { StoreActions, StoreMutatations } from "@/type/enums";
+import { StoreActions, StoreMutations } from "@/type/enums";
 
 export default defineComponent({
   components: {
@@ -19,7 +19,7 @@ export default defineComponent({
           return;
         }
 
-        store.commit(StoreMutatations.addMessage, newMessage.value);
+        store.commit(StoreMutations.addMessage, newMessage.value);
 
         newMessage.value = "";
       },

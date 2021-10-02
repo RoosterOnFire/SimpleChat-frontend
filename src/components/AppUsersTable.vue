@@ -1,14 +1,14 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import AppButton from "@/components/AppButton.vue";
-import { StoreActions, StoreGetter } from "@/type/enums";
+import { StoreActions, StoreGetters } from "@/type/enums";
 import { mapActions, mapGetters } from "vuex";
 
 export default defineComponent({
   components: { AppButton },
   setup() {
     return {
-      ...mapGetters([StoreGetter.isCurrentUser, StoreGetter.users]),
+      ...mapGetters([StoreGetters.isCurrentUser, StoreGetters.users]),
       ...mapActions([StoreActions.kickUser]),
     };
   },
