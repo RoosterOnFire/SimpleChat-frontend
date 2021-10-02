@@ -14,11 +14,11 @@ module.exports = {
     extend: {
       colors: {
         primary: {
-          lighter: pimaryColor[500],
-          light: pimaryColor[600],
-          DEFAULT: pimaryColor[700],
-          dark: pimaryColor[800],
-          darker: pimaryColor[900],
+          lighter: pimaryColor[400],
+          light: pimaryColor[500],
+          DEFAULT: pimaryColor[600],
+          dark: pimaryColor[700],
+          darker: pimaryColor[800],
         },
         error: {
           DEFAULT: errorColor[600],
