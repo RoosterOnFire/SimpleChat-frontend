@@ -64,6 +64,6 @@ export default defineComponent({
 }
 
 .login-form {
-  @apply w-1/3 space-y-4 flex flex-col;
+  @apply flex flex-col gap-4 w-2/3;
 }
 </style>

@@ -8,9 +8,11 @@ export enum RouteNames {
 
 export enum SessionStorageKeys {
   SESSION = 'SIMPLECHATSESSIONID',
+  CURRENT_PAGE = 'SIMPLECHATCURRENTPAGE',
 }
 
 export enum StoreGetters {
+  currentpage = 'currentPage',
   hasAccess = 'hasAccess',
   hasNickname = 'hasNickname',
   isCurrentUser = 'isCurrentUser',

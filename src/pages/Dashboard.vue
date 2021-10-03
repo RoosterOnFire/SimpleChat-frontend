@@ -8,7 +8,7 @@ import { Roles, RouteNames, StoreActions } from "@/type/enums";
 import {
   LogoutIcon,
   ChatIcon,
-  AdjustmentsIcon,
+  ServerIcon,
   ChatAlt2Icon,
 } from "@heroicons/vue/solid";
 
@@ -17,7 +17,7 @@ export default defineComponent({
     AppButton,
     LogoutIcon,
     ChatIcon,
-    AdjustmentsIcon,
+    ServerIcon,
     ChatAlt2Icon,
   },
   setup() {
@@ -49,23 +49,15 @@ export default defineComponent({
       :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/admin') }"
     >
       {{ "Admin" }}
-      <AdjustmentsIcon class="w-6 h-6" />
+      <ServerIcon class="w-6 h-6" />
     </router-link>
     <router-link
       to="/dashboard/rooms"
       class="navbar-link"
       :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
     >
-      {{ "Rooms" }}
-      <ChatAlt2Icon class="w-6 h-6" />
-    </router-link>
-    <router-link
-      to="/dashboard/chat"
-      class="navbar-link"
-      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/chat') }"
-    >
       {{ "Chat" }}
-      <ChatIcon class="w-6 h-6" />
+      <ChatAlt2Icon class="w-6 h-6" />
     </router-link>
     <button type="button" class="navbar-link ml-auto" @click="logout()">
       {{ "Logout" }}

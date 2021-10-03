@@ -11,11 +11,11 @@ export default defineComponent({
 
 <template>
   <div class="main page-rooms">
-    <form class="form flex-1" @submit.prevent="">
+    <form class="form md:flex-1" @submit.prevent="">
       <input type="text" class="input" placeholder="Room" />
       <AppButton title="Join" />
     </form>
-    <form class="form flex-1" @submit.prevent="">
+    <form class="form md:flex-1" @submit.prevent="">
       <input type="text" class="input" placeholder="Room" />
       <AppButton title="Create" />
     </form>
@@ -24,6 +24,6 @@ export default defineComponent({
 
 <style lang="postcss">
 .page-rooms {
-  @apply flex-row justify-evenly items-center p-4 gap-16;
+  @apply p-4;
 }
 </style>

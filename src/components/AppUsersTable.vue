@@ -54,7 +54,7 @@ export default defineComponent({
 
 <style lang="postcss">
 .table-container {
-  @apply flex flex-col border-b border-primary sm:rounded-lg shadow overflow-hidden;
+  @apply flex flex-col bg-gray-50 border-b border-primary sm:rounded-lg shadow overflow-hidden;
 }
 
 .table {

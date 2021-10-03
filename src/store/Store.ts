@@ -44,6 +44,9 @@ export const store = createStore<State>({
     },
   },
   getters: {
+    [StoreGetters.currentpage](state) {
+      return state.meta.currentPage;
+    },
     [StoreGetters.users](state) {
       return state.users;
     },

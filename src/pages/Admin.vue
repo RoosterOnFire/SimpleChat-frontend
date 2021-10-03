@@ -10,6 +10,6 @@ export default defineComponent({
 
 <template>
   <div class="main p-4">
-    <AdminUsersTable />
+    <AdminUsersTable class="flex-1" />
   </div>
 </template>

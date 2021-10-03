@@ -35,7 +35,7 @@ export default defineComponent({
 }
 
 .home {
-  @apply flex flex-col items-center justify-center space-y-8;
+  @apply flex flex-col items-center justify-center gap-8;
 }
 
 .page {
@@ -43,11 +43,12 @@ export default defineComponent({
 }
 
 .main {
-  @apply flex-1 flex flex-col items-stretch overflow-hidden;
+  @apply flex-1;
+  @apply flex flex-col items-stretch md:flex-row gap-8 overflow-hidden;
 }
 
 .form {
-  @apply flex flex-col gap-y-2;
+  @apply flex flex-col gap-3;
 }
 
 .input {
