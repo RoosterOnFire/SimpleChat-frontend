@@ -7,12 +7,16 @@ export default defineComponent({
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      default: "button",
+    },
   },
 });
 </script>
 
 <template>
-  <button type="button" class="button">{{ title }}<slot /></button>
+  <button class="button" :type="type">{{ title }}<slot /></button>
 </template>
 
 <style lang="postcss">

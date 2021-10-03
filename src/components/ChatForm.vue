@@ -31,9 +31,13 @@ export default defineComponent({
 </script>
 
 <template>
-  <form class="chat-form" @keypress.enter="sendMessage">
+  <form
+    class="chat-form"
+    @submit.prevent="sendMessage"
+    @keypress.enter.prevent="sendMessage"
+  >
     <input type="text" class="input" v-model="newMessage" />
-    <AppButton title="Send" @click="sendMessage">
+    <AppButton title="Send" type="submit">
       <MailIcon class="w-6 h-6" />
     </AppButton>
   </form>
