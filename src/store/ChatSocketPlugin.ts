@@ -48,6 +48,21 @@ export function createChatSocketPlugin() {
     store.subscribeAction({
       after: (action, store) => {
         switch (action.type) {
+          case StoreActions.createRoom:
+            ChatSocket.emit(ChatSocketMessages.ROOMS_CREATE, {
+              roomName: action.payload,
+            });
+            break;
+          case StoreActions.joinRoom:
+            ChatSocket.emit(ChatSocketMessages.ROOMS_JOIN, {
+              roomName: action.payload,
+            });
+            break;
+          case StoreActions.leaveRoom:
+            ChatSocket.emit(ChatSocketMessages.ROOMS_LEAVE, {
+              roomName: action.payload,
+            });
+            break;
           case StoreActions.kickUser:
             ChatSocket.emit(ChatSocketMessages.USER_KICK, {
               userId: action.payload,

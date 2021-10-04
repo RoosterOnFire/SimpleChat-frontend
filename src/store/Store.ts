@@ -36,8 +36,7 @@ export const store = createStore<State>({
       currentPage: '',
       adminAccessKey: '',
     },
-    users: [],
-    messages: [],
+    rooms: [],
     errors: {
       nicknameInUse: false,
       invalidSignIn: false,
@@ -48,7 +47,7 @@ export const store = createStore<State>({
       return state.meta.currentPage;
     },
     [StoreGetters.users](state) {
-      return state.users;
+      // return state.users;
     },
     [StoreGetters.isValidSignIn](state) {
       return state.errors.invalidSignIn;
@@ -65,27 +64,27 @@ export const store = createStore<State>({
   },
   mutations: {
     [StoreMutations.createMessage](state, payload: string) {
-      state.messages.push(createUserMessage(state.user, payload));
+      // state.messages.push(createUserMessage(state.user, payload));
     },
     [StoreMutations.updateMessages](state, payload: Message) {
-      state.messages.push(payload);
+      // state.messages.push(payload);
     },
     [StoreMutations.updateUsername](state, payload: string) {
       state.user.username = payload;
     },
     [StoreMutations.updateUsers](state, payload: Users) {
-      state.users = payload;
+      // state.users = payload;
     },
     [StoreMutations.updateCurrentPage](state, payload: string) {
       state.meta.currentPage = payload;
     },
     [StoreMutations.messageChatJoin](state, payload: User) {
-      state.messages.push(
-        createAppNotification(`"${payload.username}" joined`)
-      );
+      // state.messages.push(
+      //   createAppNotification(`"${payload.username}" joined`)
+      // );
     },
     [StoreMutations.messageChatLeave](state, payload: User) {
-      state.messages.push(createAppNotification(`"${payload.username}" left`));
+      // state.messages.push(createAppNotification(`"${payload.username}" left`));
     },
     [StoreMutations.updatePassword](state, payload: string) {
       state.user.password = payload;
@@ -151,6 +150,9 @@ export const store = createStore<State>({
       }
     },
     [StoreActions.kickUser]() {},
+    [StoreActions.createRoom]() {},
+    [StoreActions.joinRoom]() {},
+    [StoreActions.leaveRoom]() {},
   },
   plugins: [
     createLogger(),

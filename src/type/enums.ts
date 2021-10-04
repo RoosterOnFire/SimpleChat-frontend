@@ -7,8 +7,8 @@ export enum RouteNames {
 }
 
 export enum SessionStorageKeys {
-  SESSION = 'SIMPLECHATSESSIONID',
   CURRENT_PAGE = 'SIMPLECHATCURRENTPAGE',
+  SESSION = 'SIMPLECHATSESSIONID',
 }
 
 export enum StoreGetters {
@@ -31,19 +31,23 @@ export enum StoreMutations {
   updateCurrentPage = 'updateCurrentPage',
   updateMessages = 'updateMessages',
   updatePassword = 'updatePassword',
+  updateRooms = 'updateRooms',
   updateSession = 'updateSession',
   updateUsername = 'updateUsername',
   updateUsers = 'updateUsers',
 }
 
 export enum StoreActions {
+  addError = 'addError',
   addMessage = 'addMessage',
+  createRoom = 'createRoom',
   createSession = 'createSession',
+  joinRoom = 'joinRoom',
   kickUser = 'kickUser',
+  leaveRoom = 'leaveRoom',
   logOff = 'logOff',
   signIn = 'signIn',
   updateNickname = 'updateNickname',
-  addError = 'addError',
 }
 
 export enum ChatSocketMessages {
@@ -51,6 +55,9 @@ export enum ChatSocketMessages {
   CHAT_MESSAGE = 'chat:message',
   CONNECT_ERROR = 'connect_error',
   CONNECT_VALID = 'connect:valid',
+  ROOMS_CREATE = 'rooms:create',
+  ROOMS_JOIN = 'rooms:join',
+  ROOMS_LEAVE = 'rooms:leave',
   SESSION_CLOSED = 'session:closed',
   SESSION_CREATED = 'session:created',
   SESSION_RESTORE = 'session:restore',
