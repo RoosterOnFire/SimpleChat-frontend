@@ -1,14 +1,18 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import AppButton from "@/components/AppButton.vue";
-import { StoreActions, StoreGetters } from "@/type/enums";
-import { mapActions, mapGetters } from "vuex";
+import { StoreActions } from "@/type/enums";
+import { mapActions } from "vuex";
+import { useAppStore } from "@/store/Store";
 
 export default defineComponent({
   components: { AppButton },
   setup() {
+    const store = useAppStore();
+
     return {
-      ...mapGetters([StoreGetters.isCurrentUser, StoreGetters.users]),
+      isCurrentUser: store.getters.isCurrentUser,
+      users: [],
       ...mapActions([StoreActions.kickUser]),
     };
   },
@@ -29,7 +33,7 @@ export default defineComponent({
         </tr>
       </thead>
       <tbody class="table-body">
-        <template v-for="user of users()" :key="user.userId" :user="user">
+        <!-- <template v-for="user of users" :key="user.userId" :user="user">
           <tr>
             <td class="row-base">
               <p>{{ user.username }}</p>
@@ -46,7 +50,7 @@ export default defineComponent({
               />
             </td>
           </tr>
-        </template>
+        </template> -->
       </tbody>
     </table>
   </div>

@@ -1,11 +1,8 @@
 <script lang="ts">
-import { defineComponent, ref, onUpdated, computed } from "vue";
-import { useAppStore } from "@/store/Store";
+import { defineComponent, ref, onUpdated } from "vue";
 
 export default defineComponent({
   setup() {
-    const store = useAppStore();
-    const messages = computed(() => store.state.messages);
     const container = ref<HTMLElement | null>(null);
 
     onUpdated(() => {
@@ -13,7 +10,7 @@ export default defineComponent({
     });
 
     return {
-      messages,
+      messages: [],
       container,
     };
   },
@@ -22,14 +19,14 @@ export default defineComponent({
 
 <template>
   <div class="messages" ref="container">
-    <p
+    <!-- <p
       v-for="(message, index) of messages"
       :key="index"
       class="message-row"
       :class="{ 'text-blue-600': message.user === 'App' }"
     >
       {{ message.user }}: {{ message.value }}
-    </p>
+    </p> -->
   </div>
 </template>
 

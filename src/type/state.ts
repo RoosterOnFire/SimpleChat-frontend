@@ -3,7 +3,7 @@ import { Roles } from './enums';
 export type State = {
   user: User;
   meta: Meta;
-  rooms: Rooms[];
+  rooms: Rooms;
   errors: {
     invalidSignIn: boolean;
     nicknameInUse: boolean;

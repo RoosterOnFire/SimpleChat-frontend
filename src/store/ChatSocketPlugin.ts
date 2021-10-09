@@ -46,22 +46,30 @@ export function createChatSocketPlugin() {
     });
 
     store.subscribeAction({
-      after: (action, store) => {
+      after: (action, state) => {
         switch (action.type) {
           case StoreActions.createRoom:
-            ChatSocket.emit(ChatSocketMessages.ROOMS_CREATE, {
-              roomName: action.payload,
-            });
+            ChatSocket.emit(
+              ChatSocketMessages.ROOMS_CREATE,
+              { roomName: action.payload },
+              () => {
+                store.commit(StoreMutations.createRoom, action.payload);
+              }
+            );
             break;
           case StoreActions.joinRoom:
-            ChatSocket.emit(ChatSocketMessages.ROOMS_JOIN, {
-              roomName: action.payload,
-            });
+            ChatSocket.emit(
+              ChatSocketMessages.ROOMS_JOIN,
+              { roomName: action.payload },
+              console.log
+            );
             break;
           case StoreActions.leaveRoom:
-            ChatSocket.emit(ChatSocketMessages.ROOMS_LEAVE, {
-              roomName: action.payload,
-            });
+            ChatSocket.emit(
+              ChatSocketMessages.ROOMS_LEAVE,
+              { roomName: action.payload },
+              console.log
+            );
             break;
           case StoreActions.kickUser:
             ChatSocket.emit(ChatSocketMessages.USER_KICK, {

@@ -1,10 +1,10 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { mapActions, mapGetters, mapMutations } from "vuex";
-import { StoreActions, StoreMutations, StoreGetters } from "@/type/enums";
-import AppButton from "@/components/AppButton.vue";
-import { useAppStore } from "@/store/Store";
+import { mapActions, mapMutations } from "vuex";
 import { LoginIcon } from "@heroicons/vue/outline";
+import { StoreActions, StoreMutations } from "@/type/enums";
+import { useAppStore } from "@/store/Store";
+import AppButton from "@/components/AppButton.vue";
 
 export default defineComponent({
   components: {
@@ -23,9 +23,9 @@ export default defineComponent({
       password: computed({
         get: () => store.state.user.password,
         set: (password) =>
-          store.commit(StoreMutations.updatePassword, password),
+          store.commit(StoreMutations.updatePassword, password || ""),
       }),
-      ...mapGetters([StoreGetters.isValidSignIn]),
+      isValidSignIn: store.getters.isValidSignIn,
       ...mapMutations([StoreMutations.resetIsValidSignIn]),
       ...mapActions([StoreActions.signIn]),
     };
@@ -38,7 +38,7 @@ export default defineComponent({
     <input
       type="text"
       class="input"
-      :class="{ 'border-error': isValidSignIn() }"
+      :class="{ 'border-error': isValidSignIn }"
       placeholder="Username"
       required
       v-model="username"
@@ -46,7 +46,7 @@ export default defineComponent({
     <input
       type="password"
       class="input"
-      :class="{ 'border-error': isValidSignIn() }"
+      :class="{ 'border-error': isValidSignIn }"
       placeholder="Password"
       required
       v-model="password"

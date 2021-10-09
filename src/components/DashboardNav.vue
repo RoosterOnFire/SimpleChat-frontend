@@ -1,10 +1,10 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { useRoute } from "vue-router";
 import { mapActions } from "vuex";
-import AppButton from "@/components/AppButton.vue";
-import { useAppStore } from "@/store/Store";
+import { useRoute } from "vue-router";
 import { Roles, RouteNames, StoreActions } from "@/type/enums";
+import { useAppStore } from "@/store/Store";
+import AppButton from "@/components/AppButton.vue";
 import {
   LogoutIcon,
   ChatIcon,

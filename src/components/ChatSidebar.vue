@@ -1,12 +1,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapGetters } from "vuex";
-import { StoreGetters } from "@/type/enums";
+import { useAppStore } from "@/store/Store";
 
 export default defineComponent({
   setup() {
+    const store = useAppStore();
     return {
-      ...mapGetters([StoreGetters.users]),
+      users: [],
     };
   },
 });
@@ -15,9 +15,9 @@ export default defineComponent({
 <template>
   <div class="sidebar">
     <transition-group name="chat-list">
-      <p v-for="(user, index) in users()" :key="index" class="chat-sidebar-row">
+      <!-- <p v-for="(user, index) in users" :key="index" class="chat-sidebar-row">
         {{ user.username }}
-      </p>
+      </p> -->
     </transition-group>
   </div>
 </template>

@@ -1,3 +1,5 @@
+import { Rooms, State, Users } from './state';
+
 export enum RouteNames {
   DASHBOARD = 'Dashboard',
   DASHBOARD_ADMIN = 'Dashboard/Admin',
@@ -18,11 +20,13 @@ export enum StoreGetters {
   isCurrentUser = 'isCurrentUser',
   isUsernameAvailable = 'isUsernameAvailable',
   isValidSignIn = 'isValidSignIn',
+  joinedRooms = 'joinedRooms',
   users = 'users',
 }
 
 export enum StoreMutations {
   createMessage = 'createMessage',
+  createRoom = 'createRoom',
   createSession = 'createSession',
   deleteSession = 'deleteSession',
   messageChatJoin = 'messageChatJoin',

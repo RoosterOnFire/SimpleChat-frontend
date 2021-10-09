@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, toRefs } from "vue";
+import { defineComponent } from "vue";
 import AppButton from "@/components/AppButton.vue";
 
 export default defineComponent({
