@@ -20,6 +20,9 @@ module.exports = {
           dark: pimaryColor[800],
           darker: pimaryColor[900],
         },
+        success: {
+          DEFAULT: colors.green[500],
+        },
         error: {
           DEFAULT: errorColor[600],
         },

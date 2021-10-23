@@ -1,11 +1,13 @@
 import { Rooms, State, Users } from './state';
 
 export enum RouteNames {
-  DASHBOARD = 'Dashboard',
-  DASHBOARD_ADMIN = 'Dashboard/Admin',
-  DASHBOARD_CHAT = 'Dashboard/Chat',
-  DASHBOARD_ROOMS = 'Dashboard/Rooms',
-  HOME = 'Home',
+  DASHBOARD = 'dashboard',
+  DASHBOARD_ADMIN = 'dashboard/admin',
+  DASHBOARD_CHAT = 'dashboard/chat',
+  DASHBOARD_ROOMS = 'dashboard/rooms',
+  HOME = 'home',
+  HOME_LOGIN = 'home/login',
+  HOME_REGISTRATION = 'home/registration',
 }
 
 export enum SessionStorageKeys {

@@ -8,6 +8,18 @@ const routes: RouteRecordRaw[] = [
     path: '/',
     name: RouteNames.HOME,
     component: Home,
+    children: [
+      {
+        path: 'login',
+        name: RouteNames.HOME_LOGIN,
+        component: () => import('@/pages/Login.vue'),
+      },
+      {
+        path: 'registration',
+        name: RouteNames.HOME_REGISTRATION,
+        component: () => import('@/pages/Registration.vue'),
+      },
+    ],
   },
   {
     path: '/dashboard',
@@ -42,13 +54,18 @@ Router.beforeEach((to, from, next) => {
   const userRole = store.state.user.role;
   if (to.name === RouteNames.DASHBOARD_ADMIN && userRole !== Roles.ADMIN) {
     return;
-  }
-
-  if (
+  } else if (
     (from.name === RouteNames.HOME || to.name !== RouteNames.HOME) &&
     !store.getters.hasAccess
   ) {
-    next({ name: RouteNames.HOME });
+    if (
+      to.name === RouteNames.HOME_LOGIN ||
+      to.name === RouteNames.HOME_REGISTRATION
+    ) {
+      next();
+    } else {
+      next({ name: RouteNames.HOME });
+    }
   } else {
     next();
   }
