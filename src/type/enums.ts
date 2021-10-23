@@ -34,10 +34,8 @@ export enum StoreMutations {
   resetIsValidSignIn = 'resetIsValidSignIn',
   updateCurrentPage = 'updateCurrentPage',
   updateMessages = 'updateMessages',
-  updatePassword = 'updatePassword',
   updateRooms = 'updateRooms',
   updateSession = 'updateSession',
-  updateUsername = 'updateUsername',
   updateUsers = 'updateUsers',
 }
 

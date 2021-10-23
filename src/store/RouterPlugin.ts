@@ -3,7 +3,6 @@ import {
   RouteNames,
   SessionStorageKeys,
   StoreActions,
-  StoreGetters,
   StoreMutations,
 } from '@/type/enums';
 import { State } from '@/type/state';

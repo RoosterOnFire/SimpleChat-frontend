@@ -15,16 +15,8 @@ export default defineComponent({
     const store = useAppStore();
 
     return {
-      username: computed({
-        get: () => store.state.user.username,
-        set: (username) =>
-          store.commit(StoreMutations.updateUsername, username),
-      }),
-      password: computed({
-        get: () => store.state.user.password,
-        set: (password) =>
-          store.commit(StoreMutations.updatePassword, password || ""),
-      }),
+      username: "",
+      password: "",
       isValidSignIn: store.getters.isValidSignIn,
       ...mapMutations([StoreMutations.resetIsValidSignIn]),
       ...mapActions([StoreActions.signIn]),
@@ -51,7 +43,7 @@ export default defineComponent({
       required
       v-model="password"
     />
-    <AppButton title="Sign in" @click="signIn()">
+    <AppButton title="Sign in" @click="signIn({ username, password })">
       <LoginIcon class="h-6 w-6" />
     </AppButton>
   </form>

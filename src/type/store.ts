@@ -21,9 +21,7 @@ export type Mutations = {
   [StoreMutations.resetIsValidSignIn](state: State): void;
   [StoreMutations.updateCurrentPage](state: State, payload: string): void;
   [StoreMutations.updateMessages](state: State, payload: Message): void;
-  [StoreMutations.updatePassword](state: State, payload: string): void;
   [StoreMutations.updateSession](state: State, payload: User): void;
-  [StoreMutations.updateUsername](state: State, payload: string): void;
   [StoreMutations.updateUsers](state: State, payload: User): void;
 };
 
@@ -42,5 +40,8 @@ export type Actions = {
   [StoreActions.kickUser](context: ActionAugments): void;
   [StoreActions.leaveRoom](context: ActionAugments): void;
   [StoreActions.logOff](context: ActionAugments): void;
-  [StoreActions.signIn](context: ActionAugments): void;
+  [StoreActions.signIn](
+    context: ActionAugments,
+    payload: { username: string; password: string }
+  ): void;
 };

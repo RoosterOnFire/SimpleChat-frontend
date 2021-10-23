@@ -7,7 +7,6 @@ export const state: State = {
     sessionId: '',
     username: '',
     role: Roles.USER,
-    password: '',
   },
   meta: {
     currentPage: '',

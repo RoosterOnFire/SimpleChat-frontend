@@ -13,9 +13,6 @@ export const mutations: MutationTree<State> & Mutations = {
   [StoreMutations.updateMessages](state, payload: Message) {
     // state.messages.push(payload);
   },
-  [StoreMutations.updateUsername](state, payload: string) {
-    state.user.username = payload;
-  },
   [StoreMutations.updateUsers](state, payload: User) {
     // state.users = payload;
   },
@@ -30,9 +27,6 @@ export const mutations: MutationTree<State> & Mutations = {
   [StoreMutations.messageChatLeave](state, payload: User) {
     // state.messages.push(createAppNotification(`"${payload.username}" left`));
   },
-  [StoreMutations.updatePassword](state, payload: string) {
-    state.user.password = payload;
-  },
   [StoreMutations.resetIsValidSignIn](state) {
     state.errors.invalidSignIn = false;
   },
@@ -42,7 +36,6 @@ export const mutations: MutationTree<State> & Mutations = {
       sessionId: '',
       username: '',
       role: Roles.USER,
-      password: '',
     };
   },
   [StoreMutations.updateSession](state, payload: User) {
