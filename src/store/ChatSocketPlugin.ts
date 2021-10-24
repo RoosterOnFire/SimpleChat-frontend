@@ -15,10 +15,6 @@ export function createChatSocketPlugin() {
       }
     });
 
-    ChatSocket.on(ChatSocketMessages.CONNECT_VALID, (payload: User) => {
-      store.dispatch(StoreActions.createSession, payload);
-    });
-
     ChatSocket.on(ChatSocketMessages.SESSION_CLOSED, () => {
       store.commit(StoreMutations.deleteSession);
     });
@@ -50,11 +46,29 @@ export function createChatSocketPlugin() {
         switch (action.type) {
           case StoreActions.register:
             ChatSocket.connect();
-            ChatSocket.emit(ChatSocketMessages.CONNECT_REGISTRATION);
+            ChatSocket.emit(
+              ChatSocketMessages.CONNECT_REGISTRATION,
+              (payload: { success: boolean; data: User }) => {
+                if (payload.success) {
+                  store.dispatch(StoreActions.createSession, payload.data);
+                } else {
+                  console.log(payload);
+                }
+              }
+            );
             break;
           case StoreActions.signIn:
             ChatSocket.connect();
-            ChatSocket.emit(ChatSocketMessages.CONNECT_SIGNIN);
+            ChatSocket.emit(
+              ChatSocketMessages.CONNECT_SIGNIN,
+              (payload: { success: boolean; data: User }) => {
+                if (payload.success) {
+                  store.dispatch(StoreActions.createSession, payload.data);
+                } else {
+                  console.log(payload);
+                }
+              }
+            );
             break;
           case StoreActions.createRoom:
             ChatSocket.emit(
@@ -85,7 +99,14 @@ export function createChatSocketPlugin() {
             });
             break;
           case StoreActions.logOff:
-            ChatSocket.emit(ChatSocketMessages.USER_LOGOFF, console.log);
+            ChatSocket.emit(
+              ChatSocketMessages.CONNECT_LOGOFF,
+              (response: any) => {
+                console.log(response);
+
+                ChatSocket.auth = {};
+              }
+            );
             break;
           default:
             break;
