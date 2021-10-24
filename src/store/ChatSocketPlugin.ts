@@ -45,9 +45,16 @@ export function createChatSocketPlugin() {
       after: (action, state) => {
         switch (action.type) {
           case StoreActions.register:
+            ChatSocket.auth = { newUser: true };
+
             ChatSocket.connect();
+
             ChatSocket.emit(
               ChatSocketMessages.CONNECT_REGISTRATION,
+              {
+                username: action.payload?.username || '',
+                password: action.payload?.password || '',
+              },
               (payload: { success: boolean; data: User }) => {
                 if (payload.success) {
                   store.dispatch(StoreActions.createSession, payload.data);
@@ -58,14 +65,21 @@ export function createChatSocketPlugin() {
             );
             break;
           case StoreActions.signIn:
+            ChatSocket.auth = { sessionId: state.user.sessionId };
+
             ChatSocket.connect();
+
             ChatSocket.emit(
               ChatSocketMessages.CONNECT_SIGNIN,
-              (payload: { success: boolean; data: User }) => {
-                if (payload.success) {
-                  store.dispatch(StoreActions.createSession, payload.data);
+              {
+                username: action.payload?.username || '',
+                password: action.payload?.password || '',
+              },
+              (payload: { success: boolean; data?: User; error?: string }) => {
+                if (payload.error) {
+                  store.commit(StoreMutations.updateErrors, payload.error);
                 } else {
-                  console.log(payload);
+                  store.dispatch(StoreActions.createSession, payload.data);
                 }
               }
             );

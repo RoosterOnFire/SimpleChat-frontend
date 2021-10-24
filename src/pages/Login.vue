@@ -1,8 +1,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import { LoginIcon } from "@heroicons/vue/outline";
-import { StoreActions, StoreMutations } from "@/type/enums";
+import { StoreActions, StoreGetters, StoreMutations } from "@/type/enums";
 import { useAppStore } from "@/store/Store";
 import AppButton from "@/components/AppButton.vue";
 import { useRouter } from "vue-router";
@@ -19,11 +19,11 @@ export default defineComponent({
     return {
       username: "",
       password: "",
-      isValidSignIn: store.getters.isValidSignIn,
       goBack: () => {
         router.back();
       },
-      ...mapMutations([StoreMutations.resetIsValidSignIn]),
+      ...mapGetters([StoreGetters.invalidSignIn]),
+      ...mapMutations([StoreMutations.resetInvalidSignIn]),
       ...mapActions([StoreActions.signIn]),
     };
   },
@@ -31,22 +31,26 @@ export default defineComponent({
 </script>
 
 <template>
-  <form class="form-home" @submit.prevent @click="resetIsValidSignIn()">
+  <form class="form-home">
     <input
       type="text"
       class="input"
-      :class="{ 'border-error': isValidSignIn }"
+      :class="{ 'text-error': invalidSignIn() }"
       placeholder="Username"
       required
       v-model="username"
+      @click="resetInvalidSignIn"
+      @change="resetInvalidSignIn"
     />
     <input
       type="password"
       class="input"
-      :class="{ 'border-error': isValidSignIn }"
+      :class="{ 'text-error': invalidSignIn() }"
       placeholder="Password"
       required
       v-model="password"
+      @click="resetInvalidSignIn"
+      @change="resetInvalidSignIn"
     />
     <AppButton title="Sign in" @click="signIn({ username, password })">
       <LoginIcon class="h-6 w-6" />

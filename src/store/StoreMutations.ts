@@ -1,4 +1,4 @@
-import { Roles, StoreMutations } from '@/type/enums';
+import { Errors, Roles, StoreMutations } from '@/type/enums';
 import { Message, State, User } from '@/type/state';
 import { Mutations } from '@/type/store';
 import { MutationTree } from 'vuex';
@@ -27,7 +27,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [StoreMutations.messageChatLeave](state, payload: User) {
     // state.messages.push(createAppNotification(`"${payload.username}" left`));
   },
-  [StoreMutations.resetIsValidSignIn](state) {
+  [StoreMutations.resetInvalidSignIn](state) {
     state.errors.invalidSignIn = false;
   },
   [StoreMutations.deleteSession](state) {
@@ -40,5 +40,14 @@ export const mutations: MutationTree<State> & Mutations = {
   },
   [StoreMutations.updateSession](state, payload: User) {
     state.user = { ...state.user, ...payload };
+  },
+  [StoreMutations.updateErrors](state, payload: string) {
+    switch (payload) {
+      case Errors.ERROR_INVALID_SING_IN:
+        state.errors.invalidSignIn = true;
+        break;
+      default:
+        break;
+    }
   },
 };

@@ -8,28 +8,11 @@ export const actions: ActionTree<State, State> & Actions = {
   [StoreActions.register](
     { state },
     payload: { username: string; password: string }
-  ) {
-    ChatSocket.auth = {
-      username: payload.username,
-      password: payload.password,
-      newUser: true,
-    };
-  },
+  ) {},
   [StoreActions.signIn](
     { state },
-    payload: { username: string; password: string }
-  ) {
-    if (state.user.sessionId) {
-      ChatSocket.auth = {
-        sessionId: state.user.sessionId,
-      };
-    } else if (payload && payload.username && payload.password) {
-      ChatSocket.auth = {
-        username: payload.username,
-        password: payload.password,
-      };
-    }
-  },
+    payload: { username?: string; password?: string }
+  ) {},
   [StoreActions.createSession]({ state }, payload: User) {
     state.user = { ...state.user, ...payload };
   },

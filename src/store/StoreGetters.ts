@@ -7,7 +7,7 @@ export const getters: GetterTree<State, State> & Getters = {
   [StoreGetters.currentpage](state) {
     return state.meta.currentPage;
   },
-  [StoreGetters.isValidSignIn](state) {
+  [StoreGetters.invalidSignIn](state) {
     return state.errors.invalidSignIn;
   },
   [StoreGetters.isCurrentUser]: (state) => (payload: string) => {

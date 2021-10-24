@@ -7,19 +7,19 @@ export type Getters = {
   [StoreGetters.hasAccess](state: State): boolean;
   [StoreGetters.hasNickname](state: State): boolean;
   [StoreGetters.isCurrentUser](state: State): (payload: string) => boolean;
-  [StoreGetters.isValidSignIn](state: State): boolean;
+  [StoreGetters.invalidSignIn](state: State): boolean;
   [StoreGetters.joinedRooms](state: State): Rooms;
 };
 
 export type Mutations = {
   [StoreMutations.createMessage](state: State, payload: string): void;
-  [StoreMutations.createMessage](state: State, payload: string): void;
   [StoreMutations.createRoom](state: State, name: string): void;
   [StoreMutations.deleteSession](state: State): void;
   [StoreMutations.messageChatJoin](state: State, payload: User): void;
   [StoreMutations.messageChatLeave](state: State, payload: User): void;
-  [StoreMutations.resetIsValidSignIn](state: State): void;
+  [StoreMutations.resetInvalidSignIn](state: State): void;
   [StoreMutations.updateCurrentPage](state: State, payload: string): void;
+  [StoreMutations.updateErrors](state: State, payload: string): void;
   [StoreMutations.updateMessages](state: State, payload: Message): void;
   [StoreMutations.updateSession](state: State, payload: User): void;
   [StoreMutations.updateUsers](state: State, payload: User): void;

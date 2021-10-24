@@ -19,7 +19,7 @@ export enum StoreGetters {
   hasNickname = 'hasNickname',
   isCurrentUser = 'isCurrentUser',
   isUsernameAvailable = 'isUsernameAvailable',
-  isValidSignIn = 'isValidSignIn',
+  invalidSignIn = 'invalidSignIn',
   joinedRooms = 'joinedRooms',
   users = 'users',
 }
@@ -31,8 +31,9 @@ export enum StoreMutations {
   deleteSession = 'deleteSession',
   messageChatJoin = 'messageChatJoin',
   messageChatLeave = 'messageChatLeave',
-  resetIsValidSignIn = 'resetIsValidSignIn',
+  resetInvalidSignIn = 'resetInvalidSignIn',
   updateCurrentPage = 'updateCurrentPage',
+  updateErrors = 'updateErrors',
   updateMessages = 'updateMessages',
   updateRooms = 'updateRooms',
   updateSession = 'updateSession',
@@ -77,7 +78,8 @@ export enum Roles {
 
 export enum Errors {
   ERROR_INVALID_SING_IN = 'ERROR_INVALID_SING_IN',
-  ERROR_MISSING_PASSWORD = 'ERROR_MISSING_PASSWORD',
   ERROR_MISSING_USERNAME = 'ERROR_MISSING_USERNAME',
-  ERROR_NICKNAME_IN_USE = 'ERROR_NICKNAME_IN_USE',
+  ERROR_MISSING_PASSWORD = 'ERROR_MISSING_PASSWORD',
+  ERROR_USERNAME_IN_USE = 'ERROR_USERNAME_IN_USE',
+  ERROR_NEW_USER_NOT_CREATED = 'ERROR_NEW_USER_NOT_CREATED',
 }
