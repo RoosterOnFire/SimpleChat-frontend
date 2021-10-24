@@ -1,5 +1,3 @@
-import { Rooms, State, Users } from './state';
-
 export enum RouteNames {
   DASHBOARD = 'dashboard',
   DASHBOARD_ADMIN = 'dashboard/admin',
@@ -52,12 +50,15 @@ export enum StoreActions {
   logOff = 'logOff',
   signIn = 'signIn',
   updateNickname = 'updateNickname',
+  register = 'register',
 }
 
 export enum ChatSocketMessages {
   CHAT_JOIN = 'chat:join',
   CHAT_MESSAGE = 'chat:message',
   CONNECT_ERROR = 'connect_error',
+  CONNECT_REGISTRATION = 'connect:registration',
+  CONNECT_SIGNIN = 'connect:signin',
   CONNECT_VALID = 'connect:valid',
   ROOMS_CREATE = 'rooms:create',
   ROOMS_JOIN = 'rooms:join',

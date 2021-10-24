@@ -5,6 +5,16 @@ import { ChatSocket } from '@/store/ChatSocketPlugin';
 import { Actions } from '@/type/store';
 
 export const actions: ActionTree<State, State> & Actions = {
+  [StoreActions.register](
+    { state },
+    payload: { username: string; password: string }
+  ) {
+    ChatSocket.auth = {
+      username: payload.username,
+      password: payload.password,
+      newUser: true,
+    };
+  },
   [StoreActions.signIn](
     { state },
     payload: { username: string; password: string }
@@ -13,13 +23,11 @@ export const actions: ActionTree<State, State> & Actions = {
       ChatSocket.auth = {
         sessionId: state.user.sessionId,
       };
-      ChatSocket.connect();
-    } else if (payload?.username && payload?.password) {
+    } else if (payload && payload.username && payload.password) {
       ChatSocket.auth = {
         username: payload.username,
         password: payload.password,
       };
-      ChatSocket.connect();
     }
   },
   [StoreActions.createSession]({ state }, payload: User) {

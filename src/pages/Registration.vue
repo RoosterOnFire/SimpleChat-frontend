@@ -3,6 +3,8 @@ import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { SparklesIcon } from "@heroicons/vue/outline";
 import AppButton from "@/components/AppButton.vue";
+import { StoreActions } from "@/type/enums";
+import { useAppStore } from "@/store/Store";
 
 export default defineComponent({
   components: {
@@ -10,6 +12,7 @@ export default defineComponent({
     SparklesIcon,
   },
   setup() {
+    const store = useAppStore();
     const router = useRouter();
     const username = ref("");
     const password = ref("");
@@ -30,6 +33,13 @@ export default defineComponent({
       register: () => {
         allowValidation.value = true;
         isPasswordValid.value = password.value === passwordRepeat.value;
+
+        if (isPasswordValid.value) {
+          store.dispatch(StoreActions.register, {
+            username: username.value,
+            password: password.value,
+          });
+        }
       },
       goBack: () => {
         router.back();

@@ -48,6 +48,14 @@ export function createChatSocketPlugin() {
     store.subscribeAction({
       after: (action, state) => {
         switch (action.type) {
+          case StoreActions.register:
+            ChatSocket.connect();
+            ChatSocket.emit(ChatSocketMessages.CONNECT_REGISTRATION);
+            break;
+          case StoreActions.signIn:
+            ChatSocket.connect();
+            ChatSocket.emit(ChatSocketMessages.CONNECT_SIGNIN);
+            break;
           case StoreActions.createRoom:
             ChatSocket.emit(
               ChatSocketMessages.ROOMS_CREATE,
