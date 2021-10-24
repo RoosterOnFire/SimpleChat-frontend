@@ -44,4 +44,8 @@ export type Actions = {
     context: ActionAugments,
     payload: { username: string; password: string }
   ): void;
+  [StoreActions.register](
+    context: ActionAugments,
+    payload: { username: string; password: string }
+  ): void;
 };

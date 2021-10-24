@@ -1,18 +1,40 @@
 <script lang="ts">
-import { defineComponent } from "vue";
-import HomeForm from "@/components/HomeForm.vue";
+import { computed, defineComponent } from "vue";
+import { useRouter } from "vue-router";
+import { LoginIcon } from "@heroicons/vue/outline";
+import { SparklesIcon } from "@heroicons/vue/outline";
+import AppButton from "@/components/AppButton.vue";
+import { RouteNames } from "@/type/enums";
 
 export default defineComponent({
-  components: {
-    HomeForm,
+  components: { AppButton, LoginIcon, SparklesIcon },
+  setup() {
+    const router = useRouter();
+
+    return {
+      isHomeMain: computed(
+        () => router.currentRoute.value.name === RouteNames.HOME
+      ),
+      goToLogin: () => {
+        router.push(RouteNames.HOME_LOGIN);
+      },
+      gotToRegistration: () => {
+        router.push(RouteNames.HOME_REGISTRATION);
+      },
+    };
   },
-  setup() {},
 });
 </script>
 
 <template>
   <h1 class="home-header">Simple Chat</h1>
-  <HomeForm />
+  <AppButton title="Sign in" @click="goToLogin" v-if="isHomeMain">
+    <LoginIcon class="h-6 w-6" />
+  </AppButton>
+  <AppButton title="Register" @click="gotToRegistration" v-if="isHomeMain">
+    <SparklesIcon class="h-6 w-6"
+  /></AppButton>
+  <router-view />
 </template>
 
 <style lang="postcss">

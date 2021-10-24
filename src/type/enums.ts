@@ -1,11 +1,11 @@
-import { Rooms, State, Users } from './state';
-
 export enum RouteNames {
-  DASHBOARD = 'Dashboard',
-  DASHBOARD_ADMIN = 'Dashboard/Admin',
-  DASHBOARD_CHAT = 'Dashboard/Chat',
-  DASHBOARD_ROOMS = 'Dashboard/Rooms',
-  HOME = 'Home',
+  DASHBOARD = 'dashboard',
+  DASHBOARD_ADMIN = 'dashboard/admin',
+  DASHBOARD_CHAT = 'dashboard/chat',
+  DASHBOARD_ROOMS = 'dashboard/rooms',
+  HOME = 'home',
+  HOME_LOGIN = 'home/login',
+  HOME_REGISTRATION = 'home/registration',
 }
 
 export enum SessionStorageKeys {
@@ -50,13 +50,16 @@ export enum StoreActions {
   logOff = 'logOff',
   signIn = 'signIn',
   updateNickname = 'updateNickname',
+  register = 'register',
 }
 
 export enum ChatSocketMessages {
   CHAT_JOIN = 'chat:join',
   CHAT_MESSAGE = 'chat:message',
   CONNECT_ERROR = 'connect_error',
-  CONNECT_VALID = 'connect:valid',
+  CONNECT_LOGOFF = 'connect:logoff',
+  CONNECT_REGISTRATION = 'connect:registration',
+  CONNECT_SIGNIN = 'connect:signin',
   ROOMS_CREATE = 'rooms:create',
   ROOMS_JOIN = 'rooms:join',
   ROOMS_LEAVE = 'rooms:leave',
@@ -64,7 +67,6 @@ export enum ChatSocketMessages {
   SESSION_CREATED = 'session:created',
   SESSION_RESTORE = 'session:restore',
   USER_KICK = 'user:kick',
-  USER_LOGOFF = 'user:logoff',
   USERS_UPDATE = 'users:update',
 }
 
