@@ -1,8 +1,7 @@
 import { ActionTree } from 'vuex';
-import { Errors, Roles, StoreActions, StoreMutations } from '@/type/enums';
-import { State, User } from '@/type/state';
-import { ChatSocket } from '@/store/ChatSocketPlugin';
-import { Actions } from '@/type/store';
+import { Errors, Roles, StoreActions, StoreMutations } from '@/type/TypeEnums';
+import { State, User } from '@/type/TypeState';
+import { Actions } from '@/type/TypeStore';
 
 export const actions: ActionTree<State, State> & Actions = {
   [StoreActions.register](
@@ -13,7 +12,7 @@ export const actions: ActionTree<State, State> & Actions = {
     { state },
     payload: { username?: string; password?: string }
   ) {},
-  [StoreActions.createSession]({ state }, payload: User) {
+  [StoreActions.sessionCreate]({ state }, payload: User) {
     state.user = { ...state.user, ...payload };
   },
   [StoreActions.logOff]({ state }) {
@@ -24,14 +23,14 @@ export const actions: ActionTree<State, State> & Actions = {
       username: '',
     };
   },
-  [StoreActions.addError]({ state, commit }, payload: Errors) {
+  [StoreActions.errorsAdd]({ state, commit }, payload: Errors) {
     switch (payload) {
       case Errors.ERROR_INVALID_SING_IN:
       case Errors.ERROR_MISSING_PASSWORD:
       case Errors.ERROR_MISSING_USERNAME:
         state.errors.invalidSignIn = true;
         break;
-      case Errors.ERROR_NICKNAME_IN_USE:
+      case Errors.ERROR_USERNAME_IN_USE:
         state.errors.nicknameInUse = true;
         break;
       default:
@@ -39,11 +38,11 @@ export const actions: ActionTree<State, State> & Actions = {
     }
 
     if (state.user.sessionId && state.user.userId === '') {
-      commit(StoreMutations.deleteSession);
+      commit(StoreMutations.sessionDelete);
     }
   },
-  [StoreActions.kickUser]() {},
-  [StoreActions.createRoom]() {},
-  [StoreActions.joinRoom]() {},
-  [StoreActions.leaveRoom]() {},
+  [StoreActions.usersKick]() {},
+  [StoreActions.roomsCreate]() {},
+  [StoreActions.roomsJoin]() {},
+  [StoreActions.roomsLeave]() {},
 };

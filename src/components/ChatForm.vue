@@ -2,7 +2,7 @@
 import { useAppStore } from "@/store/Store";
 import { defineComponent, ref } from "vue";
 import AppButton from "@/components/AppButton.vue";
-import { StoreMutations } from "@/type/enums";
+import { StoreMutations } from "@/type/TypeEnums";
 import { MailIcon } from "@heroicons/vue/outline";
 
 export default defineComponent({
@@ -21,7 +21,7 @@ export default defineComponent({
           return;
         }
 
-        store.commit(StoreMutations.createMessage, newMessage.value);
+        store.commit(StoreMutations.messageCreate, newMessage.value);
 
         newMessage.value = "";
       },

@@ -1,4 +1,4 @@
-import { Message, User } from '@/type/state';
+import { Message, User } from '@/type/TypeState';
 
 export function createUserMessage(user: User, value: string): Message {
   return {

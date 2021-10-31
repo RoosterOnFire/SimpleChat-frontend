@@ -1,5 +1,5 @@
-import { Roles } from '@/type/enums';
-import { State } from '@/type/state';
+import { Roles } from '@/type/TypeEnums';
+import { State } from '@/type/TypeState';
 
 export const state: State = {
   user: {
@@ -9,8 +9,8 @@ export const state: State = {
     role: Roles.USER,
   },
   meta: {
-    currentPage: '',
-    adminAccessKey: '',
+    pageCurrent: '',
+    chatSelected: undefined,
   },
   rooms: [],
   errors: {

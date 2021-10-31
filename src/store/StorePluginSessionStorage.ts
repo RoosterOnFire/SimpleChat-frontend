@@ -1,11 +1,15 @@
-import { SessionStorageKeys, StoreActions, StoreMutations } from '@/type/enums';
-import { State } from '@/type/state';
+import {
+  SessionStorageKeys,
+  StoreActions,
+  StoreMutations,
+} from '@/type/TypeEnums';
+import { State } from '@/type/TypeState';
 import { Store } from 'vuex';
 
-export const createSessionStoragePlugin = () => (store: Store<State>) => {
+export const createPluginSessionStorage = () => (store: Store<State>) => {
   store.subscribe((mutation, state) => {
     switch (mutation.type) {
-      case StoreMutations.deleteSession:
+      case StoreMutations.sessionDelete:
         sessionStorage.removeItem(SessionStorageKeys.SESSION);
       default:
         break;
@@ -25,7 +29,7 @@ export const createSessionStoragePlugin = () => (store: Store<State>) => {
     },
     after: (action, state) => {
       switch (action.type) {
-        case StoreActions.createSession:
+        case StoreActions.sessionCreate:
           sessionStorage.setItem(
             SessionStorageKeys.SESSION,
             state.user.sessionId

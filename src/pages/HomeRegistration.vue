@@ -3,7 +3,7 @@ import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
 import { SparklesIcon } from "@heroicons/vue/outline";
 import AppButton from "@/components/AppButton.vue";
-import { StoreActions } from "@/type/enums";
+import { StoreActions } from "@/type/TypeEnums";
 import { useAppStore } from "@/store/Store";
 
 export default defineComponent({

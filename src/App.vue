@@ -1,8 +1,8 @@
 <script lang="ts">
 import { computed, defineComponent } from "vue";
-import { useAppStore } from "@/store/Store";
-import { StoreActions } from "@/type/enums";
 import { useRoute } from "vue-router";
+import { useAppStore } from "@/store/Store";
+import { StoreActions } from "@/type/TypeEnums";
 
 export default defineComponent({
   setup() {

@@ -4,7 +4,7 @@ import { useRouter } from "vue-router";
 import { LoginIcon } from "@heroicons/vue/outline";
 import { SparklesIcon } from "@heroicons/vue/outline";
 import AppButton from "@/components/AppButton.vue";
-import { RouteNames } from "@/type/enums";
+import { RouteNames } from "@/type/TypeEnums";
 
 export default defineComponent({
   components: { AppButton, LoginIcon, SparklesIcon },
@@ -32,8 +32,8 @@ export default defineComponent({
     <LoginIcon class="h-6 w-6" />
   </AppButton>
   <AppButton title="Register" @click="gotToRegistration" v-if="isHomeMain">
-    <SparklesIcon class="h-6 w-6"
-  /></AppButton>
+    <SparklesIcon class="h-6 w-6" />
+  </AppButton>
   <router-view />
 </template>
 

@@ -2,14 +2,14 @@
 import { defineComponent } from "vue";
 import { mapActions } from "vuex";
 import AppButton from "@/components/AppButton.vue";
-import { StoreActions } from "@/type/enums";
+import { StoreActions } from "@/type/TypeEnums";
 import RoomsForm from "@/components/RoomsForm.vue";
 
 export default defineComponent({
   components: { AppButton, RoomsForm },
   setup() {
     return {
-      ...mapActions([StoreActions.createRoom, StoreActions.joinRoom]),
+      ...mapActions([StoreActions.roomsCreate, StoreActions.roomsJoin]),
     };
   },
 });
@@ -18,13 +18,13 @@ export default defineComponent({
 
 <template>
   <div class="main page-rooms">
-    <RoomsForm title="Join" :onClick="joinRoom" />
-    <RoomsForm title="Create" :onClick="createRoom" />
+    <RoomsForm title="Join" :onClick="roomsJoin" />
+    <RoomsForm title="Create" :onClick="roomsCreate" />
   </div>
 </template>
 
 <style lang="postcss">
 .page-rooms {
-  @apply p-4;
+  @apply w-2/3 mx-auto p-4;
 }
 </style>

@@ -14,44 +14,46 @@ export enum SessionStorageKeys {
 }
 
 export enum StoreGetters {
-  currentpage = 'currentPage',
+  chatCurrectMessage = 'chatCurrectMessage',
+  errorsInvalidSignIn = 'errorsInvalidSignIn',
   hasAccess = 'hasAccess',
   hasNickname = 'hasNickname',
   isCurrentUser = 'isCurrentUser',
   isUsernameAvailable = 'isUsernameAvailable',
-  invalidSignIn = 'invalidSignIn',
-  joinedRooms = 'joinedRooms',
+  pageCurrent = 'pageCurrent',
+  roomsJoined = 'roomsJoined',
   users = 'users',
 }
 
 export enum StoreMutations {
-  createMessage = 'createMessage',
-  createRoom = 'createRoom',
-  createSession = 'createSession',
-  deleteSession = 'deleteSession',
+  errorsUpdate = 'errorsUpdate',
   messageChatJoin = 'messageChatJoin',
   messageChatLeave = 'messageChatLeave',
+  messageCreate = 'messageCreate',
+  messagesUpdate = 'messagesUpdate',
+  pageCurrentUpdate = 'pageCurrentUpdate',
   resetInvalidSignIn = 'resetInvalidSignIn',
-  updateCurrentPage = 'updateCurrentPage',
-  updateErrors = 'updateErrors',
-  updateMessages = 'updateMessages',
-  updateRooms = 'updateRooms',
-  updateSession = 'updateSession',
-  updateUsers = 'updateUsers',
+  roomsCreate = 'roomsCreate',
+  roomsJoin = 'roomsJoin',
+  roomsUpdate = 'roomsUpdate',
+  sessionCreate = 'sessionCreate',
+  sessionDelete = 'sessionDelete',
+  sessionUpdate = 'sessionUpdate',
+  usersUpdate = 'usersUpdate',
 }
 
 export enum StoreActions {
-  addError = 'addError',
-  addMessage = 'addMessage',
-  createRoom = 'createRoom',
-  createSession = 'createSession',
-  joinRoom = 'joinRoom',
-  kickUser = 'kickUser',
-  leaveRoom = 'leaveRoom',
+  errorsAdd = 'errorsAdd',
   logOff = 'logOff',
-  signIn = 'signIn',
-  updateNickname = 'updateNickname',
+  messagesAdd = 'messagesAdd',
   register = 'register',
+  roomsCreate = 'roomsCreate',
+  roomsJoin = 'roomsJoin',
+  roomsLeave = 'roomsLeave',
+  sessionCreate = 'sessionCreate',
+  signIn = 'signIn',
+  usersKick = 'usersKick',
+  userUpdateUsername = 'userUpdateUsername',
 }
 
 export enum ChatSocketMessages {

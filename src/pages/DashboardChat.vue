@@ -13,8 +13,14 @@ export default defineComponent({
 </script>
 
 <template>
-  <div class="main">
+  <div class="main page-chat">
     <ChatMessages />
     <ChatForm />
   </div>
 </template>
+
+<style lang="postcss">
+.page-chat {
+  @apply flex-col;
+}
+</style>

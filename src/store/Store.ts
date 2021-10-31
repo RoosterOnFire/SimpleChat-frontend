@@ -10,12 +10,12 @@ import {
 import { actions } from '@/store/StoreActions';
 import { getters } from '@/store/StoreGetters';
 import { mutations } from '@/store/StoreMutations';
-import { State } from '@/type/state';
+import { State } from '@/type/TypeState';
 import { state } from '@/store/StoreState';
-import { createChatSocketPlugin } from '@/store/ChatSocketPlugin';
-import { createRouterPlugin } from '@/store/RouterPlugin';
-import { createSessionStoragePlugin } from '@/store/SessionStoragePlugin';
-import { Actions, Getters, Mutations } from '@/type/store';
+import { createPluginChatSocket } from '@/store/StorePluginChatSocket';
+import { createPluginRouter } from '@/store/StorePluginRouter';
+import { createPluginSessionStorage } from '@/store/StorePluginSessionStorage';
+import { Actions, Getters, Mutations } from '@/type/TypeStore';
 
 export const key: InjectionKey<VuexStore<State>> = Symbol();
 
@@ -26,9 +26,9 @@ export const store = createStore<State>({
   state,
   plugins: [
     createLogger(),
-    createChatSocketPlugin(),
-    createRouterPlugin(),
-    createSessionStoragePlugin(),
+    createPluginChatSocket(),
+    createPluginRouter(),
+    createPluginSessionStorage(),
   ],
 });
 

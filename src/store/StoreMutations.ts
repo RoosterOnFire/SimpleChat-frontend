@@ -1,23 +1,20 @@
-import { Errors, Roles, StoreMutations } from '@/type/enums';
-import { Message, State, User } from '@/type/state';
-import { Mutations } from '@/type/store';
+import { Errors, Roles, StoreMutations } from '@/type/TypeEnums';
+import { Message, State, User } from '@/type/TypeState';
+import { Mutations } from '@/type/TypeStore';
 import { MutationTree } from 'vuex';
 
 export const mutations: MutationTree<State> & Mutations = {
-  [StoreMutations.createRoom](state: State, name: string) {
-    state.rooms.push({ name, users: [], messages: [] });
-  },
-  [StoreMutations.createMessage](state, payload: string) {
+  [StoreMutations.messageCreate](state, payload: string) {
     // state.messages.push(createUserMessage(state.user, payload));
   },
-  [StoreMutations.updateMessages](state, payload: Message) {
+  [StoreMutations.messagesUpdate](state, payload: Message) {
     // state.messages.push(payload);
   },
-  [StoreMutations.updateUsers](state, payload: User) {
+  [StoreMutations.usersUpdate](state, payload: User) {
     // state.users = payload;
   },
-  [StoreMutations.updateCurrentPage](state, payload: string) {
-    state.meta.currentPage = payload;
+  [StoreMutations.pageCurrentUpdate](state, payload: string) {
+    state.meta.pageCurrent = payload;
   },
   [StoreMutations.messageChatJoin](state, payload: User) {
     // state.messages.push(
@@ -30,7 +27,7 @@ export const mutations: MutationTree<State> & Mutations = {
   [StoreMutations.resetInvalidSignIn](state) {
     state.errors.invalidSignIn = false;
   },
-  [StoreMutations.deleteSession](state) {
+  [StoreMutations.sessionDelete](state) {
     state.user = {
       userId: '',
       sessionId: '',
@@ -38,10 +35,10 @@ export const mutations: MutationTree<State> & Mutations = {
       role: Roles.USER,
     };
   },
-  [StoreMutations.updateSession](state, payload: User) {
+  [StoreMutations.sessionUpdate](state, payload: User) {
     state.user = { ...state.user, ...payload };
   },
-  [StoreMutations.updateErrors](state, payload: string) {
+  [StoreMutations.errorsUpdate](state, payload: string) {
     switch (payload) {
       case Errors.ERROR_INVALID_SING_IN:
         state.errors.invalidSignIn = true;
@@ -49,5 +46,11 @@ export const mutations: MutationTree<State> & Mutations = {
       default:
         break;
     }
+  },
+  [StoreMutations.roomsCreate](state: State, payload: { name: string }) {
+    state.meta.chatSelected = payload.name;
+  },
+  [StoreMutations.roomsJoin](state, payload: { name: string }) {
+    state.meta.chatSelected = payload.name;
   },
 };

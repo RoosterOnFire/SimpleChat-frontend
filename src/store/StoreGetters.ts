@@ -1,13 +1,13 @@
 import { GetterTree } from 'vuex';
-import { State } from '@/type/state';
-import { StoreGetters } from '@/type/enums';
-import { Getters } from '@/type/store';
+import { State } from '@/type/TypeState';
+import { StoreGetters } from '@/type/TypeEnums';
+import { Getters } from '@/type/TypeStore';
 
 export const getters: GetterTree<State, State> & Getters = {
-  [StoreGetters.currentpage](state) {
-    return state.meta.currentPage;
+  [StoreGetters.pageCurrent](state) {
+    return state.meta.pageCurrent;
   },
-  [StoreGetters.invalidSignIn](state) {
+  [StoreGetters.errorsInvalidSignIn](state) {
     return state.errors.invalidSignIn;
   },
   [StoreGetters.isCurrentUser]: (state) => (payload: string) => {
@@ -19,7 +19,7 @@ export const getters: GetterTree<State, State> & Getters = {
   [StoreGetters.hasNickname](state) {
     return !!state.user.username;
   },
-  [StoreGetters.joinedRooms](state) {
+  [StoreGetters.roomsJoined](state) {
     return state.rooms;
   },
 };

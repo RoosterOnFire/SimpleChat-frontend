@@ -2,7 +2,7 @@
 import { defineComponent } from "vue";
 import { mapActions, mapGetters, mapMutations } from "vuex";
 import { LoginIcon } from "@heroicons/vue/outline";
-import { StoreActions, StoreGetters, StoreMutations } from "@/type/enums";
+import { StoreActions, StoreGetters, StoreMutations } from "@/type/TypeEnums";
 import { useAppStore } from "@/store/Store";
 import AppButton from "@/components/AppButton.vue";
 import { useRouter } from "vue-router";
@@ -22,7 +22,7 @@ export default defineComponent({
       goBack: () => {
         router.back();
       },
-      ...mapGetters([StoreGetters.invalidSignIn]),
+      ...mapGetters([StoreGetters.errorsInvalidSignIn]),
       ...mapMutations([StoreMutations.resetInvalidSignIn]),
       ...mapActions([StoreActions.signIn]),
     };
@@ -35,22 +35,20 @@ export default defineComponent({
     <input
       type="text"
       class="input"
-      :class="{ 'text-error': invalidSignIn() }"
+      :class="{ 'text-error': errorsInvalidSignIn() }"
       placeholder="Username"
       required
       v-model="username"
       @click="resetInvalidSignIn"
-      @change="resetInvalidSignIn"
     />
     <input
       type="password"
       class="input"
-      :class="{ 'text-error': invalidSignIn() }"
+      :class="{ 'text-error': errorsInvalidSignIn() }"
       placeholder="Password"
       required
       v-model="password"
       @click="resetInvalidSignIn"
-      @change="resetInvalidSignIn"
     />
     <AppButton title="Sign in" @click="signIn({ username, password })">
       <LoginIcon class="h-6 w-6" />

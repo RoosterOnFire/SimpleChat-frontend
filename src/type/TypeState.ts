@@ -1,4 +1,4 @@
-import { Roles } from './enums';
+import { Roles } from './TypeEnums';
 
 export type State = {
   user: User;
@@ -20,8 +20,8 @@ export type User = {
 export type Users = User[];
 
 export type Meta = {
-  currentPage: string;
-  adminAccessKey: string;
+  pageCurrent: string;
+  chatSelected: string | undefined;
 };
 
 export type Room = {

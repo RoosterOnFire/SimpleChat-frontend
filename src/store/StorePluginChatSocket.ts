@@ -1,13 +1,17 @@
 import { io } from 'socket.io-client';
 import { Store } from 'vuex';
-import { ChatSocketMessages, StoreActions, StoreMutations } from '@/type/enums';
-import { Message, State, User, Users } from '@/type/state';
+import {
+  ChatSocketMessages,
+  StoreActions,
+  StoreMutations,
+} from '@/type/TypeEnums';
+import { Message, State, User, Users } from '@/type/TypeState';
 
 export const ChatSocket = io(import.meta.env.VITE_SOCKET_ENDPOINT, {
   autoConnect: false,
 });
 
-export function createChatSocketPlugin() {
+export function createPluginChatSocket() {
   return (store: Store<State>) => {
     ChatSocket.onAny((event, ...args) => {
       if (import.meta.env.DEV) {
@@ -16,24 +20,24 @@ export function createChatSocketPlugin() {
     });
 
     ChatSocket.on(ChatSocketMessages.SESSION_CLOSED, () => {
-      store.commit(StoreMutations.deleteSession);
+      store.commit(StoreMutations.sessionDelete);
     });
 
     ChatSocket.on(ChatSocketMessages.USERS_UPDATE, (payload: Users) => {
-      store.commit(StoreMutations.updateUsers, payload);
+      store.commit(StoreMutations.usersUpdate, payload);
     });
 
     ChatSocket.on(ChatSocketMessages.CHAT_MESSAGE, (message: Message) => {
-      store.commit(StoreMutations.updateMessages, message);
+      store.commit(StoreMutations.messagesUpdate, message);
     });
 
     ChatSocket.on(ChatSocketMessages.CONNECT_ERROR, (err) => {
-      store.dispatch(StoreActions.addError, err.message);
+      store.dispatch(StoreActions.errorsAdd, err.message);
     });
 
     store.subscribe((mutation, state) => {
       switch (mutation.type) {
-        case StoreMutations.createMessage:
+        case StoreMutations.messageCreate:
           ChatSocket.emit(ChatSocketMessages.CHAT_MESSAGE, mutation.payload);
           break;
         default:
@@ -57,7 +61,7 @@ export function createChatSocketPlugin() {
               },
               (payload: { success: boolean; data: User }) => {
                 if (payload.success) {
-                  store.dispatch(StoreActions.createSession, payload.data);
+                  store.dispatch(StoreActions.sessionCreate, payload.data);
                 } else {
                   console.log(payload);
                 }
@@ -77,37 +81,47 @@ export function createChatSocketPlugin() {
               },
               (payload: { success: boolean; data?: User; error?: string }) => {
                 if (payload.error) {
-                  store.commit(StoreMutations.updateErrors, payload.error);
+                  store.commit(StoreMutations.errorsUpdate, payload.error);
                 } else {
-                  store.dispatch(StoreActions.createSession, payload.data);
+                  store.dispatch(StoreActions.sessionCreate, payload.data);
                 }
               }
             );
             break;
-          case StoreActions.createRoom:
+          case StoreActions.roomsCreate:
             ChatSocket.emit(
               ChatSocketMessages.ROOMS_CREATE,
               { roomName: action.payload },
               () => {
-                store.commit(StoreMutations.createRoom, action.payload);
+                store.commit(StoreMutations.roomsCreate, {
+                  name: action.payload,
+                });
               }
             );
             break;
-          case StoreActions.joinRoom:
+          case StoreActions.roomsJoin:
             ChatSocket.emit(
               ChatSocketMessages.ROOMS_JOIN,
               { roomName: action.payload },
-              console.log
+              (payload: { success: boolean; message: string }) => {
+                if (payload.success) {
+                  store.commit(StoreMutations.roomsJoin, {
+                    name: action.payload,
+                  });
+                } else {
+                  console.error(payload);
+                }
+              }
             );
             break;
-          case StoreActions.leaveRoom:
+          case StoreActions.roomsLeave:
             ChatSocket.emit(
               ChatSocketMessages.ROOMS_LEAVE,
               { roomName: action.payload },
               console.log
             );
             break;
-          case StoreActions.kickUser:
+          case StoreActions.usersKick:
             ChatSocket.emit(ChatSocketMessages.USER_KICK, {
               userId: action.payload,
             });

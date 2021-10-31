@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import Home from '@/pages/Home.vue';
 import { store } from '@/store/Store';
-import { StoreMutations, RouteNames, Roles } from '@/type/enums';
+import { StoreMutations, RouteNames, Roles } from '@/type/TypeEnums';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -12,12 +12,12 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'login',
         name: RouteNames.HOME_LOGIN,
-        component: () => import('@/pages/Login.vue'),
+        component: () => import('@/pages/HomeLogin.vue'),
       },
       {
         path: 'registration',
         name: RouteNames.HOME_REGISTRATION,
-        component: () => import('@/pages/Registration.vue'),
+        component: () => import('@/pages/HomeRegistration.vue'),
       },
     ],
   },
@@ -29,17 +29,17 @@ const routes: RouteRecordRaw[] = [
       {
         path: 'admin',
         name: RouteNames.DASHBOARD_ADMIN,
-        component: () => import('@/pages/Admin.vue'),
+        component: () => import('@/pages/DashboardAdmin.vue'),
       },
       {
         path: 'chat',
         name: RouteNames.DASHBOARD_CHAT,
-        component: () => import('@/pages/Chat.vue'),
+        component: () => import('@/pages/DashboardChat.vue'),
       },
       {
         path: 'rooms',
         name: RouteNames.DASHBOARD_ROOMS,
-        component: () => import('@/pages/Rooms.vue'),
+        component: () => import('@/pages/DashboardRooms.vue'),
       },
     ],
   },
@@ -72,7 +72,7 @@ Router.beforeEach((to, from, next) => {
 });
 
 Router.afterEach((to, from, failure) => {
-  store.commit(StoreMutations.updateCurrentPage, to.name);
+  store.commit(StoreMutations.pageCurrentUpdate, to.name);
 });
 
 export default Router;

@@ -2,7 +2,7 @@
 import { computed, defineComponent } from "vue";
 import { mapActions } from "vuex";
 import { useRoute } from "vue-router";
-import { Roles, RouteNames, StoreActions } from "@/type/enums";
+import { Roles, RouteNames, StoreActions } from "@/type/TypeEnums";
 import { useAppStore } from "@/store/Store";
 import AppButton from "@/components/AppButton.vue";
 import {
@@ -56,8 +56,16 @@ export default defineComponent({
       class="navbar-link"
       :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
     >
-      {{ "Chat" }}
+      {{ "Rooms" }}
       <ChatAlt2Icon class="w-6 h-6" />
+    </router-link>
+    <router-link
+      to="/dashboard/chat"
+      class="navbar-link"
+      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/chat') }"
+    >
+      {{ "Chat" }}
+      <ChatIcon class="w-6 h-6" />
     </router-link>
     <button type="button" class="navbar-link ml-auto" @click="logout()">
       {{ "Logout" }}
