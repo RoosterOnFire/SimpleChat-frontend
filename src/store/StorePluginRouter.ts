@@ -1,3 +1,4 @@
+import { Store } from 'vuex';
 import Router from '@/router/Router';
 import {
   RouteNames,
@@ -6,12 +7,15 @@ import {
   StoreMutations,
 } from '@/type/TypeEnums';
 import { State } from '@/type/TypeState';
-import { Store } from 'vuex';
 
-export const createPluginRouter = () => (store: Store<State>) => {
+const createPluginRouter = () => (store: Store<State>) => {
   store.subscribe((mutation, state) => {
     switch (mutation.type) {
       case StoreMutations.pageCurrentUpdate:
+        if (mutation.payload.startsWith('home')) {
+          break;
+        }
+
         sessionStorage.setItem(
           SessionStorageKeys.CURRENT_PAGE,
           mutation.payload
@@ -39,13 +43,15 @@ export const createPluginRouter = () => (store: Store<State>) => {
           } else {
             Router.push({ name: RouteNames.DASHBOARD });
           }
-
           break;
         case StoreActions.logOff:
           Router.push({ name: RouteNames.HOME });
+          break;
         default:
           break;
       }
     },
   });
 };
+
+export default createPluginRouter;

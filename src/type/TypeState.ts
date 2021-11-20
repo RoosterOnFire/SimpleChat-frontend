@@ -1,9 +1,10 @@
-import { Roles } from './TypeEnums';
+import { Module } from 'vuex';
+import { Roles } from '@/type/TypeEnums';
 
 export type State = {
-  user: User;
-  meta: Meta;
-  rooms: Rooms;
+  user?: User;
+  meta?: Meta;
+  rooms?: Rooms;
   errors: {
     invalidSignIn: boolean;
     nicknameInUse: boolean;
@@ -21,16 +22,20 @@ export type Users = User[];
 
 export type Meta = {
   pageCurrent: string;
-  chatSelected: string | undefined;
 };
 
 export type Room = {
   name: string;
   users: string[];
-  messages: Messages;
+  messages: Message[];
 };
 
-export type Rooms = Room[];
+export type Rooms = {
+  meta: {
+    selected: string;
+  };
+  rooms: Room[];
+};
 
 export type Message = {
   id: number;
@@ -38,4 +43,8 @@ export type Message = {
   value: string;
 };
 
-export type Messages = Message[];
+export type StoreModuleUser = Module<User, State>;
+
+export type StoreModuleMeta = Module<Meta, State>;
+
+export type StoreModuleRooms = Module<Rooms, State>;

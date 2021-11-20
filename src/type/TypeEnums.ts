@@ -22,6 +22,7 @@ export enum StoreGetters {
   isUsernameAvailable = 'isUsernameAvailable',
   pageCurrent = 'pageCurrent',
   roomsJoined = 'roomsJoined',
+  roomsMessages = 'roomsMessages',
   users = 'users',
 }
 

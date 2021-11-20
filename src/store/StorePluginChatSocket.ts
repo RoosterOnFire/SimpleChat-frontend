@@ -7,11 +7,17 @@ import {
 } from '@/type/TypeEnums';
 import { Message, State, User, Users } from '@/type/TypeState';
 
-export const ChatSocket = io(import.meta.env.VITE_SOCKET_ENDPOINT, {
+type CallbackPayload = {
+  success: boolean;
+  message: string;
+  data: { name: string };
+};
+
+const ChatSocket = io(import.meta.env.VITE_SOCKET_ENDPOINT, {
   autoConnect: false,
 });
 
-export function createPluginChatSocket() {
+const createPluginChatSocket = () => {
   return (store: Store<State>) => {
     ChatSocket.onAny((event, ...args) => {
       if (import.meta.env.DEV) {
@@ -69,7 +75,7 @@ export function createPluginChatSocket() {
             );
             break;
           case StoreActions.signIn:
-            ChatSocket.auth = { sessionId: state.user.sessionId };
+            ChatSocket.auth = { sessionId: state.user?.sessionId };
 
             ChatSocket.connect();
 
@@ -92,7 +98,7 @@ export function createPluginChatSocket() {
             ChatSocket.emit(
               ChatSocketMessages.ROOMS_CREATE,
               { roomName: action.payload },
-              () => {
+              (payload: CallbackPayload) => {
                 store.commit(StoreMutations.roomsCreate, {
                   name: action.payload,
                 });
@@ -103,14 +109,14 @@ export function createPluginChatSocket() {
             ChatSocket.emit(
               ChatSocketMessages.ROOMS_JOIN,
               { roomName: action.payload },
-              (payload: { success: boolean; message: string }) => {
+              (payload: CallbackPayload) => {
                 if (payload.success) {
-                  store.commit(StoreMutations.roomsJoin, {
-                    name: action.payload,
+                  return store.commit(StoreMutations.roomsJoin, {
+                    name: payload.data.name,
                   });
-                } else {
-                  console.error(payload);
                 }
+
+                console.error(payload);
               }
             );
             break;
@@ -130,8 +136,6 @@ export function createPluginChatSocket() {
             ChatSocket.emit(
               ChatSocketMessages.CONNECT_LOGOFF,
               (response: any) => {
-                console.log(response);
-
                 ChatSocket.auth = {};
               }
             );
@@ -142,4 +146,6 @@ export function createPluginChatSocket() {
       },
     });
   };
-}
+};
+
+export default createPluginChatSocket;

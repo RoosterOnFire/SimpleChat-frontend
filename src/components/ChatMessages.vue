@@ -1,17 +1,24 @@
 <script lang="ts">
-import { defineComponent, ref, onUpdated } from "vue";
+import { useAppStore } from "@/store/Store";
+import { StoreGetters } from "@/type/TypeEnums";
+import { Message } from "@/type/TypeState";
+import { defineComponent, ref, onUpdated, computed } from "vue";
+import { mapGetters } from "vuex";
 
 export default defineComponent({
   setup() {
     const container = ref<HTMLElement | null>(null);
+    const store = useAppStore();
 
     onUpdated(() => {
       container.value?.lastElementChild?.scrollIntoView();
     });
 
     return {
-      messages: [],
       container,
+      messages: computed<Message[]>(
+        () => store.getters[StoreGetters.roomsMessages]
+      ),
     };
   },
 });
@@ -19,14 +26,14 @@ export default defineComponent({
 
 <template>
   <div class="messages" ref="container">
-    <!-- <p
+    <p
       v-for="(message, index) of messages"
       :key="index"
       class="message-row"
       :class="{ 'text-blue-600': message.user === 'App' }"
     >
       {{ message.user }}: {{ message.value }}
-    </p> -->
+    </p>
   </div>
 </template>
 
