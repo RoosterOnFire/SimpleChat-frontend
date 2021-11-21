@@ -19,12 +19,12 @@ export default defineComponent({
 <template>
   <div class="main page-rooms">
     <RoomsForm title="Join" :onClick="roomsJoin" />
-    <RoomsForm title="Create" :onClick="roomsCreate" />
+    <!-- <RoomsForm title="Create" :onClick="roomsCreate" /> -->
   </div>
 </template>
 
 <style lang="postcss">
 .page-rooms {
-  @apply w-2/3 mx-auto p-4;
+  @apply w-1/3 mx-auto p-4;
 }
 </style>

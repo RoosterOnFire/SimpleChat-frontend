@@ -3,7 +3,7 @@ import { Message, User } from '@/type/TypeState';
 export function createUserMessage(user: User, value: string): Message {
   return {
     id: Date.now(),
-    user: user.username,
+    user: user.data.username,
     value,
   };
 }

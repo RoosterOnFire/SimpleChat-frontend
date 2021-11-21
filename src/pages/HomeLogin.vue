@@ -1,9 +1,8 @@
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions, mapGetters, mapMutations } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { LoginIcon } from "@heroicons/vue/outline";
-import { StoreActions, StoreGetters, StoreMutations } from "@/type/TypeEnums";
-import { useAppStore } from "@/store/Store";
+import { StoreActions, StoreGetters } from "@/type/TypeEnums";
 import AppButton from "@/components/AppButton.vue";
 import { useRouter } from "vue-router";
 
@@ -13,7 +12,6 @@ export default defineComponent({
     LoginIcon,
   },
   setup() {
-    const store = useAppStore();
     const router = useRouter();
 
     return {
@@ -23,7 +21,6 @@ export default defineComponent({
         router.back();
       },
       ...mapGetters([StoreGetters.errorsInvalidSignIn]),
-      ...mapMutations([StoreMutations.resetInvalidSignIn]),
       ...mapActions([StoreActions.signIn]),
     };
   },
@@ -32,23 +29,27 @@ export default defineComponent({
 
 <template>
   <form class="form-home">
+    <label v-if="errorsInvalidSignIn()" for="username" class="text-error">
+      {{ "Username invalid" }}
+    </label>
     <input
+      id="username"
       type="text"
       class="input"
-      :class="{ 'text-error': errorsInvalidSignIn() }"
       placeholder="Username"
       required
       v-model="username"
-      @click="resetInvalidSignIn"
     />
+    <label v-if="errorsInvalidSignIn()" for="password" class="text-error">
+      {{ "Password invalid" }}
+    </label>
     <input
+      id="password"
       type="password"
       class="input"
-      :class="{ 'text-error': errorsInvalidSignIn() }"
       placeholder="Password"
       required
       v-model="password"
-      @click="resetInvalidSignIn"
     />
     <AppButton title="Sign in" @click="signIn({ username, password })">
       <LoginIcon class="h-6 w-6" />

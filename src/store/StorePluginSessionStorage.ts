@@ -21,7 +21,7 @@ const createPluginSessionStorage = () => (store: Store<State>) => {
       switch (action.type) {
         case StoreActions.signIn:
           if (store.state.user) {
-            store.state.user.sessionId =
+            store.state.user.data.sessionId =
               sessionStorage.getItem(SessionStorageKeys.SESSION) ?? '';
           }
           break;
@@ -34,7 +34,7 @@ const createPluginSessionStorage = () => (store: Store<State>) => {
         case StoreActions.sessionCreate:
           sessionStorage.setItem(
             SessionStorageKeys.SESSION,
-            state.user?.sessionId ?? ''
+            state.user?.data.sessionId ?? ''
           );
           break;
         case StoreActions.logOff:

@@ -75,7 +75,7 @@ const createPluginChatSocket = () => {
             );
             break;
           case StoreActions.signIn:
-            ChatSocket.auth = { sessionId: state.user?.sessionId };
+            ChatSocket.auth = { sessionId: state.user?.data.sessionId };
 
             ChatSocket.connect();
 

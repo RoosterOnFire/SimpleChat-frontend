@@ -5,13 +5,17 @@ export type State = {
   user?: User;
   meta?: Meta;
   rooms?: Rooms;
+};
+
+export type User = {
+  data: UserData;
   errors: {
     invalidSignIn: boolean;
     nicknameInUse: boolean;
   };
 };
 
-export type User = {
+export type UserData = {
   role: Roles;
   sessionId: string;
   userId: string;
