@@ -26,7 +26,7 @@ export default defineComponent({
 
     return {
       route,
-      userRole: computed(() => store.state.user?.role),
+      userRole: computed(() => store.state.user?.data.role),
       roleAdmin: Roles.ADMIN,
       routeChat: RouteNames.DASHBOARD_CHAT,
       isCurrentRoute(link: string) {

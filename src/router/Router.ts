@@ -51,7 +51,7 @@ const Router = createRouter({
 });
 
 Router.beforeEach((to, from, next) => {
-  const userRole = store.state.user?.role;
+  const userRole = store.state.user?.data.role;
   if (to.name === RouteNames.DASHBOARD_ADMIN && userRole !== Roles.ADMIN) {
     return;
   } else if (
