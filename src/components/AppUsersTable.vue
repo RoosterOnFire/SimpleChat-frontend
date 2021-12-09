@@ -1,23 +1,3 @@
-<script lang="ts">
-import { defineComponent } from "vue";
-import AppButton from "@/components/AppButton.vue";
-import { StoreActions } from "@/type/TypeEnums";
-import { mapActions } from "vuex";
-import { useAppStore } from "@/store/Store";
-
-export default defineComponent({
-  components: { AppButton },
-  setup() {
-    const store = useAppStore();
-
-    return {
-      isCurrentUser: store.getters.isCurrentUser,
-      users: [],
-      ...mapActions([StoreActions.usersKick]),
-    };
-  },
-});
-</script>
 
 <template>
   <div class="table-container">
@@ -55,6 +35,27 @@ export default defineComponent({
     </table>
   </div>
 </template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import AppButton from "@/components/AppButton.vue";
+import { StoreActions } from "@/type/TypeEnums";
+import { mapActions } from "vuex";
+import { useAppStore } from "@/store/Store";
+
+export default defineComponent({
+  components: { AppButton },
+  setup() {
+    const store = useAppStore();
+
+    return {
+      isCurrentUser: store.getters.isCurrentUser,
+      users: [],
+      ...mapActions([StoreActions.usersKick]),
+    };
+  },
+});
+</script>
 
 <style lang="postcss">
 .table-container {

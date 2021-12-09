@@ -1,3 +1,11 @@
+<template>
+  <router-view v-slot="{ Component, route }">
+    <div class="container" :class="[isHome ? 'home' : 'page']">
+      <component :is="Component" :key="route.path" />
+    </div>
+  </router-view>
+</template>
+
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { useRoute } from "vue-router";
@@ -19,11 +27,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<template>
-  <router-view v-slot="{ Component, route }">
-    <div class="container" :class="[isHome ? 'home' : 'page']">
-      <component :is="Component" :key="route.path" />
-    </div>
-  </router-view>
-</template>

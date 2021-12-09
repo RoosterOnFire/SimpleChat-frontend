@@ -1,9 +1,21 @@
+<template>
+  <div class="messages" ref="container">
+    <p
+      v-for="(message, index) of messages"
+      :key="index"
+      class="message-row"
+      :class="{ 'text-blue-600': message.user === 'App' }"
+    >
+      {{ message.user }}: {{ message.value }}
+    </p>
+  </div>
+</template>
+
 <script lang="ts">
 import { useAppStore } from "@/store/Store";
 import { StoreGetters } from "@/type/TypeEnums";
 import { Message } from "@/type/TypeState";
 import { defineComponent, ref, onUpdated, computed } from "vue";
-import { mapGetters } from "vuex";
 
 export default defineComponent({
   setup() {
@@ -23,19 +35,6 @@ export default defineComponent({
   },
 });
 </script>
-
-<template>
-  <div class="messages" ref="container">
-    <p
-      v-for="(message, index) of messages"
-      :key="index"
-      class="message-row"
-      :class="{ 'text-blue-600': message.user === 'App' }"
-    >
-      {{ message.user }}: {{ message.value }}
-    </p>
-  </div>
-</template>
 
 <style lang="postcss">
 .messages {

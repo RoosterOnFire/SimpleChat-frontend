@@ -1,6 +1,10 @@
+<template>
+  <DashboardNav />
+  <router-view />
+</template>
+
 <script lang="ts">
 import { defineComponent } from "vue";
-
 import DashboardNav from "@/components/DashboardNav.vue";
 
 export default defineComponent({
@@ -10,11 +14,3 @@ export default defineComponent({
   setup() {},
 });
 </script>
-
-<template>
-  <DashboardNav />
-  <router-view />
-</template>
-
-<style lang="postcss">
-</style>

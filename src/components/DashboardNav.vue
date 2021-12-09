@@ -1,3 +1,37 @@
+<template>
+  <div class="navbar">
+    <router-link
+      v-if="userRole === roleAdmin"
+      to="/dashboard/admin"
+      class="navbar-link"
+      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/admin') }"
+    >
+      {{ "Admin" }}
+      <ServerIcon class="w-6 h-6" />
+    </router-link>
+    <router-link
+      to="/dashboard/rooms"
+      class="navbar-link"
+      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
+    >
+      {{ "Rooms" }}
+      <ChatAlt2Icon class="w-6 h-6" />
+    </router-link>
+    <router-link
+      to="/dashboard/chat"
+      class="navbar-link"
+      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/chat') }"
+    >
+      {{ "Chat" }}
+      <ChatIcon class="w-6 h-6" />
+    </router-link>
+    <button type="button" class="navbar-link ml-auto" @click="logout()">
+      {{ "Logout" }}
+      <LogoutIcon class="w-6 h-6" />
+    </button>
+  </div>
+</template>
+
 <script lang="ts">
 import { computed, defineComponent } from "vue";
 import { mapActions } from "vuex";
@@ -39,40 +73,6 @@ export default defineComponent({
   },
 });
 </script>
-
-<template>
-  <div class="navbar">
-    <router-link
-      v-if="userRole === roleAdmin"
-      to="/dashboard/admin"
-      class="navbar-link"
-      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/admin') }"
-    >
-      {{ "Admin" }}
-      <ServerIcon class="w-6 h-6" />
-    </router-link>
-    <router-link
-      to="/dashboard/rooms"
-      class="navbar-link"
-      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
-    >
-      {{ "Rooms" }}
-      <ChatAlt2Icon class="w-6 h-6" />
-    </router-link>
-    <router-link
-      to="/dashboard/chat"
-      class="navbar-link"
-      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/chat') }"
-    >
-      {{ "Chat" }}
-      <ChatIcon class="w-6 h-6" />
-    </router-link>
-    <button type="button" class="navbar-link ml-auto" @click="logout()">
-      {{ "Logout" }}
-      <LogoutIcon class="w-6 h-6" />
-    </button>
-  </div>
-</template>
 
 <style lang="postcss">
 .navbar {

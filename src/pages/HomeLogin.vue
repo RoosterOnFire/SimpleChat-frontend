@@ -1,32 +1,3 @@
-<script lang="ts">
-import { defineComponent } from "vue";
-import { mapActions, mapGetters } from "vuex";
-import { LoginIcon } from "@heroicons/vue/outline";
-import { StoreActions, StoreGetters } from "@/type/TypeEnums";
-import AppButton from "@/components/AppButton.vue";
-import { useRouter } from "vue-router";
-
-export default defineComponent({
-  components: {
-    AppButton,
-    LoginIcon,
-  },
-  setup() {
-    const router = useRouter();
-
-    return {
-      username: "",
-      password: "",
-      goBack: () => {
-        router.back();
-      },
-      ...mapGetters([StoreGetters.errorsInvalidSignIn]),
-      ...mapActions([StoreActions.signIn]),
-    };
-  },
-});
-</script>
-
 <template>
   <form class="form-home">
     <label v-if="errorsInvalidSignIn()" for="username" class="text-error">
@@ -57,3 +28,32 @@ export default defineComponent({
     <AppButton title="Go Back" @click="goBack" />
   </form>
 </template>
+
+<script lang="ts">
+import { defineComponent } from "vue";
+import { mapActions, mapGetters } from "vuex";
+import { LoginIcon } from "@heroicons/vue/outline";
+import { StoreActions, StoreGetters } from "@/type/TypeEnums";
+import AppButton from "@/components/AppButton.vue";
+import { useRouter } from "vue-router";
+
+export default defineComponent({
+  components: {
+    AppButton,
+    LoginIcon,
+  },
+  setup() {
+    const router = useRouter();
+
+    return {
+      username: "",
+      password: "",
+      goBack: () => {
+        router.back();
+      },
+      ...mapGetters([StoreGetters.errorsInvalidSignIn]),
+      ...mapActions([StoreActions.signIn]),
+    };
+  },
+});
+</script>

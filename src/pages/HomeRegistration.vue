@@ -1,3 +1,50 @@
+<template>
+  <form class="form-home">
+    <input
+      type="text"
+      class="input"
+      :class="{
+        'text-success': allowValidation && isPasswordValid,
+      }"
+      placeholder="Username"
+      required
+      v-model="username"
+      @click="resetIsPasswordValid"
+      @change="resetIsPasswordValid"
+    />
+    <input
+      type="password"
+      class="input"
+      :class="{
+        'text-error': !isPasswordValid,
+        'text-success': allowValidation && isPasswordValid,
+      }"
+      placeholder="Password"
+      required
+      v-model="password"
+      @click="resetIsPasswordValid"
+      @change="resetIsPasswordValid"
+    />
+    <input
+      type="password"
+      class="input"
+      :class="{
+        'text-error': !isPasswordValid,
+        'text-success': allowValidation && isPasswordValid,
+      }"
+      placeholder="Repeat password"
+      required
+      v-model="passwordRepeat"
+      @click="resetIsPasswordValid"
+      @change="resetIsPasswordValid"
+    />
+    <AppButton title="Join" @click="register">
+      <SparklesIcon class="h-6 w-6" />
+    </AppButton>
+    <AppButton title="Go Back" @click="goBack" />
+  </form>
+</template>
+
 <script lang="ts">
 import { defineComponent, ref } from "vue";
 import { useRouter } from "vue-router";
@@ -48,50 +95,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<template>
-  <form class="form-home">
-    <input
-      type="text"
-      class="input"
-      :class="{
-        'text-success': allowValidation && isPasswordValid,
-      }"
-      placeholder="Username"
-      required
-      v-model="username"
-      @click="resetIsPasswordValid"
-      @change="resetIsPasswordValid"
-    />
-    <input
-      type="password"
-      class="input"
-      :class="{
-        'text-error': !isPasswordValid,
-        'text-success': allowValidation && isPasswordValid,
-      }"
-      placeholder="Password"
-      required
-      v-model="password"
-      @click="resetIsPasswordValid"
-      @change="resetIsPasswordValid"
-    />
-    <input
-      type="password"
-      class="input"
-      :class="{
-        'text-error': !isPasswordValid,
-        'text-success': allowValidation && isPasswordValid,
-      }"
-      placeholder="Repeat password"
-      required
-      v-model="passwordRepeat"
-      @click="resetIsPasswordValid"
-      @change="resetIsPasswordValid"
-    />
-    <AppButton title="Join" @click="register">
-      <SparklesIcon class="h-6 w-6" />
-    </AppButton>
-    <AppButton title="Go Back" @click="goBack" />
-  </form>
-</template>

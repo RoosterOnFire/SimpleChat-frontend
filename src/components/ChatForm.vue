@@ -1,8 +1,21 @@
+<template>
+  <form
+    class="chat-form"
+    @submit.prevent="sendMessage"
+    @keypress.enter.prevent="sendMessage"
+  >
+    <input type="text" class="input" v-model="newMessage" />
+    <AppButton title="Send" type="submit">
+      <MailIcon class="w-6 h-6" />
+    </AppButton>
+  </form>
+</template>
+
 <script lang="ts">
 import { useAppStore } from "@/store/Store";
 import { defineComponent, ref } from "vue";
 import AppButton from "@/components/AppButton.vue";
-import { StoreActions, StoreMutations } from "@/type/TypeEnums";
+import { StoreActions } from "@/type/TypeEnums";
 import { MailIcon } from "@heroicons/vue/outline";
 
 export default defineComponent({
@@ -31,19 +44,6 @@ export default defineComponent({
   },
 });
 </script>
-
-<template>
-  <form
-    class="chat-form"
-    @submit.prevent="sendMessage"
-    @keypress.enter.prevent="sendMessage"
-  >
-    <input type="text" class="input" v-model="newMessage" />
-    <AppButton title="Send" type="submit">
-      <MailIcon class="w-6 h-6" />
-    </AppButton>
-  </form>
-</template>
 
 <style lang="postcss">
 .chat-form {

@@ -1,3 +1,7 @@
+<template>
+  <button class="button" :type="type">{{ title }}<slot /></button>
+</template>
+
 <script lang="ts">
 import { defineComponent } from "vue";
 
@@ -14,10 +18,6 @@ export default defineComponent({
   },
 });
 </script>
-
-<template>
-  <button class="button" :type="type">{{ title }}<slot /></button>
-</template>
 
 <style lang="postcss">
 .button {

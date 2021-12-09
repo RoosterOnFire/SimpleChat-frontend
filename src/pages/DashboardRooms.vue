@@ -1,3 +1,10 @@
+<template>
+  <div class="main page-rooms">
+    <RoomsForm title="Join" :onClick="roomsJoin" />
+    <!-- <RoomsForm title="Create" :onClick="roomsCreate" /> -->
+  </div>
+</template>
+
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapActions } from "vuex";
@@ -14,14 +21,6 @@ export default defineComponent({
   },
 });
 </script>
-    
-
-<template>
-  <div class="main page-rooms">
-    <RoomsForm title="Join" :onClick="roomsJoin" />
-    <!-- <RoomsForm title="Create" :onClick="roomsCreate" /> -->
-  </div>
-</template>
 
 <style lang="postcss">
 .page-rooms {

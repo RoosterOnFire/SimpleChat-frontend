@@ -1,3 +1,13 @@
+<template>
+  <div class="sidebar">
+    <transition-group name="chat-list">
+      <!-- <p v-for="(user, index) in users" :key="index" class="chat-sidebar-row">
+        {{ user.username }}
+      </p> -->
+    </transition-group>
+  </div>
+</template>
+
 <script lang="ts">
 import { defineComponent } from "vue";
 import { useAppStore } from "@/store/Store";
@@ -11,16 +21,6 @@ export default defineComponent({
   },
 });
 </script>
-
-<template>
-  <div class="sidebar">
-    <transition-group name="chat-list">
-      <!-- <p v-for="(user, index) in users" :key="index" class="chat-sidebar-row">
-        {{ user.username }}
-      </p> -->
-    </transition-group>
-  </div>
-</template>
 
 <style lang="postcss">
 .chat-sidebar-row {

@@ -1,3 +1,15 @@
+<template>
+  <div v-if="isChatSelected" class="main page-chat">
+    <ChatMessages />
+    <ChatForm />
+  </div>
+  <div v-else class="h-full flex justify-center">
+    <h1 class="my-auto text-primary text-lg bg-gray-50 bg-opacity-30">
+      You have not joined any rooms
+    </h1>
+  </div>
+</template>
+
 <script lang="ts">
 import { defineComponent } from "vue";
 import ChatMessages from "@/components/ChatMessages.vue";
@@ -18,18 +30,6 @@ export default defineComponent({
   },
 });
 </script>
-
-<template>
-  <div v-if="isChatSelected" class="main page-chat">
-    <ChatMessages />
-    <ChatForm />
-  </div>
-  <div v-else class="h-full flex justify-center">
-    <h1 class="my-auto text-primary text-lg bg-gray-50 bg-opacity-30">
-      You have not joined any rooms
-    </h1>
-  </div>
-</template>
 
 <style lang="postcss">
 .page-chat {
