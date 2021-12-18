@@ -1,44 +1,32 @@
 <template>
-  <form class="form-home">
+  <form class="form-home" @submit="register">
+    <span v-if="errors.username" class="text-error">{{ errors.username }}</span>
     <input
       type="text"
       class="input"
-      :class="{
-        'text-success': allowValidation && isPasswordValid,
-      }"
       placeholder="Username"
       required
       v-model="username"
-      @click="resetIsPasswordValid"
-      @change="resetIsPasswordValid"
     />
+    <span v-if="errors.password" class="text-error">{{ errors.password }}</span>
     <input
       type="password"
       class="input"
-      :class="{
-        'text-error': !isPasswordValid,
-        'text-success': allowValidation && isPasswordValid,
-      }"
       placeholder="Password"
       required
       v-model="password"
-      @click="resetIsPasswordValid"
-      @change="resetIsPasswordValid"
     />
+    <span v-if="errors.passwordRepeat" class="text-error">{{
+      errors.passwordRepeat
+    }}</span>
     <input
       type="password"
       class="input"
-      :class="{
-        'text-error': !isPasswordValid,
-        'text-success': allowValidation && isPasswordValid,
-      }"
       placeholder="Repeat password"
       required
       v-model="passwordRepeat"
-      @click="resetIsPasswordValid"
-      @change="resetIsPasswordValid"
     />
-    <AppButton title="Join" @click="register">
+    <AppButton title="Join" type="submit">
       <SparklesIcon class="h-6 w-6" />
     </AppButton>
     <AppButton title="Go Back" @click="goBack" />
@@ -46,8 +34,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { useRouter } from "vue-router";
+import { useForm, useField } from "vee-validate";
+import { object, string, ref as yupRef } from "yup";
 import { SparklesIcon } from "@heroicons/vue/outline";
 import AppButton from "@/components/AppButton.vue";
 import { StoreActions } from "@/type/TypeEnums";
@@ -61,36 +51,33 @@ export default defineComponent({
   setup() {
     const store = useAppStore();
     const router = useRouter();
-    const username = ref("");
-    const password = ref("");
-    const passwordRepeat = ref("");
-    const allowValidation = ref(false);
-    const isPasswordValid = ref(true);
+
+    const validationSchema = object({
+      username: string().required("Username is required"),
+      password: string().required().min(4, "Must be at least 4 characters"),
+      passwordRepeat: string()
+        .required()
+        .oneOf([yupRef("password"), null], "Must match password"),
+    });
+    const { errors, meta, isSubmitting, handleSubmit } = useForm({
+      validationSchema,
+    });
+
+    const { value: username } = useField("username");
+    const { value: password } = useField("password");
+    const { value: passwordRepeat } = useField("passwordRepeat");
 
     return {
       username,
       password,
       passwordRepeat,
-      allowValidation,
-      isPasswordValid,
-      resetIsPasswordValid: () => {
-        allowValidation.value = false;
-        isPasswordValid.value = true;
-      },
-      register: () => {
-        allowValidation.value = true;
-        isPasswordValid.value = password.value === passwordRepeat.value;
-
-        if (isPasswordValid.value) {
-          store.dispatch(StoreActions.register, {
-            username: username.value,
-            password: password.value,
-          });
-        }
-      },
-      goBack: () => {
-        router.back();
-      },
+      errors,
+      meta,
+      isSubmitting,
+      register: handleSubmit((payload) =>
+        store.dispatch(StoreActions.register, payload)
+      ),
+      goBack: () => router.back(),
     };
   },
 });

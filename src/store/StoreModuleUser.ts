@@ -68,13 +68,13 @@ const ModuleUser: StoreModuleUser = {
     [StoreActions.errorsAdd]({ state, commit }, payload: Errors) {
       switch (payload) {
         case Errors.ERROR_INVALID_SING_IN:
-        case Errors.ERROR_MISSING_PASSWORD:
-        case Errors.ERROR_MISSING_USERNAME:
           state.errors.invalidSignIn = true;
           break;
+
         case Errors.ERROR_USERNAME_IN_USE:
           state.errors.nicknameInUse = true;
           break;
+
         default:
           break;
       }

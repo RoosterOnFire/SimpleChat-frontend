@@ -1,28 +1,21 @@
 <template>
-  <form class="form-home">
-    <label v-if="errorsInvalidSignIn()" for="username" class="text-error">
-      {{ "Username invalid" }}
-    </label>
+  <form class="form-home" @submit="onSubmit">
+    <span v-if="errorsInvalidSignIn()" class="text-error">
+      {{ "Login error" }}
+    </span>
+    <span v-if="errors.username" class="text-error">
+      {{ errors.username }}
+    </span>
+    <input v-model="username" placeholder="Username" class="input" required />
+    <span v-if="errors.password" class="text-error">{{ errors.password }}</span>
     <input
-      id="username"
-      type="text"
-      class="input"
-      placeholder="Username"
-      required
-      v-model="username"
-    />
-    <label v-if="errorsInvalidSignIn()" for="password" class="text-error">
-      {{ "Password invalid" }}
-    </label>
-    <input
-      id="password"
+      v-model="password"
       type="password"
       class="input"
       placeholder="Password"
       required
-      v-model="password"
     />
-    <AppButton title="Sign in" @click="signIn({ username, password })">
+    <AppButton title="Sign in" type="submit" :disabled="isSubmitting">
       <LoginIcon class="h-6 w-6" />
     </AppButton>
     <AppButton title="Go Back" @click="goBack" />
@@ -31,11 +24,14 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
+import { useRouter } from "vue-router";
 import { LoginIcon } from "@heroicons/vue/outline";
 import { StoreActions, StoreGetters } from "@/type/TypeEnums";
+import { useForm, useField } from "vee-validate";
+import { object, string } from "yup";
 import AppButton from "@/components/AppButton.vue";
-import { useRouter } from "vue-router";
+import { useAppStore } from "@/store/Store";
 
 export default defineComponent({
   components: {
@@ -43,16 +39,30 @@ export default defineComponent({
     LoginIcon,
   },
   setup() {
+    const store = useAppStore();
     const router = useRouter();
 
+    const validationSchema = object({
+      username: string().required(),
+      password: string().required().min(4),
+    });
+    const { errors, meta, isSubmitting, handleSubmit } = useForm({
+      validationSchema,
+    });
+
+    const { value: username } = useField("username");
+    const { value: password } = useField("password");
+
     return {
-      username: "",
-      password: "",
-      goBack: () => {
-        router.back();
-      },
+      username,
+      password,
+      errors,
+      isSubmitting,
+      goBack: () => router.back(),
+      onSubmit: handleSubmit((payload) => {
+        store.dispatch(StoreActions.signIn, payload);
+      }),
       ...mapGetters([StoreGetters.errorsInvalidSignIn]),
-      ...mapActions([StoreActions.signIn]),
     };
   },
 });
