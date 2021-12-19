@@ -5,8 +5,8 @@
   "scripts": {
     "build": "vue-tsc --noEmit && vite build",
     "dev": "vite",
-    "serve": "vite preview",
-    "lint": "eslint --ext .ts,vue --ignore-path .gitignore . --fix"
+    "lint": "eslint --ext .ts,vue --ignore-path .gitignore . --fix",
+    "serve": "vite preview"
   },
   "dependencies": {
     "@heroicons/vue": "^1.0.4",
@@ -24,8 +24,8 @@
     "@types/node": "^16.7.4",
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
-    "@vitejs/plugin-vue": "^2.0.1",
-    "@vue/compiler-sfc": "^3.2.26",
+    "@vitejs/plugin-vue": "^1.6.0",
+    "@vue/compiler-sfc": "^3.0.5",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^9.1.0",
     "eslint": "^8.5.0",
