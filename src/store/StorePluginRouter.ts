@@ -47,7 +47,7 @@ const createPluginRouter = () => (store: Store<State>) => {
           }
           break
 
-        case StoreActions.logOff:
+        case StoreActions.userLogout:
           Router.push({ name: RouteNames.HOME })
           break
 

@@ -1,3 +1,10 @@
+export enum StatusUser {
+  start = "start",
+  pending = "pending",
+  fulfilled = "fulfilled",
+  rejected = "rejected",
+}
+
 export enum RouteNames {
   DASHBOARD = "dashboard",
   DASHBOARD_ADMIN = "dashboard/admin",
@@ -41,18 +48,20 @@ export enum StoreMutations {
   sessionDelete = "sessionDelete",
   sessionUpdate = "sessionUpdate",
   usersUpdate = "usersUpdate",
+  userUpdateStatus = "userUpdateStatus",
 }
 
 export enum StoreActions {
+  sessionRestore = "sessionRestore",
   errorsAdd = "errorsAdd",
-  logOff = "logOff",
+  userLogout = "userLogout",
   messagesAdd = "messagesAdd",
   register = "register",
   roomsCreate = "roomsCreate",
   roomsJoin = "roomsJoin",
   roomsLeave = "roomsLeave",
   sessionCreate = "sessionCreate",
-  signIn = "signIn",
+  userSignIn = "userSignIn",
   usersKick = "usersKick",
   userUpdateUsername = "userUpdateUsername",
 }
@@ -61,7 +70,7 @@ export enum ChatSocketMessages {
   CHAT_JOIN = "chat:join",
   CHAT_MESSAGE = "chat:message",
   CONNECT_ERROR = "connect_error",
-  CONNECT_LOGOFF = "connect:logoff",
+  CONNECT_LOGOUT = "connect:logout",
   CONNECT_REGISTRATION = "connect:registration",
   CONNECT_SIGNIN = "connect:signin",
   ROOMS_CREATE = "rooms:create",

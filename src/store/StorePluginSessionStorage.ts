@@ -21,7 +21,7 @@ const createPluginSessionStorage = () => (store: Store<State>) => {
   store.subscribeAction({
     before: (action) => {
       switch (action.type) {
-        case StoreActions.signIn:
+        case StoreActions.sessionRestore:
           if (store.state.user) {
             store.state.user.data.sessionId =
               sessionStorage.getItem(SessionStorageKeys.SESSION) ?? ""
@@ -41,7 +41,7 @@ const createPluginSessionStorage = () => (store: Store<State>) => {
           )
           break
 
-        case StoreActions.logOff:
+        case StoreActions.userLogout:
           sessionStorage.removeItem(SessionStorageKeys.SESSION)
           break
 

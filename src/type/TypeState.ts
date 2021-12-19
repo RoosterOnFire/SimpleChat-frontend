@@ -1,5 +1,5 @@
 import { Module } from "vuex"
-import { Roles } from "@/type/TypeEnums"
+import { Roles, StatusUser } from "@/type/TypeEnums"
 
 export type State = {
   user?: User
@@ -8,10 +8,15 @@ export type State = {
 }
 
 export type User = {
+  status: StatusUser
   data: UserData
   errors: {
-    invalidSignIn: boolean
-    nicknameInUse: boolean
+    login: {
+      invalidSignIn: boolean
+    }
+    register: {
+      nicknameInUse: boolean
+    }
   }
 }
 

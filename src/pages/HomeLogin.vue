@@ -60,7 +60,7 @@
         isSubmitting,
         goBack: () => router.back(),
         onSubmit: handleSubmit((payload) => {
-          store.dispatch(StoreActions.signIn, payload)
+          store.dispatch(StoreActions.userSignIn, payload)
         }),
         ...mapGetters([StoreGetters.errorsInvalidSignIn]),
       }

@@ -17,7 +17,7 @@
       const store = useAppStore()
       const route = useRoute()
 
-      store.dispatch(StoreActions.signIn)
+      store.dispatch(StoreActions.sessionRestore)
 
       return {
         isHome: computed(() => {

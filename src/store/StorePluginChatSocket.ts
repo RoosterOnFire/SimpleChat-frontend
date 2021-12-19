@@ -41,7 +41,7 @@ const createPluginChatSocket = () => {
       store.dispatch(StoreActions.errorsAdd, err.message)
     })
 
-    store.subscribe((mutation, state) => {
+    store.subscribe((mutation) => {
       switch (mutation.type) {
         case StoreMutations.messageCreate:
           ChatSocket.emit(ChatSocketMessages.CHAT_MESSAGE, mutation.payload)
@@ -52,6 +52,17 @@ const createPluginChatSocket = () => {
     })
 
     store.subscribeAction({
+      before: (action) => {
+        switch (action.type) {
+          case StoreActions.userLogout:
+            ChatSocket.emit(ChatSocketMessages.CONNECT_LOGOUT)
+            ChatSocket.auth = {}
+            break
+
+          default:
+            break
+        }
+      },
       after: (action, state) => {
         switch (action.type) {
           case StoreActions.register:
@@ -74,16 +85,36 @@ const createPluginChatSocket = () => {
               }
             )
             break
-          case StoreActions.signIn:
-            ChatSocket.auth = { sessionId: state.user?.data.sessionId }
+
+          case StoreActions.sessionRestore:
+            ChatSocket.auth = {
+              sessionId: state.user?.data.sessionId,
+            }
 
             ChatSocket.connect()
 
             ChatSocket.emit(
               ChatSocketMessages.CONNECT_SIGNIN,
+              {},
+              (payload: { success: boolean; data?: User; error?: string }) => {
+                if (payload.error) {
+                  store.commit(StoreMutations.errorsUpdate, payload.error)
+                } else {
+                  store.dispatch(StoreActions.sessionCreate, payload.data)
+                }
+              }
+            )
+
+            break
+
+          case StoreActions.userSignIn:
+            ChatSocket.connect()
+
+            ChatSocket.emit(
+              ChatSocketMessages.CONNECT_SIGNIN,
               {
-                username: action.payload?.username || "",
-                password: action.payload?.password || "",
+                username: action.payload?.username,
+                password: action.payload?.password,
               },
               (payload: { success: boolean; data?: User; error?: string }) => {
                 if (payload.error) {
@@ -94,17 +125,19 @@ const createPluginChatSocket = () => {
               }
             )
             break
+
           case StoreActions.roomsCreate:
             ChatSocket.emit(
               ChatSocketMessages.ROOMS_CREATE,
               { roomName: action.payload },
-              (payload: CallbackPayload) => {
+              () => {
                 store.commit(StoreMutations.roomsCreate, {
                   name: action.payload,
                 })
               }
             )
             break
+
           case StoreActions.roomsJoin:
             ChatSocket.emit(
               ChatSocketMessages.ROOMS_JOIN,
@@ -120,6 +153,7 @@ const createPluginChatSocket = () => {
               }
             )
             break
+
           case StoreActions.roomsLeave:
             ChatSocket.emit(
               ChatSocketMessages.ROOMS_LEAVE,
@@ -127,19 +161,13 @@ const createPluginChatSocket = () => {
               console.log
             )
             break
+
           case StoreActions.usersKick:
             ChatSocket.emit(ChatSocketMessages.USER_KICK, {
               userId: action.payload,
             })
             break
-          case StoreActions.logOff:
-            ChatSocket.emit(
-              ChatSocketMessages.CONNECT_LOGOFF,
-              (response: any) => {
-                ChatSocket.auth = {}
-              }
-            )
-            break
+
           default:
             break
         }

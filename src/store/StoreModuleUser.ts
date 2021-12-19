@@ -6,11 +6,13 @@ import {
   StoreActions,
   StoreGetters,
   StoreMutations,
+  StatusUser,
 } from "@/type/TypeEnums"
 import { StoreModuleUser, User, UserData } from "@/type/TypeState"
 
 const ModuleUser: StoreModuleUser = {
   state: () => ({
+    status: StatusUser.start,
     data: {
       userId: "",
       sessionId: "",
@@ -18,15 +20,24 @@ const ModuleUser: StoreModuleUser = {
       role: Roles.USER,
     },
     errors: {
-      invalidSignIn: false,
-      nicknameInUse: false,
+      login: {
+        invalidSignIn: false,
+      },
+      register: {
+        nicknameInUse: false,
+      },
     },
   }),
   mutations: {
+    [StoreMutations.userUpdateStatus](state, payload: StatusUser) {
+      state.status = payload
+    },
     [StoreMutations.sessionUpdate](state, payload: UserData) {
       state.data = { ...state.data, ...payload }
     },
     [StoreMutations.sessionDelete](state) {
+      state.status = StatusUser.pending
+
       state.data = {
         userId: "",
         sessionId: "",
@@ -35,18 +46,21 @@ const ModuleUser: StoreModuleUser = {
       }
 
       state.errors = {
-        invalidSignIn: false,
-        nicknameInUse: false,
+        login: { invalidSignIn: false },
+        register: { nicknameInUse: false },
       }
     },
     [StoreMutations.resetInvalidSignIn](state) {
-      state.errors.invalidSignIn = false
+      state.errors.login.invalidSignIn = false
     },
     [StoreMutations.errorsUpdate](state, payload: string) {
+      state.status = StatusUser.rejected
+
       switch (payload) {
         case Errors.ERROR_INVALID_SING_IN:
-          state.errors.invalidSignIn = true
+          state.errors.login.invalidSignIn = true
           break
+
         default:
           break
       }
@@ -57,24 +71,38 @@ const ModuleUser: StoreModuleUser = {
       {},
       payload: { username: string; password: string }
     ) {},
-    [StoreActions.signIn](
-      {},
-      payload: { username?: string; password?: string }
-    ) {},
+    [StoreActions.sessionRestore]({ state, commit }) {
+      if (state.data.sessionId === "") {
+        commit(StoreMutations.userUpdateStatus, { status: StatusUser.start })
+      } else {
+        commit(StoreMutations.userUpdateStatus, { status: StatusUser.pending })
+      }
+    },
+    [StoreActions.userSignIn](
+      { commit },
+      payload: { username?: string; password?: string } | undefined
+    ) {
+      if (payload === undefined) {
+        commit(StoreMutations.userUpdateStatus, { status: StatusUser.start })
+      } else {
+        commit(StoreMutations.userUpdateStatus, { status: StatusUser.pending })
+      }
+    },
     [StoreActions.sessionCreate]({ commit }, payload: User) {
+      commit(StoreMutations.userUpdateStatus, StatusUser.fulfilled)
       commit(StoreMutations.sessionUpdate, payload)
     },
-    [StoreActions.logOff]({ commit }) {
+    [StoreActions.userLogout]({ commit }) {
       commit(StoreMutations.sessionDelete)
     },
     [StoreActions.errorsAdd]({ state, commit }, payload: Errors) {
       switch (payload) {
         case Errors.ERROR_INVALID_SING_IN:
-          state.errors.invalidSignIn = true
+          state.errors.login.invalidSignIn = true
           break
 
         case Errors.ERROR_USERNAME_IN_USE:
-          state.errors.nicknameInUse = true
+          state.errors.register.nicknameInUse = true
           break
 
         default:
@@ -97,7 +125,9 @@ const ModuleUser: StoreModuleUser = {
       return !!state.data.username
     },
     [StoreGetters.errorsInvalidSignIn](state) {
-      return state.errors.invalidSignIn
+      return (
+        state.status === StatusUser.rejected && state.errors.login.invalidSignIn
+      )
     },
   },
 }

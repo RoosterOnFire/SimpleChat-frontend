@@ -65,7 +65,7 @@
           return route.fullPath === link
         },
         ...mapActions({
-          logout: StoreActions.logOff,
+          logout: StoreActions.userLogout,
         }),
       }
     },
