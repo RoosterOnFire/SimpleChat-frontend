@@ -1,5 +1,5 @@
 <template>
-  <div class="messages" ref="container">
+  <div ref="container" class="messages">
     <p
       v-for="(message, index) of messages"
       :key="index"
@@ -12,37 +12,37 @@
 </template>
 
 <script lang="ts">
-import { useAppStore } from "@/store/Store";
-import { StoreGetters } from "@/type/TypeEnums";
-import { Message } from "@/type/TypeState";
-import { defineComponent, ref, onUpdated, computed } from "vue";
+  import { useAppStore } from "@/store/Store"
+  import { StoreGetters } from "@/type/TypeEnums"
+  import { Message } from "@/type/TypeState"
+  import { defineComponent, ref, onUpdated, computed } from "vue"
 
-export default defineComponent({
-  setup() {
-    const container = ref<HTMLElement | null>(null);
-    const store = useAppStore();
+  export default defineComponent({
+    setup() {
+      const container = ref<HTMLElement | null>(null)
+      const store = useAppStore()
 
-    onUpdated(() => {
-      container.value?.lastElementChild?.scrollIntoView();
-    });
+      onUpdated(() => {
+        container.value?.lastElementChild?.scrollIntoView()
+      })
 
-    return {
-      container,
-      messages: computed<Message[]>(
-        () => store.getters[StoreGetters.roomsMessages]
-      ),
-    };
-  },
-});
+      return {
+        container,
+        messages: computed<Message[]>(
+          () => store.getters[StoreGetters.roomsMessages]
+        ),
+      }
+    },
+  })
 </script>
 
 <style lang="postcss">
-.messages {
-  @apply p-4 space-y-4 flex-1 overflow-y-auto;
-}
+  .messages {
+    @apply p-4 space-y-4 flex-1 overflow-y-auto;
+  }
 
-.message-row {
-  @apply w-max px-4 py-2 bg-white rounded-full border-2;
-  @apply text-black select-all;
-}
+  .message-row {
+    @apply w-max px-4 py-2 bg-white rounded-full border-2;
+    @apply text-black select-all;
+  }
 </style>

@@ -1,32 +1,35 @@
-import { Store } from 'vuex';
+import { Store } from "vuex"
 import {
   SessionStorageKeys,
   StoreActions,
   StoreMutations,
-} from '@/type/TypeEnums';
-import { State } from '@/type/TypeState';
+} from "@/type/TypeEnums"
+import { State } from "@/type/TypeState"
 
 const createPluginSessionStorage = () => (store: Store<State>) => {
-  store.subscribe((mutation, state) => {
+  store.subscribe((mutation) => {
     switch (mutation.type) {
       case StoreMutations.sessionDelete:
-        sessionStorage.removeItem(SessionStorageKeys.SESSION);
+        sessionStorage.removeItem(SessionStorageKeys.SESSION)
+        break
+
       default:
-        break;
+        break
     }
-  });
+  })
 
   store.subscribeAction({
-    before: (action, state) => {
+    before: (action) => {
       switch (action.type) {
         case StoreActions.signIn:
           if (store.state.user) {
             store.state.user.data.sessionId =
-              sessionStorage.getItem(SessionStorageKeys.SESSION) ?? '';
+              sessionStorage.getItem(SessionStorageKeys.SESSION) ?? ""
           }
-          break;
+          break
+
         default:
-          break;
+          break
       }
     },
     after: (action, state) => {
@@ -34,16 +37,19 @@ const createPluginSessionStorage = () => (store: Store<State>) => {
         case StoreActions.sessionCreate:
           sessionStorage.setItem(
             SessionStorageKeys.SESSION,
-            state.user?.data.sessionId ?? ''
-          );
-          break;
+            state.user?.data.sessionId ?? ""
+          )
+          break
+
         case StoreActions.logOff:
-          sessionStorage.removeItem(SessionStorageKeys.SESSION);
+          sessionStorage.removeItem(SessionStorageKeys.SESSION)
+          break
+
         default:
-          break;
+          break
       }
     },
-  });
-};
+  })
+}
 
-export default createPluginSessionStorage;
+export default createPluginSessionStorage

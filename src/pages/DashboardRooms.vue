@@ -1,29 +1,21 @@
 <template>
-  <div class="main page-rooms">
-    <RoomsForm title="Join" :onClick="roomsJoin" />
-    <!-- <RoomsForm title="Create" :onClick="roomsCreate" /> -->
+  <div class="main w-1/3 mx-auto p-4">
+    <RoomsForm title="Join" :on-click="roomsJoin" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { mapActions } from "vuex";
-import AppButton from "@/components/AppButton.vue";
-import { StoreActions } from "@/type/TypeEnums";
-import RoomsForm from "@/components/RoomsForm.vue";
+  import { defineComponent } from "vue"
+  import { mapActions } from "vuex"
+  import { StoreActions } from "@/type/TypeEnums"
+  import RoomsForm from "@/components/RoomsForm.vue"
 
-export default defineComponent({
-  components: { AppButton, RoomsForm },
-  setup() {
-    return {
-      ...mapActions([StoreActions.roomsCreate, StoreActions.roomsJoin]),
-    };
-  },
-});
+  export default defineComponent({
+    components: { RoomsForm },
+    setup() {
+      return {
+        ...mapActions([StoreActions.roomsCreate, StoreActions.roomsJoin]),
+      }
+    },
+  })
 </script>
-
-<style lang="postcss">
-.page-rooms {
-  @apply w-1/3 mx-auto p-4;
-}
-</style>

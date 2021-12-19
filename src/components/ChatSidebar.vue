@@ -9,31 +9,29 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import { useAppStore } from "@/store/Store";
+  import { defineComponent } from "vue"
 
-export default defineComponent({
-  setup() {
-    const store = useAppStore();
-    return {
-      users: [],
-    };
-  },
-});
+  export default defineComponent({
+    setup() {
+      return {
+        users: [],
+      }
+    },
+  })
 </script>
 
 <style lang="postcss">
-.chat-sidebar-row {
-  @apply bg-primary border border-transparent rounded-md;
-  @apply text-white text-center;
-}
+  .chat-sidebar-row {
+    @apply bg-primary border border-transparent rounded-md;
+    @apply text-white text-center;
+  }
 
-.chat-list-enter-active,
-.chat-list-leave-active {
-  @apply transition duration-300;
-}
-.chat-list-enter-from,
-.chat-list-leave-to {
-  @apply -translate-x-8 opacity-0;
-}
+  .chat-list-enter-active,
+  .chat-list-leave-active {
+    @apply transition duration-300;
+  }
+  .chat-list-enter-from,
+  .chat-list-leave-to {
+    @apply -translate-x-8 opacity-0;
+  }
 </style>

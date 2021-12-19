@@ -1,59 +1,58 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
-import Home from '@/pages/Home.vue';
-import { store } from '@/store/Store';
-import { StoreMutations, RouteNames, Roles } from '@/type/TypeEnums';
+import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
+import { store } from "@/store/Store"
+import { StoreMutations, RouteNames, Roles } from "@/type/TypeEnums"
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
+    path: "/",
     name: RouteNames.HOME,
-    component: Home,
+    component: () => import("@/pages/AppHome.vue"),
     children: [
       {
-        path: 'login',
+        path: "login",
         name: RouteNames.HOME_LOGIN,
-        component: () => import('@/pages/HomeLogin.vue'),
+        component: () => import("@/pages/HomeLogin.vue"),
       },
       {
-        path: 'registration',
+        path: "registration",
         name: RouteNames.HOME_REGISTRATION,
-        component: () => import('@/pages/HomeRegistration.vue'),
+        component: () => import("@/pages/HomeRegistration.vue"),
       },
     ],
   },
   {
-    path: '/dashboard',
+    path: "/dashboard",
     name: RouteNames.DASHBOARD,
-    component: () => import('@/pages/Dashboard.vue'),
+    component: () => import("@/pages/AppDashboard.vue"),
     children: [
       {
-        path: 'admin',
+        path: "admin",
         name: RouteNames.DASHBOARD_ADMIN,
-        component: () => import('@/pages/DashboardAdmin.vue'),
+        component: () => import("@/pages/DashboardAdmin.vue"),
       },
       {
-        path: 'chat',
+        path: "chat",
         name: RouteNames.DASHBOARD_CHAT,
-        component: () => import('@/pages/DashboardChat.vue'),
+        component: () => import("@/pages/DashboardChat.vue"),
       },
       {
-        path: 'rooms',
+        path: "rooms",
         name: RouteNames.DASHBOARD_ROOMS,
-        component: () => import('@/pages/DashboardRooms.vue'),
+        component: () => import("@/pages/DashboardRooms.vue"),
       },
     ],
   },
-];
+]
 
 const Router = createRouter({
   history: createWebHashHistory(),
   routes,
-});
+})
 
 Router.beforeEach((to, from, next) => {
-  const userRole = store.state.user?.data.role;
+  const userRole = store.state.user?.data.role
   if (to.name === RouteNames.DASHBOARD_ADMIN && userRole !== Roles.ADMIN) {
-    return;
+    return
   } else if (
     (from.name === RouteNames.HOME || to.name !== RouteNames.HOME) &&
     !store.getters.hasAccess
@@ -62,17 +61,17 @@ Router.beforeEach((to, from, next) => {
       to.name === RouteNames.HOME_LOGIN ||
       to.name === RouteNames.HOME_REGISTRATION
     ) {
-      next();
+      next()
     } else {
-      next({ name: RouteNames.HOME });
+      next({ name: RouteNames.HOME })
     }
   } else {
-    next();
+    next()
   }
-});
+})
 
-Router.afterEach((to, from, failure) => {
-  store.commit(StoreMutations.pageCurrentUpdate, to.name);
-});
+Router.afterEach((to) => {
+  store.commit(StoreMutations.pageCurrentUpdate, to.name)
+})
 
-export default Router;
+export default Router

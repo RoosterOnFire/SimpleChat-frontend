@@ -1,29 +1,29 @@
-import { createUserMessage } from '@/helpers/createMessages';
-import { StoreMutations, StoreActions, StoreGetters } from '@/type/TypeEnums';
-import { Message, StoreModuleRooms } from '@/type/TypeState';
+import { createUserMessage } from "@/helpers/createMessages"
+import { StoreMutations, StoreActions, StoreGetters } from "@/type/TypeEnums"
+import { Message, StoreModuleRooms } from "@/type/TypeState"
 
 const ModuleRooms: StoreModuleRooms = {
   state: () => ({
     meta: {
-      selected: '',
+      selected: "",
     },
     rooms: [],
   }),
   mutations: {
     [StoreMutations.roomsCreate](state, payload: { name: string }) {
-      state.meta.selected = payload.name;
+      state.meta.selected = payload.name
 
-      const room = state.rooms.find((room) => room.name === payload.name);
+      const room = state.rooms.find((room) => room.name === payload.name)
       if (!room) {
-        state.rooms.push({ name: payload.name, users: [], messages: [] });
+        state.rooms.push({ name: payload.name, users: [], messages: [] })
       }
     },
     [StoreMutations.roomsJoin](state, payload: { name: string }) {
-      state.meta.selected = payload.name;
+      state.meta.selected = payload.name
 
-      const room = state.rooms.find((room) => room.name === payload.name);
+      const room = state.rooms.find((room) => room.name === payload.name)
       if (!room) {
-        state.rooms.push({ name: payload.name, users: [], messages: [] });
+        state.rooms.push({ name: payload.name, users: [], messages: [] })
       }
     },
     [StoreMutations.messageCreate](
@@ -32,7 +32,7 @@ const ModuleRooms: StoreModuleRooms = {
     ) {
       state.rooms
         .find((room) => room.name === state.meta.selected)
-        ?.messages.push(payload.message);
+        ?.messages.push(payload.message)
     },
     [StoreMutations.messagesUpdate](
       state,
@@ -40,7 +40,7 @@ const ModuleRooms: StoreModuleRooms = {
     ) {
       state.rooms
         .find((room) => room.name === payload.room)
-        ?.messages.push(payload.message);
+        ?.messages.push(payload.message)
     },
     [StoreMutations.messageChatJoin](state, payload) {
       // state.messages.push(
@@ -66,13 +66,13 @@ const ModuleRooms: StoreModuleRooms = {
       payload: { message: string }
     ) {
       if (!rootState.user) {
-        return;
+        return
       }
 
       commit(StoreMutations.messageCreate, {
         room: state.meta.selected,
         message: createUserMessage(rootState.user, payload.message),
-      });
+      })
     },
   },
   getters: {
@@ -80,9 +80,9 @@ const ModuleRooms: StoreModuleRooms = {
       return (
         state.rooms.find((room) => room.name === state.meta.selected)
           ?.messages || []
-      );
+      )
     },
   },
-};
+}
 
-export default ModuleRooms;
+export default ModuleRooms

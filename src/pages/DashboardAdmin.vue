@@ -5,11 +5,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import AdminUsersTable from "@/components/AppUsersTable.vue";
+  import { defineComponent } from "vue"
+  import AdminUsersTable from "@/components/AppUsersTable.vue"
 
-export default defineComponent({
-  components: { AdminUsersTable },
-  setup() {},
-});
+  export default defineComponent({
+    components: { AdminUsersTable },
+  })
 </script>

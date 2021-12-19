@@ -1,4 +1,3 @@
-
 <template>
   <div class="table-container">
     <table class="table">
@@ -37,60 +36,58 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import AppButton from "@/components/AppButton.vue";
-import { StoreActions } from "@/type/TypeEnums";
-import { mapActions } from "vuex";
-import { useAppStore } from "@/store/Store";
+  import { defineComponent } from "vue"
+  import { StoreActions } from "@/type/TypeEnums"
+  import { mapActions } from "vuex"
+  import { useAppStore } from "@/store/Store"
 
-export default defineComponent({
-  components: { AppButton },
-  setup() {
-    const store = useAppStore();
+  export default defineComponent({
+    setup() {
+      const store = useAppStore()
 
-    return {
-      isCurrentUser: store.getters.isCurrentUser,
-      users: [],
-      ...mapActions([StoreActions.usersKick]),
-    };
-  },
-});
+      return {
+        isCurrentUser: store.getters.isCurrentUser,
+        users: [],
+        ...mapActions([StoreActions.usersKick]),
+      }
+    },
+  })
 </script>
 
 <style lang="postcss">
-.table-container {
-  @apply flex flex-col bg-gray-50 border-b border-primary sm:rounded-lg shadow overflow-hidden;
-}
+  .table-container {
+    @apply flex flex-col bg-gray-50 border-b border-primary sm:rounded-lg shadow overflow-hidden;
+  }
 
-.table {
-  @apply min-w-full divide-y divide-primary;
-}
+  .table {
+    @apply min-w-full divide-y divide-primary;
+  }
 
-.table-headers {
-  @apply bg-primary;
-}
+  .table-headers {
+    @apply bg-primary;
+  }
 
-.table-header {
-  @apply px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider;
-}
+  .table-header {
+    @apply px-6 py-3 text-left text-xs font-medium text-white uppercase tracking-wider;
+  }
 
-.table-body {
-  @apply bg-white divide-y divide-primary;
-}
+  .table-body {
+    @apply bg-white divide-y divide-primary;
+  }
 
-.user-cell {
-  @apply flex justify-center items-center gap-x-8;
-}
+  .user-cell {
+    @apply flex justify-center items-center gap-x-8;
+  }
 
-.row-base {
-  @apply px-6 py-4 whitespace-nowrap;
-}
+  .row-base {
+    @apply px-6 py-4 whitespace-nowrap;
+  }
 
-.row-status-active {
-  @apply px-2 inline-flex rounded-full bg-primary text-white text-xs font-semibold leading-5;
-}
+  .row-status-active {
+    @apply px-2 inline-flex rounded-full bg-primary text-white text-xs font-semibold leading-5;
+  }
 
-.row-role {
-  @apply text-sm text-primary font-medium;
-}
+  .row-role {
+    @apply text-sm text-primary font-medium;
+  }
 </style>

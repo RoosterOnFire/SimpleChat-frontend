@@ -11,28 +11,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
-import ChatMessages from "@/components/ChatMessages.vue";
-import ChatForm from "@/components/ChatForm.vue";
-import { useAppStore } from "@/store/Store";
+  import { defineComponent } from "vue"
+  import ChatMessages from "@/components/ChatMessages.vue"
+  import ChatForm from "@/components/ChatForm.vue"
+  import { useAppStore } from "@/store/Store"
 
-export default defineComponent({
-  components: {
-    ChatMessages,
-    ChatForm,
-  },
-  setup() {
-    const store = useAppStore();
+  export default defineComponent({
+    components: {
+      ChatMessages,
+      ChatForm,
+    },
+    setup() {
+      const store = useAppStore()
 
-    return {
-      isChatSelected: store.state.rooms?.meta.selected,
-    };
-  },
-});
+      return {
+        isChatSelected: store.state.rooms?.meta.selected,
+      }
+    },
+  })
 </script>
 
 <style lang="postcss">
-.page-chat {
-  @apply flex-col;
-}
+  .page-chat {
+    @apply flex-col;
+  }
 </style>

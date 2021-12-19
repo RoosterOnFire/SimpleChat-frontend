@@ -1,10 +1,10 @@
-const colors = require('tailwindcss/colors');
+const colors = require("tailwindcss/colors")
 
-const pimaryColor = colors.purple;
-const errorColor = colors.red;
+const pimaryColor = colors.purple
+const errorColor = colors.red
 
 module.exports = {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  purge: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   darkMode: false,
   theme: {
     container: {
@@ -32,4 +32,4 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-};
+}

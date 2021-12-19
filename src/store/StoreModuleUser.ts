@@ -1,18 +1,20 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable no-empty-pattern */
 import {
   Errors,
   Roles,
   StoreActions,
   StoreGetters,
   StoreMutations,
-} from '@/type/TypeEnums';
-import { StoreModuleUser, User, UserData } from '@/type/TypeState';
+} from "@/type/TypeEnums"
+import { StoreModuleUser, User, UserData } from "@/type/TypeState"
 
 const ModuleUser: StoreModuleUser = {
   state: () => ({
     data: {
-      userId: '',
-      sessionId: '',
-      username: '',
+      userId: "",
+      sessionId: "",
+      username: "",
       role: Roles.USER,
     },
     errors: {
@@ -22,31 +24,31 @@ const ModuleUser: StoreModuleUser = {
   }),
   mutations: {
     [StoreMutations.sessionUpdate](state, payload: UserData) {
-      state.data = { ...state.data, ...payload };
+      state.data = { ...state.data, ...payload }
     },
     [StoreMutations.sessionDelete](state) {
       state.data = {
-        userId: '',
-        sessionId: '',
-        username: '',
+        userId: "",
+        sessionId: "",
+        username: "",
         role: Roles.USER,
-      };
+      }
 
       state.errors = {
         invalidSignIn: false,
         nicknameInUse: false,
-      };
+      }
     },
     [StoreMutations.resetInvalidSignIn](state) {
-      state.errors.invalidSignIn = false;
+      state.errors.invalidSignIn = false
     },
     [StoreMutations.errorsUpdate](state, payload: string) {
       switch (payload) {
         case Errors.ERROR_INVALID_SING_IN:
-          state.errors.invalidSignIn = true;
-          break;
+          state.errors.invalidSignIn = true
+          break
         default:
-          break;
+          break
       }
     },
   },
@@ -60,44 +62,44 @@ const ModuleUser: StoreModuleUser = {
       payload: { username?: string; password?: string }
     ) {},
     [StoreActions.sessionCreate]({ commit }, payload: User) {
-      commit(StoreMutations.sessionUpdate, payload);
+      commit(StoreMutations.sessionUpdate, payload)
     },
     [StoreActions.logOff]({ commit }) {
-      commit(StoreMutations.sessionDelete);
+      commit(StoreMutations.sessionDelete)
     },
     [StoreActions.errorsAdd]({ state, commit }, payload: Errors) {
       switch (payload) {
         case Errors.ERROR_INVALID_SING_IN:
-          state.errors.invalidSignIn = true;
-          break;
+          state.errors.invalidSignIn = true
+          break
 
         case Errors.ERROR_USERNAME_IN_USE:
-          state.errors.nicknameInUse = true;
-          break;
+          state.errors.nicknameInUse = true
+          break
 
         default:
-          break;
+          break
       }
 
-      if (state && state.data.sessionId && state.data.userId === '') {
-        commit(StoreMutations.sessionDelete);
+      if (state && state.data.sessionId && state.data.userId === "") {
+        commit(StoreMutations.sessionDelete)
       }
     },
   },
   getters: {
     [StoreGetters.isCurrentUser]: (state) => (payload: string) => {
-      return state.data.userId === payload;
+      return state.data.userId === payload
     },
     [StoreGetters.hasAccess](state) {
-      return !!state.data.sessionId || !!state.data.userId;
+      return !!state.data.sessionId || !!state.data.userId
     },
     [StoreGetters.hasNickname](state) {
-      return !!state.data.username;
+      return !!state.data.username
     },
     [StoreGetters.errorsInvalidSignIn](state) {
-      return state.errors.invalidSignIn;
+      return state.errors.invalidSignIn
     },
   },
-};
+}
 
-export default ModuleUser;
+export default ModuleUser

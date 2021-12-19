@@ -7,23 +7,23 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from "vue";
-import { useRoute } from "vue-router";
-import { useAppStore } from "@/store/Store";
-import { StoreActions } from "@/type/TypeEnums";
+  import { computed, defineComponent } from "vue"
+  import { useRoute } from "vue-router"
+  import { useAppStore } from "@/store/Store"
+  import { StoreActions } from "@/type/TypeEnums"
 
-export default defineComponent({
-  setup() {
-    const store = useAppStore();
-    const route = useRoute();
+  export default defineComponent({
+    setup() {
+      const store = useAppStore()
+      const route = useRoute()
 
-    store.dispatch(StoreActions.signIn);
+      store.dispatch(StoreActions.signIn)
 
-    return {
-      isHome: computed(() => {
-        return route.name?.toString().startsWith("home");
-      }),
-    };
-  },
-});
+      return {
+        isHome: computed(() => {
+          return route.name?.toString().startsWith("home")
+        }),
+      }
+    },
+  })
 </script>
