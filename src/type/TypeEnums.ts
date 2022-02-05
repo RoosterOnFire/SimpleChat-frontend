@@ -7,7 +7,6 @@ export enum StatusUser {
 
 export enum RouteNames {
   DASHBOARD = "dashboard",
-  DASHBOARD_ADMIN = "dashboard/admin",
   DASHBOARD_CHAT = "dashboard/chat",
   DASHBOARD_ROOMS = "dashboard/rooms",
   HOME = "home",

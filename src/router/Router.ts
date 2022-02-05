@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
 import { store } from "@/store/Store"
-import { StoreMutations, RouteNames, Roles } from "@/type/TypeEnums"
+import { StoreMutations, RouteNames } from "@/type/TypeEnums"
 
 const routes: RouteRecordRaw[] = [
   {
@@ -26,11 +26,6 @@ const routes: RouteRecordRaw[] = [
     component: () => import("@/pages/AppDashboard.vue"),
     children: [
       {
-        path: "admin",
-        name: RouteNames.DASHBOARD_ADMIN,
-        component: () => import("@/pages/DashboardAdmin.vue"),
-      },
-      {
         path: "chat",
         name: RouteNames.DASHBOARD_CHAT,
         component: () => import("@/pages/DashboardChat.vue"),
@@ -50,10 +45,7 @@ const Router = createRouter({
 })
 
 Router.beforeEach((to, from, next) => {
-  const userRole = store.state.user?.data.role
-  if (to.name === RouteNames.DASHBOARD_ADMIN && userRole !== Roles.ADMIN) {
-    return
-  } else if (
+  if (
     (from.name === RouteNames.HOME || to.name !== RouteNames.HOME) &&
     !store.getters.hasAccess
   ) {

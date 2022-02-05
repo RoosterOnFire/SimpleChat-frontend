@@ -1,15 +1,6 @@
 <template>
   <div class="navbar">
     <router-link
-      v-if="userRole === roleAdmin"
-      to="/dashboard/admin"
-      class="navbar-link"
-      :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/admin') }"
-    >
-      {{ "Admin" }}
-      <ServerIcon class="w-6 h-6" />
-    </router-link>
-    <router-link
       to="/dashboard/rooms"
       class="navbar-link"
       :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
@@ -36,7 +27,7 @@
   import { computed, defineComponent } from "vue"
   import { mapActions } from "vuex"
   import { useRoute } from "vue-router"
-  import { Roles, RouteNames, StoreActions } from "@/type/TypeEnums"
+  import { RouteNames, StoreActions } from "@/type/TypeEnums"
   import { useAppStore } from "@/store/Store"
   import {
     LogoutIcon,
@@ -59,7 +50,6 @@
       return {
         route,
         userRole: computed(() => store.state.user?.data.role),
-        roleAdmin: Roles.ADMIN,
         routeChat: RouteNames.DASHBOARD_CHAT,
         isCurrentRoute(link: string) {
           return route.fullPath === link
