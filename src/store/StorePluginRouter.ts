@@ -2,7 +2,7 @@ import { Store } from "vuex"
 import Router from "@/router/Router"
 import {
   RouteNames,
-  SessionStorageKeys,
+  sessionStorageKeys,
   StoreActions,
   StoreMutations,
 } from "@/type/TypeEnums"
@@ -17,7 +17,7 @@ const createPluginRouter = () => (store: Store<State>) => {
         }
 
         sessionStorage.setItem(
-          SessionStorageKeys.CURRENT_PAGE,
+          sessionStorageKeys.current_page,
           mutation.payload
         )
         break
@@ -35,7 +35,7 @@ const createPluginRouter = () => (store: Store<State>) => {
   store.subscribeAction({
     after: (action) => {
       const pageCurrent = sessionStorage.getItem(
-        SessionStorageKeys.CURRENT_PAGE
+        sessionStorageKeys.current_page
       )
 
       switch (action.type) {
@@ -48,7 +48,7 @@ const createPluginRouter = () => (store: Store<State>) => {
           break
 
         case StoreActions.userLogout:
-          Router.push({ name: RouteNames.HOME })
+          Router.push({ name: RouteNames.home })
           break
 
         default:

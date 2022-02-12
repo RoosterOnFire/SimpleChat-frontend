@@ -1,5 +1,7 @@
 <template>
-  <div class="main w-1/3 mx-auto p-4">
+  <div
+    class="mx-auto flex w-1/3 flex-1 flex-col items-stretch gap-8 overflow-hidden p-4 md:flex-row"
+  >
     <RoomsForm title="Join" :on-click="roomsJoin" />
   </div>
 </template>

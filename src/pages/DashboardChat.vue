@@ -1,10 +1,13 @@
 <template>
-  <div v-if="isChatSelected" class="main page-chat">
+  <div
+    v-if="isChatSelected"
+    class="flex flex-1 flex-col items-stretch gap-8 overflow-hidden"
+  >
     <ChatMessages />
     <ChatForm />
   </div>
-  <div v-else class="h-full flex justify-center">
-    <h1 class="my-auto text-primary text-lg bg-gray-50 bg-opacity-30">
+  <div v-else class="flex h-full justify-center">
+    <h1 class="my-auto bg-gray-50 bg-opacity-30 text-lg text-primary">
       You have not joined any rooms
     </h1>
   </div>
@@ -30,9 +33,3 @@
     },
   })
 </script>
-
-<style lang="postcss">
-  .page-chat {
-    @apply flex-col;
-  }
-</style>

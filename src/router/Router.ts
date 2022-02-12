@@ -5,25 +5,25 @@ import { StoreMutations, RouteNames } from "@/type/TypeEnums"
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
-    name: RouteNames.HOME,
-    component: () => import("@/pages/AppHome.vue"),
+    name: RouteNames.home,
+    component: () => import("@/pages/Home.vue"),
     children: [
       {
         path: "login",
-        name: RouteNames.HOME_LOGIN,
-        component: () => import("@/pages/HomeLogin.vue"),
+        name: RouteNames.login,
+        component: () => import("@/pages/Login.vue"),
       },
       {
         path: "registration",
-        name: RouteNames.HOME_REGISTRATION,
-        component: () => import("@/pages/HomeRegistration.vue"),
+        name: RouteNames.registration,
+        component: () => import("@/pages/Registration.vue"),
       },
     ],
   },
   {
     path: "/dashboard",
     name: RouteNames.DASHBOARD,
-    component: () => import("@/pages/AppDashboard.vue"),
+    component: () => import("@/pages/Dashboard.vue"),
     children: [
       {
         path: "chat",
@@ -46,16 +46,13 @@ const Router = createRouter({
 
 Router.beforeEach((to, from, next) => {
   if (
-    (from.name === RouteNames.HOME || to.name !== RouteNames.HOME) &&
+    (from.name === RouteNames.home || to.name !== RouteNames.home) &&
     !store.getters.hasAccess
   ) {
-    if (
-      to.name === RouteNames.HOME_LOGIN ||
-      to.name === RouteNames.HOME_REGISTRATION
-    ) {
+    if (to.name === RouteNames.login || to.name === RouteNames.registration) {
       next()
     } else {
-      next({ name: RouteNames.HOME })
+      next({ name: RouteNames.home })
     }
   } else {
     next()

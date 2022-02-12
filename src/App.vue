@@ -1,6 +1,13 @@
 <template>
   <router-view v-slot="{ Component, route }">
-    <div class="container" :class="[isHome ? 'home' : 'page']">
+    <div
+      class="flex-1"
+      :class="[
+        isHome
+          ? 'flex flex-col items-center justify-center gap-8'
+          : 'flex max-h-full flex-col',
+      ]"
+    >
       <component :is="Component" :key="route.path" />
     </div>
   </router-view>

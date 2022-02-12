@@ -8,7 +8,7 @@ import {
 import { State } from "@/type/TypeState"
 import createPluginChatSocket from "@/store/StorePluginChatSocket"
 import createPluginRouter from "@/store/StorePluginRouter"
-import createPluginSessionStorage from "@/store/StorePluginSessionStorage"
+import createPluginsessionStorage from "@/store/StorePluginsessionStorage"
 import ModuleMeta from "@/Store/StoreModuleMeta"
 import ModuleUser from "@/store/StoreModuleUser"
 import { StoreGetters } from "@/type/TypeEnums"
@@ -34,7 +34,7 @@ export const store = createStore<State>({
     createLogger(),
     createPluginChatSocket(),
     createPluginRouter(),
-    createPluginSessionStorage(),
+    createPluginsessionStorage(),
   ],
 })
 

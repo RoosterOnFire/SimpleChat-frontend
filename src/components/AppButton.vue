@@ -1,5 +1,10 @@
 <template>
-  <button class="button" :type="type">{{ title }}<slot /></button>
+  <button
+    class="flex justify-center gap-2 rounded-md border border-transparent bg-primary-light py-2 px-4 align-middle font-medium text-white focus:outline-none focus:ring-2 focus:ring-primary-light focus:ring-offset-2"
+    :type="type"
+  >
+    {{ title }}<slot />
+  </button>
 </template>
 
 <script lang="ts">
@@ -18,12 +23,3 @@
     },
   })
 </script>
-
-<style lang="postcss">
-  .button {
-    @apply flex justify-center gap-2 align-middle py-2 px-4;
-    @apply font-medium text-white;
-    @apply bg-primary hover:bg-primary-light;
-    @apply border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-light;
-  }
-</style>

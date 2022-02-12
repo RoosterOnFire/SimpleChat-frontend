@@ -25,7 +25,7 @@ const createPluginChatSocket = () => {
       }
     })
 
-    ChatSocket.on(ChatSocketMessages.SESSION_CLOSED, () => {
+    ChatSocket.on(ChatSocketMessages.session_CLOSED, () => {
       store.commit(StoreMutations.sessionDelete)
     })
 

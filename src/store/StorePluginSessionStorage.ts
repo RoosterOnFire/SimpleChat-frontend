@@ -1,16 +1,16 @@
 import { Store } from "vuex"
 import {
-  SessionStorageKeys,
+  sessionStorageKeys,
   StoreActions,
   StoreMutations,
 } from "@/type/TypeEnums"
 import { State } from "@/type/TypeState"
 
-const createPluginSessionStorage = () => (store: Store<State>) => {
+const createPluginsessionStorage = () => (store: Store<State>) => {
   store.subscribe((mutation) => {
     switch (mutation.type) {
       case StoreMutations.sessionDelete:
-        sessionStorage.removeItem(SessionStorageKeys.SESSION)
+        sessionStorage.removeItem(sessionStorageKeys.session)
         break
 
       default:
@@ -24,7 +24,7 @@ const createPluginSessionStorage = () => (store: Store<State>) => {
         case StoreActions.sessionRestore:
           if (store.state.user) {
             store.state.user.data.sessionId =
-              sessionStorage.getItem(SessionStorageKeys.SESSION) ?? ""
+              sessionStorage.getItem(sessionStorageKeys.session) ?? ""
           }
           break
 
@@ -36,13 +36,13 @@ const createPluginSessionStorage = () => (store: Store<State>) => {
       switch (action.type) {
         case StoreActions.sessionCreate:
           sessionStorage.setItem(
-            SessionStorageKeys.SESSION,
+            sessionStorageKeys.session,
             state.user?.data.sessionId ?? ""
           )
           break
 
         case StoreActions.userLogout:
-          sessionStorage.removeItem(SessionStorageKeys.SESSION)
+          sessionStorage.removeItem(sessionStorageKeys.session)
           break
 
         default:
@@ -52,4 +52,4 @@ const createPluginSessionStorage = () => (store: Store<State>) => {
   })
 }
 
-export default createPluginSessionStorage
+export default createPluginsessionStorage

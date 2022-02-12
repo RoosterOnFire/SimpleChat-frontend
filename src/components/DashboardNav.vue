@@ -1,12 +1,12 @@
 <template>
-  <div class="navbar">
+  <div class="flex gap-2 bg-primary p-4">
     <router-link
       to="/dashboard/rooms"
       class="navbar-link"
       :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
     >
       {{ "Rooms" }}
-      <ChatAlt2Icon class="w-6 h-6" />
+      <ChatAlt2Icon class="h-6 w-6" />
     </router-link>
     <router-link
       to="/dashboard/chat"
@@ -14,11 +14,11 @@
       :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/chat') }"
     >
       {{ "Chat" }}
-      <ChatIcon class="w-6 h-6" />
+      <ChatIcon class="h-6 w-6" />
     </router-link>
     <button type="button" class="navbar-link ml-auto" @click="logout()">
       {{ "Logout" }}
-      <LogoutIcon class="w-6 h-6" />
+      <LogoutIcon class="h-6 w-6" />
     </button>
   </div>
 </template>
@@ -29,18 +29,12 @@
   import { useRoute } from "vue-router"
   import { RouteNames, StoreActions } from "@/type/TypeEnums"
   import { useAppStore } from "@/store/Store"
-  import {
-    LogoutIcon,
-    ChatIcon,
-    ServerIcon,
-    ChatAlt2Icon,
-  } from "@heroicons/vue/solid"
+  import { LogoutIcon, ChatIcon, ChatAlt2Icon } from "@heroicons/vue/solid"
 
   export default defineComponent({
     components: {
       LogoutIcon,
       ChatIcon,
-      ServerIcon,
       ChatAlt2Icon,
     },
     setup() {
@@ -61,15 +55,3 @@
     },
   })
 </script>
-
-<style lang="postcss">
-  .navbar {
-    @apply p-4 flex gap-2 bg-primary;
-  }
-
-  .navbar-link {
-    @apply px-4 py-2 inline-flex justify-center align-baseline gap-2;
-    @apply font-medium text-white text-center;
-    @apply rounded-md hover:bg-primary-dark focus:outline-none;
-  }
-</style>

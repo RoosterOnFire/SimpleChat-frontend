@@ -22,8 +22,8 @@
 
 <style lang="postcss">
   .chat-sidebar-row {
-    @apply bg-primary border border-transparent rounded-md;
-    @apply text-white text-center;
+    @apply rounded-md border border-transparent bg-primary;
+    @apply text-center text-white;
   }
 
   .chat-list-enter-active,

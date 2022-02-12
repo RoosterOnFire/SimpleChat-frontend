@@ -1,9 +1,9 @@
 <template>
-  <div ref="container" class="messages">
+  <div ref="container" class="flex-1 space-y-4 overflow-y-auto p-4">
     <p
       v-for="(message, index) of messages"
       :key="index"
-      class="message-row"
+      class="w-max cursor-default select-all rounded-full border-2 bg-white px-4 py-2 text-black"
       :class="{ 'text-blue-600': message.user === 'App' }"
     >
       {{ message.user }}: {{ message.value }}
@@ -35,14 +35,3 @@
     },
   })
 </script>
-
-<style lang="postcss">
-  .messages {
-    @apply p-4 space-y-4 flex-1 overflow-y-auto;
-  }
-
-  .message-row {
-    @apply w-max px-4 py-2 bg-white rounded-full border-2;
-    @apply text-black select-all;
-  }
-</style>

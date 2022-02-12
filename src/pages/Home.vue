@@ -1,5 +1,5 @@
 <template>
-  <h1 class="home-header">Simple Chat</h1>
+  <h2 class="text-5xl font-bold text-primary">Simple Chat</h2>
   <AppButton v-if="isHomeMain" title="Sign in" @click="goToLogin">
     <LoginIcon class="h-6 w-6" />
   </AppButton>
@@ -24,21 +24,15 @@
 
       return {
         isHomeMain: computed(
-          () => router.currentRoute.value.name === RouteNames.HOME
+          () => router.currentRoute.value.name === RouteNames.home
         ),
         goToLogin: () => {
-          router.push(RouteNames.HOME_LOGIN)
+          router.push(RouteNames.login)
         },
         gotToRegistration: () => {
-          router.push(RouteNames.HOME_REGISTRATION)
+          router.push(RouteNames.registration)
         },
       }
     },
   })
 </script>
-
-<style lang="postcss">
-  .home-header {
-    @apply text-5xl font-bold text-primary;
-  }
-</style>

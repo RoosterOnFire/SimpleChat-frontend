@@ -1,12 +1,12 @@
 <template>
   <form
-    class="chat-form"
+    class="flex justify-around gap-4 bg-primary p-4"
     @submit.prevent="sendMessage"
     @keypress.enter.prevent="sendMessage"
   >
-    <input v-model="newMessage" type="text" class="input" />
-    <AppButton title="Send" type="submit">
-      <MailIcon class="w-6 h-6" />
+    <AppInput v-model="newMessage" />
+    <AppButton title="Chat" type="submit">
+      <MailIcon class="h-6 w-6" />
     </AppButton>
   </form>
 </template>
@@ -15,12 +15,14 @@
   import { useAppStore } from "@/store/Store"
   import { defineComponent, ref } from "vue"
   import AppButton from "@/components/AppButton.vue"
+  import AppInput from "@/components/AppInput.vue"
   import { StoreActions } from "@/type/TypeEnums"
   import { MailIcon } from "@heroicons/vue/outline"
 
   export default defineComponent({
     components: {
       AppButton,
+      AppInput,
       MailIcon,
     },
     setup() {
@@ -44,9 +46,3 @@
     },
   })
 </script>
-
-<style lang="postcss">
-  .chat-form {
-    @apply p-4 flex justify-around gap-4 bg-primary;
-  }
-</style>

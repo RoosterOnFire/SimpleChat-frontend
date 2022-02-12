@@ -9,14 +9,14 @@ export enum RouteNames {
   DASHBOARD = "dashboard",
   DASHBOARD_CHAT = "dashboard/chat",
   DASHBOARD_ROOMS = "dashboard/rooms",
-  HOME = "home",
-  HOME_LOGIN = "home/login",
-  HOME_REGISTRATION = "home/registration",
+  home = "home",
+  login = "home/login",
+  registration = "home/registration",
 }
 
-export enum SessionStorageKeys {
-  CURRENT_PAGE = "SIMPLECHATCURRENTPAGE",
-  SESSION = "SIMPLECHATSESSIONID",
+export enum sessionStorageKeys {
+  current_page = "SIMPLECHATCURRENTPAGE",
+  session = "SIMPLECHATsessionID",
 }
 
 export enum StoreGetters {
@@ -75,9 +75,9 @@ export enum ChatSocketMessages {
   ROOMS_CREATE = "rooms:create",
   ROOMS_JOIN = "rooms:join",
   ROOMS_LEAVE = "rooms:leave",
-  SESSION_CLOSED = "session:closed",
-  SESSION_CREATED = "session:created",
-  SESSION_RESTORE = "session:restore",
+  session_CLOSED = "session:closed",
+  session_CREATED = "session:created",
+  session_RESTORE = "session:restore",
   USER_KICK = "user:kick",
   USERS_UPDATE = "users:update",
 }

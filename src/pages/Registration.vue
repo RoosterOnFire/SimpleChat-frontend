@@ -1,36 +1,22 @@
 <template>
-  <form class="form-home" @submit="register">
-    <span v-if="errors.username" class="text-error">{{ errors.username }}</span>
-    <input
-      v-model="username"
-      type="text"
-      class="input"
-      placeholder="Username"
-      required
-    />
-    <span v-if="errors.password" class="text-error">{{ errors.password }}</span>
-    <input
-      v-model="password"
-      type="password"
-      class="input"
-      placeholder="Password"
-      required
-    />
-    <span v-if="errors.passwordRepeat" class="text-error">{{
+  <HomeForm @submit="register">
+    <AppInputError v-if="errors.username">{{ errors.username }}</AppInputError>
+    <AppInput v-model="username" type="text" placeholder="Username" />
+    <AppInputError v-if="errors.password">{{ errors.password }}</AppInputError>
+    <AppInput v-model="password" type="password" placeholder="Password" />
+    <AppInputError v-if="errors.passwordRepeat">{{
       errors.passwordRepeat
-    }}</span>
-    <input
+    }}</AppInputError>
+    <AppInput
       v-model="passwordRepeat"
       type="password"
-      class="input"
       placeholder="Repeat password"
-      required
     />
     <AppButton title="Join" type="submit">
       <SparklesIcon class="h-6 w-6" />
     </AppButton>
     <AppButton title="Go Back" @click="goBack" />
-  </form>
+  </HomeForm>
 </template>
 
 <script lang="ts">
@@ -40,12 +26,18 @@
   import { object, string, ref as yupRef } from "yup"
   import { SparklesIcon } from "@heroicons/vue/outline"
   import AppButton from "@/components/AppButton.vue"
+  import AppInput from "@/components/AppInput.vue"
+  import AppInputError from "@/components/AppInputError.vue"
+  import HomeForm from "@/components/HomeForm.vue"
   import { StoreActions } from "@/type/TypeEnums"
   import { useAppStore } from "@/store/Store"
 
   export default defineComponent({
     components: {
       AppButton,
+      AppInput,
+      AppInputError,
+      HomeForm,
       SparklesIcon,
     },
     setup() {
@@ -54,9 +46,11 @@
 
       const validationSchema = object({
         username: string().required("Username is required"),
-        password: string().required().min(4, "Must be at least 4 characters"),
+        password: string()
+          .required("Password is required")
+          .min(4, "Must be at least 4 characters"),
         passwordRepeat: string()
-          .required()
+          .required("Repeated password is required")
           .oneOf([yupRef("password"), null], "Must match password"),
       })
       const { errors, meta, isSubmitting, handleSubmit } = useForm({

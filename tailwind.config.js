@@ -1,6 +1,6 @@
 const colors = require("tailwindcss/colors")
 
-const pimaryColor = colors.purple
+const pimaryColor = colors.neutral
 const errorColor = colors.red
 
 module.exports = {
