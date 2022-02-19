@@ -29,8 +29,7 @@
   import AppInput from "@/components/AppInput.vue"
   import AppInputError from "@/components/AppInputError.vue"
   import HomeForm from "@/components/HomeForm.vue"
-  import { StoreActions } from "@/type/TypeEnums"
-  import { useAppStore } from "@/store/Store"
+  import { useUserStore } from "@/store/StoreUser"
 
   export default defineComponent({
     components: {
@@ -41,7 +40,7 @@
       SparklesIcon,
     },
     setup() {
-      const store = useAppStore()
+      const user = useUserStore()
       const router = useRouter()
 
       const validationSchema = object({
@@ -68,9 +67,14 @@
         errors,
         meta,
         isSubmitting,
-        register: handleSubmit((payload) =>
-          store.dispatch(StoreActions.register, payload)
-        ),
+        register: handleSubmit((payload) => {
+          if (payload.username && payload.password) {
+            user.register({
+              username: payload.username,
+              password: payload.password,
+            })
+          }
+        }),
         goBack: () => router.back(),
       }
     },

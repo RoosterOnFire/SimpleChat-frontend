@@ -6,89 +6,43 @@ export enum StatusUser {
 }
 
 export enum RouteNames {
-  DASHBOARD = "dashboard",
-  DASHBOARD_CHAT = "dashboard/chat",
-  DASHBOARD_ROOMS = "dashboard/rooms",
+  dashboard = "dashboard",
+  dashboard_chat = "dashboard/chat",
+  dashboard_rooms = "dashboard/rooms",
   home = "home",
   login = "home/login",
   registration = "home/registration",
 }
 
 export enum sessionStorageKeys {
-  current_page = "SIMPLECHATCURRENTPAGE",
-  session = "SIMPLECHATsessionID",
-}
-
-export enum StoreGetters {
-  chatCurrectMessage = "chatCurrectMessage",
-  errorsInvalidSignIn = "errorsInvalidSignIn",
-  hasAccess = "hasAccess",
-  hasNickname = "hasNickname",
-  isCurrentUser = "isCurrentUser",
-  isUsernameAvailable = "isUsernameAvailable",
-  pageCurrent = "pageCurrent",
-  roomsJoined = "roomsJoined",
-  roomsMessages = "roomsMessages",
-  users = "users",
-}
-
-export enum StoreMutations {
-  errorsUpdate = "errorsUpdate",
-  messageChatJoin = "messageChatJoin",
-  messageChatLeave = "messageChatLeave",
-  messageCreate = "messageCreate",
-  messagesUpdate = "messagesUpdate",
-  pageCurrentUpdate = "pageCurrentUpdate",
-  resetInvalidSignIn = "resetInvalidSignIn",
-  roomsCreate = "roomsCreate",
-  roomsJoin = "roomsJoin",
-  roomsUpdate = "roomsUpdate",
-  sessionCreate = "sessionCreate",
-  sessionDelete = "sessionDelete",
-  sessionUpdate = "sessionUpdate",
-  usersUpdate = "usersUpdate",
-  userUpdateStatus = "userUpdateStatus",
-}
-
-export enum StoreActions {
-  sessionRestore = "sessionRestore",
-  errorsAdd = "errorsAdd",
-  userLogout = "userLogout",
-  messagesAdd = "messagesAdd",
-  register = "register",
-  roomsCreate = "roomsCreate",
-  roomsJoin = "roomsJoin",
-  roomsLeave = "roomsLeave",
-  sessionCreate = "sessionCreate",
-  userSignIn = "userSignIn",
-  usersKick = "usersKick",
-  userUpdateUsername = "userUpdateUsername",
+  current_page = "simplechatcurrentpage",
+  session = "simplechatsessionid",
 }
 
 export enum ChatSocketMessages {
-  CHAT_JOIN = "chat:join",
-  CHAT_MESSAGE = "chat:message",
-  CONNECT_ERROR = "connect_error",
-  CONNECT_LOGOUT = "connect:logout",
-  CONNECT_REGISTRATION = "connect:registration",
-  CONNECT_SIGNIN = "connect:signin",
-  ROOMS_CREATE = "rooms:create",
-  ROOMS_JOIN = "rooms:join",
-  ROOMS_LEAVE = "rooms:leave",
-  session_CLOSED = "session:closed",
-  session_CREATED = "session:created",
-  session_RESTORE = "session:restore",
-  USER_KICK = "user:kick",
-  USERS_UPDATE = "users:update",
+  chat_join = "chat:join",
+  chat_message = "chat:message",
+  connect_error = "connect_error",
+  connect_logout = "connect:logout",
+  connect_registration = "connect:registration",
+  connect_signin = "connect:signin",
+  rooms_create = "rooms:create",
+  rooms_join = "rooms:join",
+  rooms_leave = "rooms:leave",
+  session_closed = "session:closed",
+  session_created = "session:created",
+  session_restore = "session:restore",
+  user_kick = "user:kick",
+  users_update = "users:update",
 }
 
 export enum Roles {
-  ADMIN = "ADMIN",
-  USER = "USER",
+  admin = "admin",
+  user = "user",
 }
 
 export enum Errors {
-  ERROR_INVALID_SING_IN = "ERROR_INVALID_SING_IN",
-  ERROR_USERNAME_IN_USE = "ERROR_USERNAME_IN_USE",
-  ERROR_NEW_USER_NOT_CREATED = "ERROR_NEW_USER_NOT_CREATED",
+  error_invalid_sing_in = "error_invalid_sing_in",
+  error_username_in_use = "error_username_in_use",
+  error_new_user_not_created = "error_new_user_not_created",
 }

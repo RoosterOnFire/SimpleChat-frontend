@@ -1,39 +1,39 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
-import { store } from "@/store/Store"
-import { StoreMutations, RouteNames } from "@/type/TypeEnums"
+import { RouteNames, sessionStorageKeys } from "@/type/TypeEnums"
+import { useUserStore } from "@/store/StoreUser"
 
 const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: RouteNames.home,
-    component: () => import("@/pages/Home.vue"),
+    component: () => import("@/components/PageHome.vue"),
     children: [
       {
         path: "login",
         name: RouteNames.login,
-        component: () => import("@/pages/Login.vue"),
+        component: () => import("@/components/PageLogin.vue"),
       },
       {
         path: "registration",
         name: RouteNames.registration,
-        component: () => import("@/pages/Registration.vue"),
+        component: () => import("@/components/PageRegistration.vue"),
       },
     ],
   },
   {
     path: "/dashboard",
-    name: RouteNames.DASHBOARD,
-    component: () => import("@/pages/Dashboard.vue"),
+    name: RouteNames.dashboard,
+    component: () => import("@/components/PageDashboard.vue"),
     children: [
       {
         path: "chat",
-        name: RouteNames.DASHBOARD_CHAT,
-        component: () => import("@/pages/DashboardChat.vue"),
+        name: RouteNames.dashboard_chat,
+        component: () => import("@/components/PageDashboardChat.vue"),
       },
       {
         path: "rooms",
-        name: RouteNames.DASHBOARD_ROOMS,
-        component: () => import("@/pages/DashboardRooms.vue"),
+        name: RouteNames.dashboard_rooms,
+        component: () => import("@/components/PageDashboardRooms.vue"),
       },
     ],
   },
@@ -45,9 +45,11 @@ const Router = createRouter({
 })
 
 Router.beforeEach((to, from, next) => {
+  const user = useUserStore()
+
   if (
     (from.name === RouteNames.home || to.name !== RouteNames.home) &&
-    !store.getters.hasAccess
+    !user.hasAccess
   ) {
     if (to.name === RouteNames.login || to.name === RouteNames.registration) {
       next()
@@ -60,7 +62,8 @@ Router.beforeEach((to, from, next) => {
 })
 
 Router.afterEach((to) => {
-  store.commit(StoreMutations.pageCurrentUpdate, to.name)
+  const routeName = (to.name as string) || RouteNames.home
+  sessionStorage.setItem(sessionStorageKeys.current_page, routeName)
 })
 
 export default Router

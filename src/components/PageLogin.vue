@@ -1,12 +1,12 @@
 <template>
   <HomeForm @submit="onSubmit">
-    <AppInputError v-if="errorsInvalidSignIn()">{{
-      "Login error"
-    }}</AppInputError>
+    <AppInputError v-if="errorsInvalidSignIn">
+      {{ "Login error" }}
+    </AppInputError>
     <AppInputError v-if="errors.username">{{ errors.username }}</AppInputError>
-    <AppInput placeholder="Username" v-model="username" />
+    <AppInput v-model="username" placeholder="Username" />
     <AppInputError v-if="errors.password">{{ errors.password }}</AppInputError>
-    <AppInput placeholder="Password" v-model="password" type="password" />
+    <AppInput v-model="password" placeholder="Password" type="password" />
     <AppButton title="Sign in" type="submit" :disabled="isSubmitting">
       <LoginIcon class="h-6 w-6" />
     </AppButton>
@@ -16,17 +16,15 @@
 
 <script lang="ts">
   import { defineComponent } from "vue"
-  import { mapGetters } from "vuex"
   import { useRouter } from "vue-router"
   import { LoginIcon } from "@heroicons/vue/outline"
-  import { StoreActions, StoreGetters } from "@/type/TypeEnums"
   import { useForm, useField } from "vee-validate"
   import { object, string } from "yup"
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
   import AppInputError from "@/components/AppInputError.vue"
   import HomeForm from "@/components/HomeForm.vue"
-  import { useAppStore } from "@/store/Store"
+  import { useUserStore } from "@/store/StoreUser"
 
   export default defineComponent({
     components: {
@@ -37,7 +35,7 @@
       LoginIcon,
     },
     setup() {
-      const store = useAppStore()
+      const user = useUserStore()
       const router = useRouter()
 
       const validationSchema = object({
@@ -58,9 +56,9 @@
         isSubmitting,
         goBack: () => router.back(),
         onSubmit: handleSubmit((payload) => {
-          store.dispatch(StoreActions.userSignIn, payload)
+          user.userSignIn(payload)
         }),
-        ...mapGetters([StoreGetters.errorsInvalidSignIn]),
+        errorsInvalidSignIn: user.errorsInvalidSignIn,
       }
     },
   })

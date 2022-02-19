@@ -16,15 +16,14 @@
 <script lang="ts">
   import { computed, defineComponent } from "vue"
   import { useRoute } from "vue-router"
-  import { useAppStore } from "@/store/Store"
-  import { StoreActions } from "@/type/TypeEnums"
+  import { useUserStore } from "@/store/StoreUser"
 
   export default defineComponent({
     setup() {
-      const store = useAppStore()
+      const user = useUserStore()
       const route = useRoute()
 
-      store.dispatch(StoreActions.sessionRestore)
+      user.sessionRestore()
 
       return {
         isHome: computed(() => {

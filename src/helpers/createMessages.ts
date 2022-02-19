@@ -1,9 +1,9 @@
-import { Message, User } from "@/type/TypeState"
+import { Message } from "@/type/TypeState"
 
-export function createUserMessage(user: User, value: string): Message {
+export function createUserMessage(username: string, value: string): Message {
   return {
     id: Date.now(),
-    user: user.data.username,
+    user: username,
     value,
   }
 }

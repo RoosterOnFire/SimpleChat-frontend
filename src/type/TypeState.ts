@@ -1,5 +1,5 @@
-import { Module } from "vuex"
 import { Roles, StatusUser } from "@/type/TypeEnums"
+import { Router } from "vue-router"
 
 export type State = {
   user?: User
@@ -10,6 +10,7 @@ export type State = {
 export type User = {
   status: StatusUser
   data: UserData
+  router: Router | undefined
   errors: {
     login: {
       invalidSignIn: boolean
@@ -45,15 +46,13 @@ export type Rooms = {
   }
   rooms: Room[]
 }
+export type RoomMessage = {
+  room: string
+  message: Message
+}
 
 export type Message = {
   id: number
   user: string
   value: string
 }
-
-export type StoreModuleUser = Module<User, State>
-
-export type StoreModuleMeta = Module<Meta, State>
-
-export type StoreModuleRooms = Module<Rooms, State>

@@ -25,11 +25,10 @@
 
 <script lang="ts">
   import { computed, defineComponent } from "vue"
-  import { mapActions } from "vuex"
   import { useRoute } from "vue-router"
-  import { RouteNames, StoreActions } from "@/type/TypeEnums"
-  import { useAppStore } from "@/store/Store"
+  import { RouteNames } from "@/type/TypeEnums"
   import { LogoutIcon, ChatIcon, ChatAlt2Icon } from "@heroicons/vue/solid"
+  import { useUserStore } from "@/store/StoreUser"
 
   export default defineComponent({
     components: {
@@ -38,20 +37,24 @@
       ChatAlt2Icon,
     },
     setup() {
-      const store = useAppStore()
+      const user = useUserStore()
       const route = useRoute()
 
       return {
         route,
-        userRole: computed(() => store.state.user?.data.role),
-        routeChat: RouteNames.DASHBOARD_CHAT,
+        userRole: computed(() => user.data.role),
+        routeChat: RouteNames.dashboard_chat,
         isCurrentRoute(link: string) {
           return route.fullPath === link
         },
-        ...mapActions({
-          logout: StoreActions.userLogout,
-        }),
+        logout: user.userLogout,
       }
     },
   })
 </script>
+
+<style lang="postcss">
+  .navbar-link {
+    @apply inline-flex justify-center gap-2 rounded-md px-4 py-2 text-center align-baseline font-medium text-white hover:bg-primary-dark focus:outline-none;
+  }
+</style>

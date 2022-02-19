@@ -12,15 +12,14 @@
 </template>
 
 <script lang="ts">
-  import { useAppStore } from "@/store/Store"
-  import { StoreGetters } from "@/type/TypeEnums"
+  import { useRoomsStore } from "@/store/StoreRooms"
   import { Message } from "@/type/TypeState"
   import { defineComponent, ref, onUpdated, computed } from "vue"
 
   export default defineComponent({
     setup() {
       const container = ref<HTMLElement | null>(null)
-      const store = useAppStore()
+      const rooms = useRoomsStore()
 
       onUpdated(() => {
         container.value?.lastElementChild?.scrollIntoView()
@@ -28,9 +27,7 @@
 
       return {
         container,
-        messages: computed<Message[]>(
-          () => store.getters[StoreGetters.roomsMessages]
-        ),
+        messages: computed<Message[]>(() => rooms.roomsMessages),
       }
     },
   })

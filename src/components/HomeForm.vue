@@ -8,6 +8,8 @@
   import { defineComponent } from "vue"
 
   export default defineComponent({
-    setup() {},
+    setup() {
+      return {}
+    },
   })
 </script>

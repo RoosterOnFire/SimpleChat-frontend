@@ -1,7 +1,15 @@
 import "./styles.css"
-import { createApp } from "vue"
+import { createApp, markRaw } from "vue"
 import App from "./App.vue"
 import Router from "@/router/Router"
-import { store, key } from "@/store/Store"
+import { createPinia } from "pinia"
+import { createPluginChatSocket } from "./store/StorePluginChatSocket"
 
-createApp(App).use(store, key).use(Router).mount("#app")
+const pinia = createPinia()
+pinia.use(createPluginChatSocket)
+
+pinia.use(({ store }) => {
+  store.router = markRaw(Router)
+})
+
+createApp(App).use(pinia).use(Router).mount("#app")

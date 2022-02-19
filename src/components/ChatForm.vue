@@ -12,12 +12,11 @@
 </template>
 
 <script lang="ts">
-  import { useAppStore } from "@/store/Store"
   import { defineComponent, ref } from "vue"
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
-  import { StoreActions } from "@/type/TypeEnums"
   import { MailIcon } from "@heroicons/vue/outline"
+  import { useRoomsStore } from "@/store/StoreRooms"
 
   export default defineComponent({
     components: {
@@ -26,7 +25,7 @@
       MailIcon,
     },
     setup() {
-      const store = useAppStore()
+      const rooms = useRoomsStore()
       const newMessage = ref("")
 
       return {
@@ -36,9 +35,7 @@
             return
           }
 
-          store.dispatch(StoreActions.messagesAdd, {
-            message: newMessage.value,
-          })
+          rooms.messagesAdd(newMessage.value)
 
           newMessage.value = ""
         },

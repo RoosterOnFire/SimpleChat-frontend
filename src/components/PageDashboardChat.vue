@@ -8,7 +8,7 @@
   </div>
   <div v-else class="flex h-full justify-center">
     <h1 class="my-auto bg-gray-50 bg-opacity-30 text-lg text-primary">
-      You have not joined any rooms
+      {{ "You have not joined any rooms" }}
     </h1>
   </div>
 </template>
@@ -17,7 +17,7 @@
   import { defineComponent } from "vue"
   import ChatMessages from "@/components/ChatMessages.vue"
   import ChatForm from "@/components/ChatForm.vue"
-  import { useAppStore } from "@/store/Store"
+  import { useRoomsStore } from "@/store/StoreRooms"
 
   export default defineComponent({
     components: {
@@ -25,10 +25,10 @@
       ChatForm,
     },
     setup() {
-      const store = useAppStore()
+      const rooms = useRoomsStore()
 
       return {
-        isChatSelected: store.state.rooms?.meta.selected,
+        isChatSelected: rooms.meta.selected,
       }
     },
   })
