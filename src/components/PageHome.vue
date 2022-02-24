@@ -15,7 +15,7 @@
   import { LoginIcon } from "@heroicons/vue/outline"
   import { SparklesIcon } from "@heroicons/vue/outline"
   import AppButton from "@/components/AppButton.vue"
-  import { RouteNames } from "@/type/TypeEnums"
+  import { RouteNames } from "@/types/TypeEnums"
 
   export default defineComponent({
     components: { AppButton, LoginIcon, SparklesIcon },

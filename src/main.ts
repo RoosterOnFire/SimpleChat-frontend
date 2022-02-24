@@ -9,7 +9,9 @@ const pinia = createPinia()
 pinia.use(createPluginChatSocket)
 
 pinia.use(({ store }) => {
-  store.router = markRaw(Router)
+  store.plugins = {
+    router: markRaw(Router),
+  }
 })
 
 createApp(App).use(pinia).use(Router).mount("#app")

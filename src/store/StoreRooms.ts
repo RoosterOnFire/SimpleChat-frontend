@@ -1,7 +1,8 @@
 import { defineStore } from "pinia"
-import { RoomMessage, Rooms } from "@/type/TypeState"
+import { RoomMessage, Rooms } from "@/types/TypeStateRooms"
 import { useUserStore } from "@/store/StoreUser"
 import { createUserMessage } from "@/helpers/createMessages"
+import { RouteNames } from "@/types/TypeEnums"
 
 export const useRoomsStore = defineStore("roomsStore", {
   state: (): Rooms => {
@@ -12,6 +13,7 @@ export const useRoomsStore = defineStore("roomsStore", {
       rooms: [],
     }
   },
+
   getters: {
     roomsMessages: (state) => {
       return (
@@ -20,18 +22,13 @@ export const useRoomsStore = defineStore("roomsStore", {
       )
     },
   },
+
   actions: {
-    roomsCreate(payload: { name: string }) {
-      this.meta.selected = payload.name
-
-      const room = this.rooms.find((room) => room.name === payload.name)
-      if (!room) {
-        this.rooms.push({ name: payload.name, users: [], messages: [] })
-      }
+    roomsJoin(payload: string) {
+      this.meta.selected = payload
+      this.plugins.router?.push({ name: RouteNames.dashboard_chat })
     },
-    roomsJoin(payload: { name: string }) {
-      this.meta.selected = payload.name
-
+    roomsUpdate(payload: { name: string }) {
       const room = this.rooms.find((room) => room.name === payload.name)
       if (!room) {
         this.rooms.push({ name: payload.name, users: [], messages: [] })

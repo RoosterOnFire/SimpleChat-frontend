@@ -26,9 +26,7 @@
       user.sessionRestore()
 
       return {
-        isHome: computed(() => {
-          return route.name?.toString().startsWith("home")
-        }),
+        isHome: computed(() => route.name?.toString().startsWith("home")),
       }
     },
   })

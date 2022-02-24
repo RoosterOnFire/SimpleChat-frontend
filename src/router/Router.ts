@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
-import { RouteNames, sessionStorageKeys } from "@/type/TypeEnums"
+import { RouteNames, sessionStorageKeys } from "@/types/TypeEnums"
 import { useUserStore } from "@/store/StoreUser"
 
 const routes: RouteRecordRaw[] = [

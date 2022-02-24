@@ -1,4 +1,4 @@
-import { Message } from "@/type/TypeState"
+import { Message } from "@/types/TypeStateRooms"
 
 export function createUserMessage(username: string, value: string): Message {
   return {

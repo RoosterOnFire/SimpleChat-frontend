@@ -1,15 +1,17 @@
 import { io } from "socket.io-client"
 import { PiniaPluginContext } from "pinia"
-import { ChatSocketMessages, Errors } from "@/type/TypeEnums"
-import { RoomMessage, UserData } from "@/type/TypeState"
-import { useUserStore } from "./StoreUser"
-import { useRoomsStore } from "./StoreRooms"
+import { ChatSocketMessages, Errors } from "@/types/TypeShared"
+import { UserData } from "@/types/TypeStateUser"
+import { RoomMessage } from "@/types/TypeStateRooms"
+import { useUserStore } from "@/store/StoreUser"
+import { useRoomsStore } from "@/store/StoreRooms"
+import { sessionStorageKeys } from "@/types/TypeEnums"
 
-// type CallbackPayload = {
-//   success: boolean
-//   message: string
-//   data: { name: string }
-// }
+type CallbackPayload = {
+  success: boolean
+  message: string
+  data: { name: string }
+}
 
 const ChatSocket = io(import.meta.env.VITE_SOCKET_ENDPOINT, {
   autoConnect: false,
@@ -37,10 +39,28 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
     user.errorsAdd(err.message)
   })
 
-  store.$onAction(({ name, args, after }) => {
-    const user = useUserStore()
+  store.$onAction(({ name, args }) => {
+    const userStore = useUserStore()
 
     switch (name) {
+      case "sessionRestore":
+        ChatSocket.auth = {
+          sessionId: sessionStorage.getItem(sessionStorageKeys.session) || "",
+        }
+        ChatSocket.connect()
+        ChatSocket.emit(
+          ChatSocketMessages.connect_signin,
+          {},
+          (payload: { success: boolean; data: UserData; error: string }) => {
+            if (payload.error) {
+              return userStore.errorsUpdate(payload.error)
+            }
+
+            userStore.sessionCreate(payload.data)
+          }
+        )
+        break
+
       case "userSignIn":
         ChatSocket.connect()
         ChatSocket.emit(
@@ -51,9 +71,9 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
           },
           (payload: { success: boolean; data?: UserData; error?: Errors }) => {
             if (payload.error) {
-              user.errorsAdd(payload.error)
+              userStore.errorsAdd(payload.error)
             } else if (payload.data) {
-              user.sessionCreate(payload.data)
+              userStore.sessionCreate(payload.data)
             }
           }
         )
@@ -67,102 +87,27 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
       default:
         break
     }
+  })
 
-    after(() => {
-      //     switch (action.type) {
-      //       case StoreActions.register:
-      //         ChatSocket.auth = { newUser: true }
-      //         ChatSocket.connect()
-      //         ChatSocket.emit(
-      //           ChatSocketMessages.CONNECT_REGISTRATION,
-      //           {
-      //             username: action.payload?.username || "",
-      //             password: action.payload?.password || "",
-      //           },
-      //           (payload: { success: boolean; data: User }) => {
-      //             if (payload.success) {
-      //               context.store.dispatch(StoreActions.sessionCreate, payload.data)
-      //             } else {
-      //               console.log(payload)
-      //             }
-      //           }
-      //         )
-      //         break
-      //       case StoreActions.sessionRestore:
-      //         ChatSocket.auth = {
-      //           sessionId: state.user?.data.sessionId,
-      //         }
-      //         ChatSocket.connect()
-      //         ChatSocket.emit(
-      //           ChatSocketMessages.CONNECT_SIGNIN,
-      //           {},
-      //           (payload: { success: boolean; data?: User; error?: string }) => {
-      //             if (payload.error) {
-      //               context.store.commit(StoreMutations.errorsUpdate, payload.error)
-      //             } else {
-      //               context.store.dispatch(StoreActions.sessionCreate, payload.data)
-      //             }
-      //           }
-      //         )
-      //         break
-      //       case StoreActions.userSignIn:
-      //         ChatSocket.connect()
-      //         ChatSocket.emit(
-      //           ChatSocketMessages.CONNECT_SIGNIN,
-      //           {
-      //             username: action.payload?.username,
-      //             password: action.payload?.password,
-      //           },
-      //           (payload: { success: boolean; data?: User; error?: string }) => {
-      //             if (payload.error) {
-      //               context.store.commit(StoreMutations.errorsUpdate, payload.error)
-      //             } else {
-      //               context.store.dispatch(StoreActions.sessionCreate, payload.data)
-      //             }
-      //           }
-      //         )
-      //         break
-      //       case StoreActions.roomsCreate:
-      //         ChatSocket.emit(
-      //           ChatSocketMessages.ROOMS_CREATE,
-      //           { roomName: action.payload },
-      //           () => {
-      //             context.store.commit(StoreMutations.roomsCreate, {
-      //               name: action.payload,
-      //             })
-      //           }
-      //         )
-      //         break
-      //       case StoreActions.roomsJoin:
-      //         ChatSocket.emit(
-      //           ChatSocketMessages.ROOMS_JOIN,
-      //           { roomName: action.payload },
-      //           (payload: CallbackPayload) => {
-      //             if (payload.success) {
-      //               return context.store.commit(StoreMutations.roomsJoin, {
-      //                 name: payload.data.name,
-      //               })
-      //             }
-      //             console.error(payload)
-      //           }
-      //         )
-      //         break
-      //       case StoreActions.roomsLeave:
-      //         ChatSocket.emit(
-      //           ChatSocketMessages.ROOMS_LEAVE,
-      //           { roomName: action.payload },
-      //           console.log
-      //         )
-      //         break
-      //       case StoreActions.usersKick:
-      //         ChatSocket.emit(ChatSocketMessages.USER_KICK, {
-      //           userId: action.payload,
-      //         })
-      //         break
-      //       default:
-      //         break
-      //     }
-      //   },
-    })
+  store.$onAction(({ name, args }) => {
+    const roomsStore = useRoomsStore()
+
+    switch (name) {
+      case "roomsJoin":
+        ChatSocket.emit(
+          ChatSocketMessages.rooms_join,
+          { roomName: args[0] },
+          (payload: CallbackPayload) => {
+            if (payload.success) {
+              return roomsStore.roomsUpdate(payload.data)
+            }
+            console.error(payload)
+          }
+        )
+        break
+
+      default:
+        break
+    }
   })
 }

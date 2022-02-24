@@ -1,20 +1,12 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { defineStore } from "pinia"
-import {
-  Errors,
-  Roles,
-  RouteNames,
-  sessionStorageKeys,
-  StatusUser,
-} from "@/type/TypeEnums"
-import { User, UserData } from "@/type/TypeState"
+import { RouteNames, sessionStorageKeys, StatusUser } from "@/types/TypeEnums"
+import { User, UserData } from "@/types/TypeStateUser"
+import { Errors, Roles } from "@/types/TypeShared"
 
 export const useUserStore = defineStore("userStore", {
   state: (): User => {
     return {
       status: StatusUser.start,
-      router: undefined,
       data: {
         userId: "",
         sessionId: "",
@@ -31,6 +23,7 @@ export const useUserStore = defineStore("userStore", {
       },
     }
   },
+
   getters: {
     isCurrentUser: (state) => {
       return (payload: string) => state.data.userId === payload
@@ -47,6 +40,7 @@ export const useUserStore = defineStore("userStore", {
       )
     },
   },
+
   actions: {
     userSignIn(payload: { username?: string; password?: string } | undefined) {
       this.status =
@@ -59,12 +53,9 @@ export const useUserStore = defineStore("userStore", {
 
       sessionStorage.setItem(sessionStorageKeys.session, this.data.sessionId)
 
-      this.router?.push({ name: RouteNames.dashboard })
+      this.plugins.router.push({ name: RouteNames.dashboard })
     },
     sessionRestore() {
-      this.data.sessionId =
-        sessionStorage.getItem(sessionStorageKeys.session) || ""
-
       this.status =
         this.data.sessionId === "" ? StatusUser.start : StatusUser.pending
     },
@@ -72,7 +63,7 @@ export const useUserStore = defineStore("userStore", {
       this.data = payload
     },
     sessionDelete() {
-      this.status = StatusUser.pending
+      this.status = StatusUser.start
 
       this.data = {
         userId: "",
@@ -85,6 +76,8 @@ export const useUserStore = defineStore("userStore", {
         login: { invalidSignIn: false },
         register: { nicknameInUse: false },
       }
+
+      sessionStorage.removeItem(sessionStorageKeys.session)
     },
     resetInvalidSignIn() {
       this.errors.login.invalidSignIn = false
@@ -104,7 +97,7 @@ export const useUserStore = defineStore("userStore", {
     userLogout() {
       this.sessionDelete()
 
-      this.router?.push({ name: RouteNames.home })
+      this.plugins.router.push({ name: RouteNames.home })
     },
     errorsAdd(payload: Errors) {
       switch (payload) {
@@ -124,7 +117,8 @@ export const useUserStore = defineStore("userStore", {
         this.sessionDelete()
       }
     },
-    register(payload: { username: string; password: string }): void {},
-    userUpdateStatus() {},
+    register(payload: { username: string; password: string }): void {
+      console.log("WIP", payload)
+    },
   },
 })

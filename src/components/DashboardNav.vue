@@ -26,7 +26,7 @@
 <script lang="ts">
   import { computed, defineComponent } from "vue"
   import { useRoute } from "vue-router"
-  import { RouteNames } from "@/type/TypeEnums"
+  import { RouteNames } from "@/types/TypeEnums"
   import { LogoutIcon, ChatIcon, ChatAlt2Icon } from "@heroicons/vue/solid"
   import { useUserStore } from "@/store/StoreUser"
 
