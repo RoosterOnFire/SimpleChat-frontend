@@ -1,11 +1,11 @@
-import { io } from "socket.io-client"
-import { PiniaPluginContext } from "pinia"
-import { ChatSocketMessages, Errors } from "@/types/TypeShared"
-import { UserData } from "@/types/TypeStateUser"
-import { RoomMessage } from "@/types/TypeStateRooms"
-import { useUserStore } from "@/store/StoreUser"
 import { useRoomsStore } from "@/store/StoreRooms"
+import { useUserStore } from "@/store/StoreUser"
 import { sessionStorageKeys } from "@/types/TypeEnums"
+import { ChatSocketMessages, Errors } from "@/types/TypeShared"
+import { RoomMessage } from "@/types/TypeStateRooms"
+import { UserData } from "@/types/TypeStateUser"
+import { PiniaPluginContext } from "pinia"
+import { io } from "socket.io-client"
 
 type CallbackPayload = {
   success: boolean
@@ -51,12 +51,11 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
         ChatSocket.emit(
           ChatSocketMessages.connect_signin,
           {},
-          (payload: { success: boolean; data: UserData; error: string }) => {
-            if (payload.error) {
-              return userStore.errorsUpdate(payload.error)
+          (payload: { success: boolean; data: UserData; error: Errors }) => {
+            if (payload.success) {
+              return userStore.userSignInFulfilled(payload.data)
             }
-
-            userStore.sessionCreate(payload.data)
+            userStore.userSignInRejected(payload.error)
           }
         )
         break
@@ -69,12 +68,11 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
             username: args[0].username,
             password: args[0].username,
           },
-          (payload: { success: boolean; data?: UserData; error?: Errors }) => {
-            if (payload.error) {
-              userStore.errorsAdd(payload.error)
-            } else if (payload.data) {
-              userStore.sessionCreate(payload.data)
+          (payload: { success: boolean; data: UserData; error: Errors }) => {
+            if (payload.success) {
+              return userStore.userSignInFulfilled(payload.data)
             }
+            userStore.userSignInRejected(payload.error)
           }
         )
         break
@@ -99,7 +97,8 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
           { roomName: args[0] },
           (payload: CallbackPayload) => {
             if (payload.success) {
-              return roomsStore.roomsUpdate(payload.data)
+              console.log("here here here")
+              return roomsStore.roomsJoinFulfilled(payload.data)
             }
             console.error(payload)
           }

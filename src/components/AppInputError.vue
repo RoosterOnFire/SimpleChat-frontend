@@ -1,5 +1,5 @@
 <template>
-  <span class="text-error">
+  <span class="capitalize text-error">
     <slot />
   </span>
 </template>

@@ -13,14 +13,7 @@ export const useUserStore = defineStore("userStore", {
         username: "",
         role: Roles.user,
       },
-      errors: {
-        login: {
-          invalidSignIn: false,
-        },
-        register: {
-          nicknameInUse: false,
-        },
-      },
+      errors: {},
     }
   },
 
@@ -34,9 +27,10 @@ export const useUserStore = defineStore("userStore", {
     hasNickname: (state) => {
       return !!state.data.username
     },
-    errorsInvalidSignIn: (state) => {
+    isLoginRejected: (state) => {
       return (
-        state.status === StatusUser.rejected && state.errors.login.invalidSignIn
+        state.status === StatusUser.rejected &&
+        state.errors.error_invalid_sing_in
       )
     },
   },
@@ -46,21 +40,22 @@ export const useUserStore = defineStore("userStore", {
       this.status =
         payload === undefined ? StatusUser.start : StatusUser.pending
     },
-    sessionCreate(payload: UserData) {
+    userSignInFulfilled(payload: UserData) {
       this.status = StatusUser.fulfilled
 
-      this.sessionUpdate(payload)
+      this.data = payload
 
       sessionStorage.setItem(sessionStorageKeys.session, this.data.sessionId)
 
       this.plugins.router.push({ name: RouteNames.dashboard })
     },
+    userSignInRejected(payload: Errors) {
+      this.errors[payload] = true
+      this.status = StatusUser.rejected
+    },
     sessionRestore() {
       this.status =
         this.data.sessionId === "" ? StatusUser.start : StatusUser.pending
-    },
-    sessionUpdate(payload: UserData) {
-      this.data = payload
     },
     sessionDelete() {
       this.status = StatusUser.start
@@ -72,27 +67,12 @@ export const useUserStore = defineStore("userStore", {
         role: Roles.user,
       }
 
-      this.errors = {
-        login: { invalidSignIn: false },
-        register: { nicknameInUse: false },
-      }
+      this.errors = {}
 
       sessionStorage.removeItem(sessionStorageKeys.session)
     },
     resetInvalidSignIn() {
-      this.errors.login.invalidSignIn = false
-    },
-    errorsUpdate(payload: string) {
-      this.status = StatusUser.rejected
-
-      switch (payload) {
-        case Errors.error_invalid_sing_in:
-          this.errors.login.invalidSignIn = true
-          break
-
-        default:
-          break
-      }
+      this.errors.error_invalid_sing_in = false
     },
     userLogout() {
       this.sessionDelete()
@@ -100,18 +80,7 @@ export const useUserStore = defineStore("userStore", {
       this.plugins.router.push({ name: RouteNames.home })
     },
     errorsAdd(payload: Errors) {
-      switch (payload) {
-        case Errors.error_invalid_sing_in:
-          this.errors.login.invalidSignIn = true
-          break
-
-        case Errors.error_username_in_use:
-          this.errors.register.nicknameInUse = true
-          break
-
-        default:
-          break
-      }
+      this.errors[payload] = true
 
       if (this.data.sessionId && this.data.userId === "") {
         this.sessionDelete()

@@ -13,7 +13,7 @@
 
 <script lang="ts">
   import { useRoomsStore } from "@/store/StoreRooms"
-  import { Message } from "@/type/TypeState"
+  import { Message } from "@/types/TypeStateRooms"
   import { defineComponent, ref, onUpdated, computed } from "vue"
 
   export default defineComponent({

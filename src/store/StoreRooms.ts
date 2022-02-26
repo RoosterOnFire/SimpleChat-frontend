@@ -1,15 +1,13 @@
-import { defineStore } from "pinia"
-import { RoomMessage, Rooms } from "@/types/TypeStateRooms"
-import { useUserStore } from "@/store/StoreUser"
 import { createUserMessage } from "@/helpers/createMessages"
+import { useUserStore } from "@/store/StoreUser"
 import { RouteNames } from "@/types/TypeEnums"
+import { RoomMessage, Rooms } from "@/types/TypeStateRooms"
+import { defineStore } from "pinia"
 
 export const useRoomsStore = defineStore("roomsStore", {
   state: (): Rooms => {
     return {
-      meta: {
-        selected: "",
-      },
+      selectedRoom: undefined,
       rooms: [],
     }
   },
@@ -17,7 +15,7 @@ export const useRoomsStore = defineStore("roomsStore", {
   getters: {
     roomsMessages: (state) => {
       return (
-        state.rooms.find((room) => room.name === state.meta.selected)
+        state.rooms.find((room) => room.name === state.selectedRoom)
           ?.messages || []
       )
     },
@@ -25,18 +23,18 @@ export const useRoomsStore = defineStore("roomsStore", {
 
   actions: {
     roomsJoin(payload: string) {
-      this.meta.selected = payload
+      this.selectedRoom = payload
       this.plugins.router?.push({ name: RouteNames.dashboard_chat })
     },
-    roomsUpdate(payload: { name: string }) {
+    roomsJoinFulfilled(payload: { name: string }) {
       const room = this.rooms.find((room) => room.name === payload.name)
-      if (!room) {
+      if (room === undefined) {
         this.rooms.push({ name: payload.name, users: [], messages: [] })
       }
     },
     messageCreate(payload: RoomMessage) {
       this.rooms
-        .find((room) => room.name === this.meta.selected)
+        .find((room) => room.name === this.selectedRoom)
         ?.messages.push(payload.message)
     },
     messagesUpdate(payload: RoomMessage) {
@@ -51,7 +49,7 @@ export const useRoomsStore = defineStore("roomsStore", {
       }
 
       this.messageCreate({
-        room: this.meta.selected,
+        room: this.selectedRoom as string,
         message: createUserMessage(user.data.username, payload),
       })
     },

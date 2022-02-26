@@ -1,6 +1,6 @@
 <template>
   <HomeForm @submit="onSubmit">
-    <AppInputError v-if="errorsInvalidSignIn">
+    <AppInputError v-if="isLoginRejected">
       {{ "Login error" }}
     </AppInputError>
     <AppInputError v-if="errors.username">{{ errors.username }}</AppInputError>
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue"
+  import { computed, defineComponent } from "vue"
   import { useRouter } from "vue-router"
   import { LoginIcon } from "@heroicons/vue/outline"
   import { useForm, useField } from "vee-validate"
@@ -55,10 +55,11 @@
         errors,
         isSubmitting,
         goBack: () => router.back(),
-        onSubmit: handleSubmit((payload) => {
+        onSubmit: handleSubmit((payload, { resetForm }) => {
           user.userSignIn(payload)
+          resetForm()
         }),
-        errorsInvalidSignIn: user.errorsInvalidSignIn,
+        isLoginRejected: computed(() => user.isLoginRejected),
       }
     },
   })

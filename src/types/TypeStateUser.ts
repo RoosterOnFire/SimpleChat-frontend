@@ -1,17 +1,11 @@
-import { Router } from "vue-router"
 import { StatusUser } from "@/types/TypeEnums"
-import { Roles } from "@/types/TypeShared"
+import { Errors, Roles } from "@/types/TypeShared"
 
 export type User = {
   status: StatusUser
   data: UserData
   errors: {
-    login: {
-      invalidSignIn: boolean
-    }
-    register: {
-      nicknameInUse: boolean
-    }
+    [key in Errors]?: boolean
   }
 }
 
