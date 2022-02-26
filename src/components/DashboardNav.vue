@@ -1,25 +1,23 @@
 <template>
   <div class="flex gap-2 bg-primary p-4">
-    <router-link
+    <DashboardNavLink
       to="/dashboard/rooms"
-      class="navbar-link"
       :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/rooms') }"
     >
       {{ "Rooms" }}
       <ChatAlt2Icon class="h-6 w-6" />
-    </router-link>
-    <router-link
+    </DashboardNavLink>
+    <DashboardNavLink
       to="/dashboard/chat"
-      class="navbar-link"
       :class="{ 'bg-primary-dark': isCurrentRoute('/dashboard/chat') }"
     >
       {{ "Chat" }}
       <ChatIcon class="h-6 w-6" />
-    </router-link>
-    <button type="button" class="navbar-link ml-auto" @click="logout()">
+    </DashboardNavLink>
+    <DashboardNavLink type="button" class="ml-auto" @click="logout()">
       {{ "Logout" }}
       <LogoutIcon class="h-6 w-6" />
-    </button>
+    </DashboardNavLink>
   </div>
 </template>
 
@@ -29,12 +27,14 @@
   import { RouteNames } from "@/types/TypeEnums"
   import { LogoutIcon, ChatIcon, ChatAlt2Icon } from "@heroicons/vue/solid"
   import { useUserStore } from "@/store/StoreUser"
+  import DashboardNavLink from "@/components/DashboardNavLink.vue"
 
   export default defineComponent({
     components: {
       LogoutIcon,
       ChatIcon,
       ChatAlt2Icon,
+      DashboardNavLink,
     },
     setup() {
       const user = useUserStore()
@@ -56,5 +56,9 @@
 <style lang="postcss">
   .navbar-link {
     @apply inline-flex justify-center gap-2 rounded-md px-4 py-2 text-center align-baseline font-medium text-white hover:bg-primary-dark focus:outline-none;
+  }
+
+  .test {
+    @apply bg-red-600;
   }
 </style>

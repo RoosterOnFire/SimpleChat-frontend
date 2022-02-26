@@ -5,9 +5,7 @@ export type Room = {
 }
 
 export type Rooms = {
-  meta: {
-    selected: string
-  }
+  selectedRoom: string | undefined
   rooms: Room[]
 }
 
