@@ -47,7 +47,16 @@ export const useUserStore = defineStore("userStore", {
 
       sessionStorage.setItem(storageKeys.token, this.data.token)
 
-      this.plugins.router.push({ name: RouteNames.dashboard })
+      const storageCurrentpage =
+        sessionStorage.getItem(storageKeys.current_page) || ""
+
+      const goToRoute = storageCurrentpage.startsWith("home")
+        ? RouteNames.dashboard_rooms
+        : storageCurrentpage
+
+      this.plugins.router.push({
+        name: goToRoute,
+      })
     },
     userSignInRejected(payload: Errors) {
       this.errors[payload] = true

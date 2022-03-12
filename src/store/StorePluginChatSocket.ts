@@ -99,7 +99,6 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
           { roomName: args[0] },
           (payload: CallbackPayload) => {
             if (payload.success) {
-              console.log("here here here")
               return roomsStore.roomsJoinFulfilled(payload.data)
             }
             console.error(payload)

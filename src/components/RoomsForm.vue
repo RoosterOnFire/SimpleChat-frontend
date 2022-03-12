@@ -1,5 +1,5 @@
 <template>
-  <form class="flex flex-col gap-3 md:flex-1" @submit.prevent>
+  <form class="flex flex-col justify-center gap-3 md:flex-1" @submit.prevent>
     <AppInput v-model="value" placeholder="Room" />
     <AppButton :title="title" @click="onClick(value)" />
   </form>

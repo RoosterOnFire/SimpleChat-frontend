@@ -23,6 +23,7 @@ export const useRoomsStore = defineStore("roomsStore", {
 
   actions: {
     roomsJoin(payload: string) {
+      this.roomsClearSelectedRoom()
       this.selectedRoom = payload
       this.plugins.router?.push({ name: RouteNames.dashboard_chat })
     },
@@ -30,6 +31,16 @@ export const useRoomsStore = defineStore("roomsStore", {
       const room = this.rooms.find((room) => room.name === payload.name)
       if (room === undefined) {
         this.rooms.push({ name: payload.name, users: [], messages: [] })
+      }
+    },
+    roomsClearSelectedRoom() {
+      const selectedRoom = this.rooms.find(
+        (room) => room.name === this.selectedRoom
+      )
+
+      if (selectedRoom?.messages && selectedRoom.users) {
+        selectedRoom.messages = []
+        selectedRoom.users = []
       }
     },
     messageCreate(payload: RoomMessage) {

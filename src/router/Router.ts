@@ -62,8 +62,10 @@ Router.beforeEach((to, from, next) => {
 })
 
 Router.afterEach((to) => {
-  const routeName = (to.name as string) || RouteNames.home
-  sessionStorage.setItem(storageKeys.current_page, routeName)
+  const routeName = to.name as string
+  if (!routeName.startsWith("home")) {
+    sessionStorage.setItem(storageKeys.current_page, routeName)
+  }
 })
 
 export default Router
