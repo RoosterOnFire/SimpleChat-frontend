@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router"
-import { RouteNames, sessionStorageKeys } from "@/types/TypeEnums"
+import { RouteNames, storageKeys } from "@/types/TypeEnums"
 import { useUserStore } from "@/store/StoreUser"
 
 const routes: RouteRecordRaw[] = [
@@ -63,7 +63,7 @@ Router.beforeEach((to, from, next) => {
 
 Router.afterEach((to) => {
   const routeName = (to.name as string) || RouteNames.home
-  sessionStorage.setItem(sessionStorageKeys.current_page, routeName)
+  sessionStorage.setItem(storageKeys.current_page, routeName)
 })
 
 export default Router

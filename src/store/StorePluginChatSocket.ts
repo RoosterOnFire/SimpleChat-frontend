@@ -1,6 +1,6 @@
 import { useRoomsStore } from "@/store/StoreRooms"
 import { useUserStore } from "@/store/StoreUser"
-import { sessionStorageKeys } from "@/types/TypeEnums"
+import { storageKeys } from "@/types/TypeEnums"
 import { ChatSocketMessages, Errors } from "@/types/TypeShared"
 import { RoomMessage } from "@/types/TypeStateRooms"
 import { UserData } from "@/types/TypeStateUser"
@@ -45,9 +45,11 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
     switch (name) {
       case "sessionRestore":
         ChatSocket.auth = {
-          sessionId: sessionStorage.getItem(sessionStorageKeys.session) || "",
+          token: sessionStorage.getItem(storageKeys.token) || "",
         }
+
         ChatSocket.connect()
+
         ChatSocket.emit(
           ChatSocketMessages.connect_signin,
           {},

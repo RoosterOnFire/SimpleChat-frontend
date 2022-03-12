@@ -15,7 +15,7 @@ export enum RouteNames {
   registration = "home/registration",
 }
 
-export enum sessionStorageKeys {
-  current_page = "simplechatcurrentpage",
-  session = "simplechatsessionid",
+export enum storageKeys {
+  current_page = "currentpage",
+  token = "token",
 }

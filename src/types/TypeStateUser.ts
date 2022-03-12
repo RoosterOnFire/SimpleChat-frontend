@@ -11,7 +11,7 @@ export type User = {
 
 export type UserData = {
   role: Roles
-  sessionId: string
+  token: string
   userId: string
   username: string
 }

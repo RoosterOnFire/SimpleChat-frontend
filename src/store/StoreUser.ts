@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { RouteNames, sessionStorageKeys, StatusUser } from "@/types/TypeEnums"
+import { RouteNames, storageKeys, StatusUser } from "@/types/TypeEnums"
 import { User, UserData } from "@/types/TypeStateUser"
 import { Errors, Roles } from "@/types/TypeShared"
 
@@ -9,7 +9,7 @@ export const useUserStore = defineStore("userStore", {
       status: StatusUser.start,
       data: {
         userId: "",
-        sessionId: "",
+        token: "",
         username: "",
         role: Roles.user,
       },
@@ -22,7 +22,7 @@ export const useUserStore = defineStore("userStore", {
       return (payload: string) => state.data.userId === payload
     },
     hasAccess: (state) => {
-      return !!state.data.sessionId || !!state.data.userId
+      return !!state.data.token || !!state.data.userId
     },
     hasNickname: (state) => {
       return !!state.data.username
@@ -45,7 +45,7 @@ export const useUserStore = defineStore("userStore", {
 
       this.data = payload
 
-      sessionStorage.setItem(sessionStorageKeys.session, this.data.sessionId)
+      sessionStorage.setItem(storageKeys.token, this.data.token)
 
       this.plugins.router.push({ name: RouteNames.dashboard })
     },
@@ -55,21 +55,21 @@ export const useUserStore = defineStore("userStore", {
     },
     sessionRestore() {
       this.status =
-        this.data.sessionId === "" ? StatusUser.start : StatusUser.pending
+        this.data.token === "" ? StatusUser.start : StatusUser.pending
     },
     sessionDelete() {
       this.status = StatusUser.start
 
       this.data = {
         userId: "",
-        sessionId: "",
+        token: "",
         username: "",
         role: Roles.user,
       }
 
       this.errors = {}
 
-      sessionStorage.removeItem(sessionStorageKeys.session)
+      sessionStorage.removeItem(storageKeys.token)
     },
     resetInvalidSignIn() {
       this.errors.error_invalid_sing_in = false
@@ -82,7 +82,7 @@ export const useUserStore = defineStore("userStore", {
     errorsAdd(payload: Errors) {
       this.errors[payload] = true
 
-      if (this.data.sessionId && this.data.userId === "") {
+      if (this.data.token && this.data.userId === "") {
         this.sessionDelete()
       }
     },
