@@ -1,4 +1,5 @@
 export enum StatusUser {
+  init = "init",
   start = "start",
   pending = "pending",
   fulfilled = "fulfilled",

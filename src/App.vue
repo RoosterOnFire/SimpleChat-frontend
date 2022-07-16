@@ -1,6 +1,13 @@
 <template>
-  <router-view v-slot="{ Component, route }">
+  <router-view v-slot="{ Component }">
     <div
+      v-if="loading"
+      class="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 translate-y-1/2"
+    >
+      <SvgLoading />
+    </div>
+    <div
+      v-else
       class="flex-1"
       :class="[
         isHome
@@ -13,21 +20,17 @@
   </router-view>
 </template>
 
-<script lang="ts">
-  import { computed, defineComponent } from "vue"
+<script lang="ts" setup>
+  import { computed } from "vue"
   import { useRoute } from "vue-router"
   import { useUserStore } from "@/store/StoreUser"
+  import SvgLoading from "@/components/SvgLoading.vue"
 
-  export default defineComponent({
-    setup() {
-      const user = useUserStore()
-      const route = useRoute()
+  const user = useUserStore()
+  const route = useRoute()
 
-      user.sessionRestore()
+  user.sessionRestore()
 
-      return {
-        isHome: computed(() => route.name?.toString().startsWith("home")),
-      }
-    },
-  })
+  const loading = computed(() => user.isLoading)
+  const isHome = computed(() => route.name?.toString().startsWith("home"))
 </script>

@@ -43,7 +43,7 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
     const userStore = useUserStore()
 
     switch (name) {
-      case "sessionRestore":
+      case "sessionRestore": {
         ChatSocket.auth = {
           token: sessionStorage.getItem(storageKeys.token) || "",
         }
@@ -54,16 +54,17 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
           ChatSocketMessages.connect_signin,
           {},
           (payload: { success: boolean; data: UserData; error: Errors }) => {
-            if (payload.success) {
-              return userStore.userSignInFulfilled(payload.data)
-            }
-            userStore.userSignInRejected(payload.error)
+            return payload.success
+              ? userStore.userSignInFulfilled(payload.data)
+              : userStore.userSignInRejected(payload.error)
           }
         )
         break
+      }
 
-      case "userSignIn":
+      case "userSignIn": {
         ChatSocket.connect()
+
         ChatSocket.emit(
           ChatSocketMessages.connect_signin,
           {
@@ -71,21 +72,23 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
             password: args[0].username,
           },
           (payload: { success: boolean; data: UserData; error: Errors }) => {
-            if (payload.success) {
-              return userStore.userSignInFulfilled(payload.data)
-            }
-            userStore.userSignInRejected(payload.error)
+            return payload.success
+              ? userStore.userSignInFulfilled(payload.data)
+              : userStore.userSignInRejected(payload.error)
           }
         )
         break
+      }
 
-      case "userLogout":
+      case "userLogout": {
         ChatSocket.emit(ChatSocketMessages.connect_logout)
         ChatSocket.auth = {}
         break
+      }
 
-      default:
+      default: {
         break
+      }
     }
   })
 
@@ -93,7 +96,7 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
     const roomsStore = useRoomsStore()
 
     switch (name) {
-      case "roomsJoin":
+      case "roomsJoin": {
         ChatSocket.emit(
           ChatSocketMessages.rooms_join,
           { roomName: args[0] },
@@ -105,9 +108,11 @@ export const createPluginChatSocket = ({ store }: PiniaPluginContext) => {
           }
         )
         break
+      }
 
-      default:
+      default: {
         break
+      }
     }
   })
 }
