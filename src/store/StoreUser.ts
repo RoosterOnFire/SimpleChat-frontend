@@ -6,7 +6,7 @@ import { Errors, Roles } from "@/types/TypeShared"
 export const useUserStore = defineStore("userStore", {
   state: (): User => {
     return {
-      status: StatusUser.start,
+      status: StatusUser.init,
       data: {
         userId: "",
         token: "",
@@ -33,38 +33,49 @@ export const useUserStore = defineStore("userStore", {
         state.errors.error_invalid_sing_in
       )
     },
+    isLoading: (state) => {
+      return [StatusUser.init, StatusUser.pending].includes(state.status)
+    },
   },
 
   actions: {
     userSignIn(payload: { username?: string; password?: string } | undefined) {
-      this.status =
-        payload === undefined ? StatusUser.start : StatusUser.pending
+      this.status = payload ? StatusUser.pending : StatusUser.start
     },
     userSignInFulfilled(payload: UserData) {
-      this.status = StatusUser.fulfilled
-
       this.data = payload
 
       sessionStorage.setItem(storageKeys.token, this.data.token)
 
-      const storageCurrentpage =
-        sessionStorage.getItem(storageKeys.current_page) || ""
+      const storageCurrentpage = sessionStorage.getItem(
+        storageKeys.current_page
+      )
 
-      const goToRoute = storageCurrentpage.startsWith("home")
-        ? RouteNames.dashboard_rooms
-        : storageCurrentpage
+      let goToRoute
+      if (
+        storageCurrentpage === null ||
+        storageCurrentpage.startsWith("home")
+      ) {
+        goToRoute = RouteNames.dashboard_rooms
+      } else {
+        goToRoute = storageCurrentpage
+      }
 
-      this.plugins.router.push({
-        name: goToRoute,
-      })
+      this.plugins.router
+        .push({
+          name: goToRoute,
+        })
+        .then(() => {
+          this.status = StatusUser.fulfilled
+        })
     },
     userSignInRejected(payload: Errors) {
       this.errors[payload] = true
       this.status = StatusUser.rejected
     },
     sessionRestore() {
-      this.status =
-        this.data.token === "" ? StatusUser.start : StatusUser.pending
+      const token = sessionStorage.getItem(storageKeys.token)
+      this.status = token ? StatusUser.pending : StatusUser.start
     },
     sessionDelete() {
       this.status = StatusUser.start
