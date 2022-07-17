@@ -1,1 +1,1 @@
-# Simple Chat frontend
+# Simple Chat Vue
