@@ -1,12 +1,21 @@
 <template>
   <HomeForm @submit="onSubmit">
+    <div></div>
     <AppInputError v-if="isLoginRejected">
       {{ "Login error" }}
     </AppInputError>
-    <AppInputError v-if="errors.username">{{ errors.username }}</AppInputError>
-    <AppInput v-model="username" placeholder="Username" />
-    <AppInputError v-if="errors.password">{{ errors.password }}</AppInputError>
-    <AppInput v-model="password" placeholder="Password" type="password" />
+    <div>
+      <AppInputError v-if="errors.username">
+        {{ errors.username }}
+      </AppInputError>
+      <AppInput v-model="username" placeholder="Username" />
+    </div>
+    <div>
+      <AppInputError v-if="errors.password">
+        {{ errors.password }}</AppInputError
+      >
+      <AppInput v-model="password" placeholder="Password" type="password" />
+    </div>
     <AppButton title="Sign in" type="submit" :disabled="isSubmitting">
       <LoginIcon class="h-6 w-6" />
     </AppButton>
@@ -29,23 +38,22 @@
   const user = useUserStore()
   const router = useRouter()
 
-  const validationSchema = object({
-    username: string().required("Username is required"),
-    password: string().required("Password is required").min(4),
-  })
-  const { errors, isSubmitting, handleSubmit } = useForm({
-    validationSchema,
-  })
-
-  const { value: username } = useField("username")
-  const { value: password } = useField("password")
-
   const isLoginRejected = computed(() => user.isLoginRejected)
 
-  const goBack = router.back
+  const { errors, isSubmitting, handleSubmit } = useForm({
+    validationSchema: object({
+      username: string().required("Username is required"),
+      password: string().required("Password is required").min(4),
+    }),
+  })
+
+  const { value: username } = useField<string>("username")
+  const { value: password } = useField<string>("password")
 
   const onSubmit = handleSubmit((payload, { resetForm }) => {
     user.userSignIn(payload)
     resetForm()
   })
+
+  const goBack = router.back
 </script>
