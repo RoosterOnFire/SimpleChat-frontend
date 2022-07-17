@@ -1,1 +1,1 @@
-# Simple Chat Vue
+# SimpleChat Vue
