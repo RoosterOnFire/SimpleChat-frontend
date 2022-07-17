@@ -5,30 +5,21 @@
   </form>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from "vue"
+<script lang="ts" setup>
+  import { ref } from "vue"
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
 
-  export default defineComponent({
-    components: {
-      AppButton,
-      AppInput,
+  const value = ref("value")
+
+  const props = defineProps({
+    onClick: {
+      type: Function,
+      required: true,
     },
-    props: {
-      onClick: {
-        type: Function,
-        required: true,
-      },
-      title: {
-        type: String,
-        required: true,
-      },
-    },
-    setup() {
-      return {
-        value: "",
-      }
+    title: {
+      type: String,
+      required: true,
     },
   })
 </script>

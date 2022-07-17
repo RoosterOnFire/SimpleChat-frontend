@@ -20,26 +20,16 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
   import ChatForm from "@/components/ChatForm.vue"
   import ChatMessages from "@/components/ChatMessages.vue"
   import RoomsForm from "@/components/RoomsForm.vue"
   import { useRoomsStore } from "@/store/StoreRooms"
-  import { computed, defineComponent } from "vue"
+  import { computed } from "vue"
 
-  export default defineComponent({
-    components: {
-      ChatMessages,
-      ChatForm,
-      RoomsForm,
-    },
-    setup() {
-      const rooms = useRoomsStore()
+  const rooms = useRoomsStore()
 
-      return {
-        isChatSelected: computed(() => rooms.selectedRoom),
-        joinRoom: rooms.roomsJoin,
-      }
-    },
-  })
+  const isChatSelected = computed(() => rooms.selectedRoom)
+
+  const joinRoom = rooms.roomsJoin
 </script>

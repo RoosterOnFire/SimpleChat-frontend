@@ -6,18 +6,11 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
   import RoomsForm from "@/components/RoomsForm.vue"
   import { useRoomsStore } from "@/store/StoreRooms"
-  import { defineComponent } from "vue"
 
-  export default defineComponent({
-    components: { RoomsForm },
-    setup() {
-      const rooms = useRoomsStore()
-      return {
-        joinRoom: rooms.roomsJoin,
-      }
-    },
-  })
+  const rooms = useRoomsStore()
+
+  const joinRoom = rooms.roomsJoin
 </script>

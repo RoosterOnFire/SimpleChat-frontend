@@ -11,24 +11,17 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
   import { useRoomsStore } from "@/store/StoreRooms"
   import { Message } from "@/types/TypeStateRooms"
-  import { defineComponent, ref, onUpdated, computed } from "vue"
+  import { ref, onUpdated, computed } from "vue"
 
-  export default defineComponent({
-    setup() {
-      const container = ref<HTMLElement | null>(null)
-      const rooms = useRoomsStore()
+  const container = ref<HTMLElement | null>(null)
+  const rooms = useRoomsStore()
 
-      onUpdated(() => {
-        container.value?.lastElementChild?.scrollIntoView()
-      })
+  const messages = computed<Message[]>(() => rooms.roomsMessages)
 
-      return {
-        container,
-        messages: computed<Message[]>(() => rooms.roomsMessages),
-      }
-    },
+  onUpdated(() => {
+    container.value?.lastElementChild?.scrollIntoView()
   })
 </script>

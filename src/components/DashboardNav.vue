@@ -21,36 +21,20 @@
   </div>
 </template>
 
-<script lang="ts">
-  import { computed, defineComponent } from "vue"
-  import { useRoute } from "vue-router"
-  import { RouteNames } from "@/types/TypeEnums"
-  import { LogoutIcon, ChatIcon, ChatAlt2Icon } from "@heroicons/vue/solid"
-  import { useUserStore } from "@/store/StoreUser"
+<script lang="ts" setup>
   import DashboardNavLink from "@/components/DashboardNavLink.vue"
+  import { useUserStore } from "@/store/StoreUser"
+  import { ChatAlt2Icon, ChatIcon, LogoutIcon } from "@heroicons/vue/solid"
+  import { useRoute } from "vue-router"
 
-  export default defineComponent({
-    components: {
-      LogoutIcon,
-      ChatIcon,
-      ChatAlt2Icon,
-      DashboardNavLink,
-    },
-    setup() {
-      const user = useUserStore()
-      const route = useRoute()
+  const user = useUserStore()
+  const route = useRoute()
 
-      return {
-        route,
-        userRole: computed(() => user.data.role),
-        routeChat: RouteNames.dashboard_chat,
-        isCurrentRoute(link: string) {
-          return route.fullPath === link
-        },
-        logout: user.userLogout,
-      }
-    },
-  })
+  const logout = user.userLogout
+
+  function isCurrentRoute(link: string) {
+    return route.fullPath === link
+  }
 </script>
 
 <style lang="postcss">

@@ -14,8 +14,8 @@
   </HomeForm>
 </template>
 
-<script lang="ts">
-  import { computed, defineComponent } from "vue"
+<script lang="ts" setup>
+  import { computed } from "vue"
   import { useRouter } from "vue-router"
   import { LoginIcon } from "@heroicons/vue/outline"
   import { useForm, useField } from "vee-validate"
@@ -26,41 +26,26 @@
   import HomeForm from "@/components/HomeForm.vue"
   import { useUserStore } from "@/store/StoreUser"
 
-  export default defineComponent({
-    components: {
-      AppButton,
-      AppInput,
-      AppInputError,
-      HomeForm,
-      LoginIcon,
-    },
-    setup() {
-      const user = useUserStore()
-      const router = useRouter()
+  const user = useUserStore()
+  const router = useRouter()
 
-      const validationSchema = object({
-        username: string().required("Username is required"),
-        password: string().required("Password is required").min(4),
-      })
-      const { errors, isSubmitting, handleSubmit } = useForm({
-        validationSchema,
-      })
+  const validationSchema = object({
+    username: string().required("Username is required"),
+    password: string().required("Password is required").min(4),
+  })
+  const { errors, isSubmitting, handleSubmit } = useForm({
+    validationSchema,
+  })
 
-      const { value: username } = useField("username")
-      const { value: password } = useField("password")
+  const { value: username } = useField("username")
+  const { value: password } = useField("password")
 
-      return {
-        username,
-        password,
-        errors,
-        isSubmitting,
-        goBack: () => router.back(),
-        onSubmit: handleSubmit((payload, { resetForm }) => {
-          user.userSignIn(payload)
-          resetForm()
-        }),
-        isLoginRejected: computed(() => user.isLoginRejected),
-      }
-    },
+  const isLoginRejected = computed(() => user.isLoginRejected)
+
+  const goBack = router.back
+
+  const onSubmit = handleSubmit((payload, { resetForm }) => {
+    user.userSignIn(payload)
+    resetForm()
   })
 </script>

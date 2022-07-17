@@ -11,35 +11,23 @@
   </form>
 </template>
 
-<script lang="ts">
-  import { defineComponent, ref } from "vue"
+<script lang="ts" setup>
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
-  import { MailIcon } from "@heroicons/vue/outline"
   import { useRoomsStore } from "@/store/StoreRooms"
+  import { MailIcon } from "@heroicons/vue/outline"
+  import { ref } from "vue"
 
-  export default defineComponent({
-    components: {
-      AppButton,
-      AppInput,
-      MailIcon,
-    },
-    setup() {
-      const rooms = useRoomsStore()
-      const newMessage = ref("")
+  const rooms = useRoomsStore()
+  const newMessage = ref("")
 
-      return {
-        newMessage,
-        sendMessage() {
-          if (!newMessage.value) {
-            return
-          }
+  function sendMessage() {
+    if (!newMessage.value) {
+      return
+    }
 
-          rooms.messagesAdd(newMessage.value)
+    rooms.messagesAdd(newMessage.value)
 
-          newMessage.value = ""
-        },
-      }
-    },
-  })
+    newMessage.value = ""
+  }
 </script>

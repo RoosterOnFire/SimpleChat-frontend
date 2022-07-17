@@ -14,18 +14,11 @@
   </router-link>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from "vue"
-
-  export default defineComponent({
-    props: {
-      type: {
-        type: String,
-        default: "link",
-      },
-    },
-    setup() {
-      return {}
+<script lang="ts" setup>
+  const props = defineProps({
+    type: {
+      type: String,
+      default: "link",
     },
   })
 </script>

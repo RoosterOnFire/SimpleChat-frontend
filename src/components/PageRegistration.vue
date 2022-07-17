@@ -19,64 +19,45 @@
   </HomeForm>
 </template>
 
-<script lang="ts">
-  import { defineComponent } from "vue"
-  import { useRouter } from "vue-router"
-  import { useForm, useField } from "vee-validate"
-  import { object, string, ref as yupRef } from "yup"
-  import { SparklesIcon } from "@heroicons/vue/outline"
+<script lang="ts" setup>
   import AppButton from "@/components/AppButton.vue"
   import AppInput from "@/components/AppInput.vue"
   import AppInputError from "@/components/AppInputError.vue"
   import HomeForm from "@/components/HomeForm.vue"
   import { useUserStore } from "@/store/StoreUser"
+  import { SparklesIcon } from "@heroicons/vue/outline"
+  import { useField, useForm } from "vee-validate"
+  import { useRouter } from "vue-router"
+  import { object, ref as yupRef, string } from "yup"
 
-  export default defineComponent({
-    components: {
-      AppButton,
-      AppInput,
-      AppInputError,
-      HomeForm,
-      SparklesIcon,
-    },
-    setup() {
-      const user = useUserStore()
-      const router = useRouter()
+  const user = useUserStore()
+  const router = useRouter()
 
-      const validationSchema = object({
-        username: string().required("Username is required"),
-        password: string()
-          .required("Password is required")
-          .min(4, "Must be at least 4 characters"),
-        passwordRepeat: string()
-          .required("Repeated password is required")
-          .oneOf([yupRef("password"), null], "Must match password"),
+  const validationSchema = object({
+    username: string().required("Username is required"),
+    password: string()
+      .required("Password is required")
+      .min(4, "Must be at least 4 characters"),
+    passwordRepeat: string()
+      .required("Repeated password is required")
+      .oneOf([yupRef("password"), null], "Must match password"),
+  })
+  const { errors, handleSubmit } = useForm({
+    validationSchema,
+  })
+
+  const { value: username } = useField("username")
+  const { value: password } = useField("password")
+  const { value: passwordRepeat } = useField("passwordRepeat")
+
+  const goBack = router.back
+
+  const register = handleSubmit((payload) => {
+    if (payload.username && payload.password) {
+      user.register({
+        username: payload.username,
+        password: payload.password,
       })
-      const { errors, meta, isSubmitting, handleSubmit } = useForm({
-        validationSchema,
-      })
-
-      const { value: username } = useField("username")
-      const { value: password } = useField("password")
-      const { value: passwordRepeat } = useField("passwordRepeat")
-
-      return {
-        username,
-        password,
-        passwordRepeat,
-        errors,
-        meta,
-        isSubmitting,
-        register: handleSubmit((payload) => {
-          if (payload.username && payload.password) {
-            user.register({
-              username: payload.username,
-              password: payload.password,
-            })
-          }
-        }),
-        goBack: () => router.back(),
-      }
-    },
+    }
   })
 </script>
